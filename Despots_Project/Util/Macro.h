@@ -19,3 +19,8 @@
 		__analysis_assume(expr);					\
 	}												\
 }
+
+#define WIN_SIZE_X 1280
+#define WIN_SIZE_Y 720
+
+#define FIND_IMG ImageManagerD2::GetInstance()->FindImage

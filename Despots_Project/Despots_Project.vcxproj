@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -145,13 +146,16 @@
     <ClInclude Include="Component\Component.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Component\ImageComponent.h" />
     <ClInclude Include="Component\Player\PlayerMovement.h" />
     <ClInclude Include="Component\RectComponent.h" />
     <ClInclude Include="Component\TextComponent.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IBehaviour.h" />
+    <ClInclude Include="Manager\ImageManagerD2.h" />
     <ClInclude Include="Manager\SceneManager.h" />
+    <ClInclude Include="Object\BackGround.h" />
     <ClInclude Include="Object\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -169,6 +173,7 @@
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Util\Image2D.h" />
     <ClInclude Include="Util\Input.h" />
     <ClInclude Include="Util\Macro.h" />
     <ClInclude Include="Util\Pivot.h" />
@@ -182,11 +187,14 @@
     <ClCompile Include="Component\Component.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Component\ImageComponent.cpp" />
     <ClCompile Include="Component\Player\PlayerMovement.cpp" />
     <ClCompile Include="Component\RectComponent.cpp" />
     <ClCompile Include="Component\TextComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Manager\ImageManagerD2.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
+    <ClCompile Include="Object\BackGround.cpp" />
     <ClCompile Include="Object\GameObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -204,16 +212,17 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Util\Image2D.cpp" />
     <ClCompile Include="Util\Input.cpp" />
     <ClCompile Include="Util\Pivot.cpp" />
     <ClCompile Include="Util\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="BasicGameFramework.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="BasicGameFramework.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BasicGameFramework.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

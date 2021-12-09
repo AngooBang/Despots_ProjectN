@@ -47,11 +47,11 @@ void Layer::PhysicsUpdate()
 	}
 }
 
-void Layer::Render(HDC hdc)
+void Layer::Render()
 {
 	for (GameObject* _object : _objects)
 	{
-		_object->Render(hdc);
+		_object->Render();
 	}
 }
 

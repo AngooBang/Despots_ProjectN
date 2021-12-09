@@ -20,7 +20,7 @@ public:
 	virtual void	Init() override;
 	virtual void	Update() override;
 	virtual void	PhysicsUpdate() override;
-	virtual void	Render(HDC hdc) override;
+	virtual void	Render() override;
 	virtual void	Release() override;
 
 	void						AddComponent(Component* component);
@@ -48,14 +48,14 @@ public:
 	void			SetX(LONG x) noexcept;
 	void			SetY(LONG y) noexcept;
 	void			SetSize(INT32 width, INT32 height) noexcept;
-	void			SetSize(Size size) noexcept;
+	void			SetSize(DSize size) noexcept;
 	void			SetPivot(Pivot pivot) noexcept;
 
 	std::wstring	GetTag() const noexcept;
 	POINT			GetPosition() const noexcept;
 	LONG			GetX() const noexcept;
 	LONG			GetY() const noexcept;
-	Size			GetSize() const noexcept;
+	DSize			GetSize() const noexcept;
 	INT32			GetWidth() const noexcept;
 	INT32			GetHeight() const noexcept;
 	Pivot			GetPivot() const noexcept;
@@ -63,7 +63,7 @@ public:
 	Layer*			GetLayer() noexcept;
 private:
 	POINT						_position = {};
-	Size						_size = {};
+	DSize						_size = {};
 	Pivot						_pivot = Pivot::Bottom;
 	Layer*						_layer = nullptr;
 	Scene*						_scene = nullptr;

@@ -10,7 +10,7 @@ public:
 	using Component::Component;
 	virtual ~TextComponent() noexcept = default;
 	
-	virtual void	Render(HDC hdc) override;
+	virtual void	Render() override;
 
 	void			SetText(const std::wstring& text) noexcept;
 

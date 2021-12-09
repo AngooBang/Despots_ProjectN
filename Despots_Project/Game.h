@@ -21,6 +21,7 @@ private:
 	void				update();
 	void				physicsUpdate();
 	void				render();
+	
 private:
 	HINSTANCE			_hInst = {};
 	HWND				_hWnd = {};

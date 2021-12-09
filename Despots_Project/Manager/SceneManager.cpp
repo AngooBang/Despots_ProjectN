@@ -36,9 +36,9 @@ void SceneManager::PhysicsUpdate()
 	_currentScene->PhysicsUpdate();
 }
 
-void SceneManager::Render(HDC hdc)
+void SceneManager::Render()
 {
-	_currentScene->Render(hdc);
+	_currentScene->Render();
 }
 
 void SceneManager::Release()

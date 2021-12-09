@@ -17,7 +17,7 @@ public:
 	virtual void		Init() override;
 	virtual void		Update() override;
 	virtual void		PhysicsUpdate() override;
-	virtual void		Render(HDC hdc) override;
+	virtual void		Render() override;
 	virtual void		Release() override;
 
 	const Scene*		GetScene() const noexcept;

@@ -3,6 +3,8 @@
 
 #include "Util/Timer.h"
 #include "Manager/SceneManager.h"
+#include "Manager/ImageManagerD2.h"
+
 
 LRESULT Game::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -47,7 +49,7 @@ bool Game::Init(HINSTANCE hInst)
 
     RECT cr = { 0, 0, _res.Width, _res.Height };
     AdjustWindowRect(&cr, WS_OVERLAPPEDWINDOW, FALSE);
-    SetWindowPos(_hWnd, HWND_TOPMOST, 100, 100, cr.right - cr.left, cr.bottom - cr.top, SWP_NOMOVE | SWP_NOZORDER);
+    SetWindowPos(_hWnd, HWND_TOPMOST, 10, 10, cr.right - cr.left, cr.bottom - cr.top, SWP_NOMOVE | SWP_NOZORDER);
 
     ShowWindow(_hWnd, SW_SHOW);
     UpdateWindow(_hWnd);
@@ -57,8 +59,11 @@ bool Game::Init(HINSTANCE hInst)
     _backBitmap = CreateCompatibleBitmap(_hDC, _res.Width, _res.Height);
     SelectObject(_backDC, _backBitmap);
 
+
     Input::Init(_hWnd);
+    ImageManagerD2::GetInstance()->Init(_hWnd);
     SceneManager::GetInstance()->Init();
+    
 
     return true;
 }
@@ -93,7 +98,10 @@ INT32 Game::Run()
                 processInput();
                 update();
                 physicsUpdate();
+
+                ImageManagerD2::GetInstance()->GetRenderTarget()->BeginDraw();
                 render();
+                ImageManagerD2::GetInstance()->GetRenderTarget()->EndDraw();
             }
         }
     }
@@ -139,10 +147,10 @@ void Game::physicsUpdate()
 
 void Game::render()
 {
-    PatBlt(_backDC, 0, 0, _res.Width, _res.Height, WHITENESS);
+    //PatBlt(_backDC, 0, 0, _res.Width, _res.Height, WHITENESS);
     
-    SceneManager::GetInstance()->Render(_backDC);
+    SceneManager::GetInstance()->Render();
 
-    BitBlt(_hDC, 0, 0, _res.Width, _res.Height,
-        _backDC, 0, 0, SRCCOPY);
+    //BitBlt(_hDC, 0, 0, _res.Width, _res.Height,
+    //    _backDC, 0, 0, SRCCOPY);
 }

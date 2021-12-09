@@ -2,11 +2,9 @@
 
 #include "../Object/GameObject.h"
 
-void TextComponent::Render(HDC hdc)
+void TextComponent::Render()
 {
-	POINT pos = _owner->GetRenderPos();
 
-	TextOut(hdc, pos.x, pos.y, _text.c_str(), _text.length());
 }
 
 void TextComponent::SetText(const std::wstring& text) noexcept

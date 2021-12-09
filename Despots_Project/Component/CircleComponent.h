@@ -8,5 +8,5 @@ public:
 	using Component::Component;
 	virtual ~CircleComponent() noexcept = default;
 
-	virtual void	Render(HDC hdc) override;
+	virtual void	Render() override;
 };

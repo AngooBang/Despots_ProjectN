@@ -49,11 +49,11 @@ void GameObject::PhysicsUpdate()
 	}
 }
 
-void GameObject::Render(HDC hdc)
+void GameObject::Render()
 {
 	for (Component* comp : _components)
 	{
-		comp->Render(hdc);
+		comp->Render();
 	}
 }
 
@@ -130,10 +130,10 @@ void GameObject::SetY(LONG y) noexcept
 
 void GameObject::SetSize(INT32 width, INT32 height) noexcept
 {
-	_size = Size{ width, height };
+	_size = DSize{ width, height };
 }
 
-void GameObject::SetSize(Size size) noexcept
+void GameObject::SetSize(DSize size) noexcept
 {
 	_size = size;
 }
@@ -148,7 +148,7 @@ LONG GameObject::GetY() const noexcept
 	return _position.y;
 }
 
-Size GameObject::GetSize() const noexcept
+DSize GameObject::GetSize() const noexcept
 {
 	return _size;
 }

@@ -109,11 +109,18 @@
     <ClInclude Include="Component\TextComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="BasicGameFramework.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
+    <ClInclude Include="Util\Image2D.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ImageManagerD2.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ImageComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\BackGround.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -184,5 +191,22 @@
     <ClCompile Include="Component\TextComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Util\Image2D.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ImageManagerD2.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ImageComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\BackGround.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BasicGameFramework.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

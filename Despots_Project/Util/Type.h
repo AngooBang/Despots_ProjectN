@@ -16,7 +16,7 @@ struct FPOINT
 	float	Y;
 };
 
-struct Size
+struct DSize
 {
 	INT32	Width;
 	INT32	Height;

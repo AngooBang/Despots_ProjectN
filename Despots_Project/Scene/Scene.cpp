@@ -42,11 +42,11 @@ void Scene::PhysicsUpdate()
 	}
 }
 
-void Scene::Render(HDC hdc)
+void Scene::Render()
 {
 	for (Layer* layer : _layers)
 	{
-		layer->Render(hdc);
+		layer->Render();
 	}
 }
 
