@@ -4,6 +4,8 @@
 
 void ImageComponent::Render()
 {
+	if (!mb_isVisible) return;
+
 	m_img->Render(m_rect);
 }
 
@@ -15,4 +17,9 @@ void ImageComponent::SetImage(const wchar_t* path)
 void ImageComponent::SetRect(RECT rect)
 {
 	m_rect = rect;
+}
+
+void ImageComponent::SetIsVisible(bool isVisible)
+{
+	mb_isVisible = isVisible;
 }

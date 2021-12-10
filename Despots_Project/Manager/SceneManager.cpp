@@ -2,6 +2,7 @@
 
 #include "Scene/TempScene.h"
 #include "Scene/TitleScene.h"
+#include "Scene/GameScene.h"
 
 #include "SceneManager.h"
 
@@ -21,6 +22,7 @@ void SceneManager::Init()
 {
 	_scenes[L"Title"] = new TitleScene();
 	_scenes[L"Temp"] = new TempScene();
+	_scenes[L"Game"] = new GameScene();
 
 	_currentScene = _scenes[L"Title"];
 	_currentScene->Init();

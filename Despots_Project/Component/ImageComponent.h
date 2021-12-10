@@ -12,8 +12,11 @@ public:
 
 	void SetImage(const wchar_t* path);
 	void SetRect(RECT rect);
+	void SetIsVisible(bool isVisible);
 
 private:
 	Image2D* m_img = nullptr;
 	RECT m_rect = {};
+
+	bool mb_isVisible = true;
 };

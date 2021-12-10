@@ -50,6 +50,7 @@ public:
 	void			SetSize(INT32 width, INT32 height) noexcept;
 	void			SetSize(DSize size) noexcept;
 	void			SetPivot(Pivot pivot) noexcept;
+	void			SetRect(RECT rect) noexcept;
 
 	std::wstring	GetTag() const noexcept;
 	POINT			GetPosition() const noexcept;
@@ -59,14 +60,16 @@ public:
 	INT32			GetWidth() const noexcept;
 	INT32			GetHeight() const noexcept;
 	Pivot			GetPivot() const noexcept;
+	RECT			GetRect() const noexcept;
 	Scene*			GetScene() noexcept;
 	Layer*			GetLayer() noexcept;
 private:
 	POINT						_position = {};
 	DSize						_size = {};
-	Pivot						_pivot = Pivot::Bottom;
+	Pivot						_pivot = Pivot::LeftTop;
 	Layer*						_layer = nullptr;
 	Scene*						_scene = nullptr;
+	RECT						_rect = {};
 	std::wstring				_tag = L"";
 	std::vector<Component*>		_components;
 };

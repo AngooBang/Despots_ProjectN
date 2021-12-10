@@ -6,18 +6,7 @@ class Image2D : public IBehaviour
 public:
 	// 기본 생성자
 	Image2D() = default;
-	// 할당 연산자
-	//Image2D& operator=(const Image2D& rhs)
-	//{
-	//	if (this != &rhs)
-	//	{
-	//		Image2D temp(rhs);
-	//		std::swap(mp_bitmap, temp.mp_bitmap);
-	//		std::swap(m_image_rect, temp.m_image_rect);
-	//	}
 
-	//	return *this;
-	//}
 	virtual void Init(ID2D1Bitmap* bitmap, D2D1_RECT_F rect);
 	virtual void Render() override;
 	virtual void Render(RECT rect);

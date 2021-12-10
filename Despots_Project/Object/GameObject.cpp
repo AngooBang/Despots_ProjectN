@@ -15,10 +15,19 @@ GameObject::GameObject(Scene* scene, Layer* layer, const wstring& tag)
 
 GameObject::~GameObject() noexcept
 {
-	for (auto& comp : _components)
+
+	// 같은컴포넌트가 여러개 있을때 다 지워버리기 때문에 nullptr를 delete하는 에러가 발생
+	//for (auto& comp : _components)
+	//{
+	//	delete comp;
+	//	comp = nullptr;
+	//} 
+	Component* pTemp = nullptr;
+	for (auto it = _components.begin(); it != _components.end(); )
 	{
-		delete comp;
-		comp = nullptr;
+		pTemp = (*it);
+		it = _components.erase(it);
+		delete pTemp;
 	}
 	_components.clear();
 	_layer = nullptr;
@@ -143,6 +152,11 @@ void GameObject::SetPivot(Pivot pivot) noexcept
 	_pivot = pivot;
 }
 
+void GameObject::SetRect(RECT rect) noexcept
+{
+	_rect = rect;
+}
+
 LONG GameObject::GetY() const noexcept
 {
 	return _position.y;
@@ -166,6 +180,11 @@ INT32 GameObject::GetHeight() const noexcept
 Pivot GameObject::GetPivot() const noexcept
 {
 	return _pivot;
+}
+
+RECT GameObject::GetRect() const noexcept
+{
+	return _rect;
 }
 
 Scene* GameObject::GetScene() noexcept

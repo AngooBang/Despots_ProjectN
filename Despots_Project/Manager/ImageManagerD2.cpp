@@ -25,7 +25,6 @@ void ImageManagerD2::Init(HWND& _hWnd)
     {
 
     }
-
     AddImageList();
 }
 
@@ -52,8 +51,8 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/BackGround.bmp");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Title/Despot_Logo.bmp", { 300, 10, 700, 400 });
 
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Title/Normal_Hover.png");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/TItle/Normal_Active.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Start_Hover.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Start_Active.png");
 
     //D2ImageManager::GetSingleton()->AddImage(L"Image/TItle/Exit_Hover.png");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/TItle/Exit_Active.png");
