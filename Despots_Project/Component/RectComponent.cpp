@@ -1,5 +1,5 @@
 #include "RectComponent.h"
-#include "../Object/GameObject.h"
+#include "Object/GameObject.h"
 
 void RectComponent::Render()
 {

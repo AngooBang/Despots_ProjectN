@@ -1,7 +1,7 @@
-#include "../stdafx.h"
+#include "stdafx.h"
 
-#include "../Scene/TempScene.h"
-#include "../Scene/TitleScene.h"
+#include "Scene/TempScene.h"
+#include "Scene/TitleScene.h"
 
 #include "SceneManager.h"
 

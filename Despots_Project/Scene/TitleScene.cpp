@@ -1,11 +1,11 @@
 #include "TitleScene.h"
 
-#include "../Object/Text.h"
-#include "../Object/BackGround.h"
+#include "Object/Text.h"
+#include "Object/BackGround.h"
 
-#include "../Util/Input.h"
+#include "Util/Input.h"
 
-#include "../Manager/SceneManager.h"
+#include "Manager/SceneManager.h"
 
 void TitleScene::Init()
 {

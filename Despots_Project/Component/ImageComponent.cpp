@@ -1,6 +1,6 @@
 #include "ImageComponent.h"
-#include "../stdafx.h"
-#include "../Util/Image2D.h"
+#include "stdafx.h"
+#include "Util/Image2D.h"
 
 void ImageComponent::Render()
 {

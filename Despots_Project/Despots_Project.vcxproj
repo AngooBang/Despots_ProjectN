@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);</IncludePath>
+    <IncludePath>$(SolutionDir)\Despots_Project</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -142,6 +142,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BasicGameFramework.h" />
+    <ClInclude Include="Component\AnimatorComponent.h" />
+    <ClInclude Include="Component\ButtonComponent.h" />
     <ClInclude Include="Component\CircleComponent.h" />
     <ClInclude Include="Component\Component.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -183,6 +185,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicGameFramework.cpp" />
+    <ClCompile Include="Component\AnimatorComponent.cpp" />
+    <ClCompile Include="Component\ButtonComponent.cpp" />
     <ClCompile Include="Component\CircleComponent.cpp" />
     <ClCompile Include="Component\Component.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

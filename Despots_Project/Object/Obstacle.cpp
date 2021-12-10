@@ -1,6 +1,6 @@
 #include "Obstacle.h"
 
-#include "../Component/RectComponent.h"
+#include "Component/RectComponent.h"
 
 void Obstacle::Init()
 {

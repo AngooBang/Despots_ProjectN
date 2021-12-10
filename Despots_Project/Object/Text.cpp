@@ -1,6 +1,6 @@
 #include "Text.h"
 
-#include "../Component/TextComponent.h"
+#include "Component/TextComponent.h"
 
 void Text::Init()
 {

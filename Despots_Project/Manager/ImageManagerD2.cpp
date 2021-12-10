@@ -1,5 +1,5 @@
 #include "ImageManagerD2.h"
-#include "../Util/Image2D.h"
+#include "Util/Image2D.h"
 
 
 void ImageManagerD2::Init(HWND& _hWnd)
@@ -37,7 +37,7 @@ void ImageManagerD2::Release()
         mp_render_target = NULL;
     }
 
-    map<const wchar_t*, Image2D*>::iterator it;
+    map<wstring, Image2D*>::iterator it;
     for (it = mapImages.begin(); it != mapImages.end();)
     {
         // erase에서 리턴값으로 it의 다음 iterator를 돌려주게됨. 계속 대입해서 반복시킴
@@ -63,7 +63,7 @@ void ImageManagerD2::AddImageList()
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Ground_0.bmp");
 
 
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Left_Door.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Left_Door.png");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Up_Open.png");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Right_Door.png");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Down_Reveal.png");
@@ -78,10 +78,17 @@ void ImageManagerD2::AddImageList()
 int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)
 {
     // 기존에 읽은 이미지가 있으면 해당 이미지를 제거
-    if (mp_bitmap != NULL)
+    //if (mp_bitmap != NULL)
+    //{
+    //    mp_bitmap->Release();
+    //    mp_bitmap = NULL;
+    //}
+
+    wstring str = path;
+    if (mapImages.find(str) != mapImages.end())
     {
-        mp_bitmap->Release();
-        mp_bitmap = NULL;
+        // 이미 있는거임
+        return -1;
     }
 
     Image2D* img = new Image2D;
@@ -131,7 +138,7 @@ int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)
 
 Image2D* ImageManagerD2::FindImage(const wchar_t* path)
 {
-    map<const wchar_t*, Image2D*>::iterator it = mapImages.find(path);
+    map<wstring, Image2D*>::iterator it = mapImages.find(path);
     if (it == mapImages.end())
     {
         return nullptr;

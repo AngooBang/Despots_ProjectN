@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../IBehaviour.h"
-#include "../Util/Type.h"
+#include "IBehaviour.h"
+#include "Util/Type.h"
 
 class GameObject;
 

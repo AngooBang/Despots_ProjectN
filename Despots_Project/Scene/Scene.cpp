@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Layer.h"
 
-#include "../stdafx.h"
+#include "stdafx.h"
 
 Scene::Scene()
 {

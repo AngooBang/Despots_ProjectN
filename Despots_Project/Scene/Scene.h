@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../IBehaviour.h"
+#include "IBehaviour.h"
 
 class Layer;
 

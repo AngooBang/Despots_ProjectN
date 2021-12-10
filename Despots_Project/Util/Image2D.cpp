@@ -31,12 +31,13 @@ void Image2D::Render(RECT rect)
     Render();
 }
 
-void Image2D::FrameRender(D2D1_RECT_F rect, D2D1_RECT_F frame)
+void Image2D::FrameRender(RECT rect, RECT frame)
 {
-    m_image_rect = rect;
+    m_image_rect = { (FLOAT)rect.left, (FLOAT)rect.top, (FLOAT)rect.right, (FLOAT)rect.bottom };
+    D2D1_RECT_F frameRect = { frame.left, frame.top, frame.right, frame.bottom };
     if (mp_bitmap != NULL)
     {
-        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, frame);
+        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, frameRect);
     }
 }
 

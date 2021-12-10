@@ -121,6 +121,12 @@
     <ClInclude Include="Object\BackGround.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Component\AnimatorComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ButtonComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -202,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="Object\BackGround.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AnimatorComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ButtonComponent.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

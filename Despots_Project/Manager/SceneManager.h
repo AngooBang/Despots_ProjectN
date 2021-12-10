@@ -4,8 +4,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "../Util/Singleton.h"
-#include "../IBehaviour.h"
+#include "Util/Singleton.h"
+#include "IBehaviour.h"
 
 class Scene;
 

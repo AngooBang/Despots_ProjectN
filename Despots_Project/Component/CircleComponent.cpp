@@ -1,5 +1,5 @@
 #include "CircleComponent.h"
-#include "../Object/GameObject.h"
+#include "Object/GameObject.h"
 
 void CircleComponent::Render()
 {

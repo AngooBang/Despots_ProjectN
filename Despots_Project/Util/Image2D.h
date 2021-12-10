@@ -1,6 +1,6 @@
 #pragma once
-#include "../IBehaviour.h"
-#include "../stdafx.h"
+#include "IBehaviour.h"
+#include "stdafx.h"
 class Image2D : public IBehaviour
 {
 public:
@@ -21,7 +21,7 @@ public:
 	virtual void Init(ID2D1Bitmap* bitmap, D2D1_RECT_F rect);
 	virtual void Render() override;
 	virtual void Render(RECT rect);
-	void FrameRender(D2D1_RECT_F rect, D2D1_RECT_F frame);
+	void FrameRender(RECT rect, RECT frame);
 
 	inline void SetImageRect(D2D1_RECT_F rect) { m_image_rect = rect; }
 

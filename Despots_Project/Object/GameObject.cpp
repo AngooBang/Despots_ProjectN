@@ -1,6 +1,6 @@
-#include "../stdafx.h"
-#include "../Component/Component.h"
-#include "../Scene/Layer.h"
+#include "stdafx.h"
+#include "Component/Component.h"
+#include "Scene/Layer.h"
 
 #include "GameObject.h"
 

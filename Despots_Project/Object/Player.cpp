@@ -1,9 +1,9 @@
 #include "Player.h"
 
-#include "../Component/RectComponent.h"
-#include "../Component/CircleComponent.h"
+#include "Component/RectComponent.h"
+#include "Component/CircleComponent.h"
 
-#include "../Component/Player/PlayerMovement.h"
+#include "Component/Player/PlayerMovement.h"
 
 void Player::Init()
 {

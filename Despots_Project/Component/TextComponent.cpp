@@ -1,6 +1,6 @@
 #include "TextComponent.h"
 
-#include "../Object/GameObject.h"
+#include "Object/GameObject.h"
 
 void TextComponent::Render()
 {

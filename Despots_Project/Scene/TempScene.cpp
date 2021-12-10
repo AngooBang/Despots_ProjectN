@@ -1,8 +1,8 @@
 #include "TempScene.h"
 #include "Layer.h"
 
-#include "../Object/Player.h"
-#include "../Object/Obstacle.h"
+#include "Object/Player.h"
+#include "Object/Obstacle.h"
 
 void TempScene::Init()
 {

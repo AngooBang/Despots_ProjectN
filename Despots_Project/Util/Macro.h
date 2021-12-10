@@ -24,3 +24,7 @@
 #define WIN_SIZE_Y 720
 
 #define FIND_IMG ImageManagerD2::GetInstance()->FindImage
+
+#define INPUT_KEY_DOWN Input::GetButtonDown
+#define INPUT_KEY_UP Input::GetButtonUp
+#define INPUT_KEY_STAY Input::GetButton

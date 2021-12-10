@@ -1,6 +1,6 @@
 #pragma once
-#include "../stdafx.h"
-#include "../Util/Singleton.h"
+#include "stdafx.h"
+#include "Util/Singleton.h"
 
 class Image2D;
 class ImageManagerD2 : public Singleton<ImageManagerD2>
@@ -19,7 +19,7 @@ public:
 	inline ID2D1HwndRenderTarget* GetRenderTarget() { return mp_render_target; }
 
 private:
-	map<const wchar_t*, Image2D*> mapImages;
+	map<wstring, Image2D*> mapImages;
 
 	ID2D1Factory* mp_factory = nullptr;
 
