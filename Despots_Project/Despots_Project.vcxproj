@@ -158,6 +158,7 @@
     <ClInclude Include="Manager\ImageManagerD2.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Object\BackGround.h" />
+    <ClInclude Include="Object\ExitButton.h" />
     <ClInclude Include="Object\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -201,6 +202,7 @@
     <ClCompile Include="Manager\ImageManagerD2.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Object\BackGround.cpp" />
+    <ClCompile Include="Object\ExitButton.cpp" />
     <ClCompile Include="Object\GameObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

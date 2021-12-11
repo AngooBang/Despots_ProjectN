@@ -5,6 +5,7 @@
 #include "Object/Text.h"
 #include "Object/BackGround.h"
 #include "Object/StartButton.h"
+#include "Object/ExitButton.h"
 
 
 
@@ -17,6 +18,7 @@ void TitleScene::Init()
 	BackGround* tempBackGround = new BackGround(this, ui, L"BackGround");
 
 	StartButton* startButton = new StartButton(this, ob, L"StartButton");
+	ExitButton* exitButton = new ExitButton(this, ob, L"ExitButton");
 
 	//Text* tempTxt = new Text(this, ui, L"Temp Text");
 	//tempTxt->SetPosition(500, 500);

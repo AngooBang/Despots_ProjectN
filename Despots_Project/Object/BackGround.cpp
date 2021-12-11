@@ -10,13 +10,8 @@ void BackGround::Init()
 	imgComp->SetRect({ 0, 0, WIN_SIZE_X, WIN_SIZE_Y });
 
 	ImageComponent* imgComp2 = new ImageComponent(this, 1);
-	imgComp2->SetImage(L"Image/Title/BackGround.bmp");
-	imgComp2->SetRect({ 0, 0, WIN_SIZE_X, WIN_SIZE_Y });
+	imgComp2->SetImage(L"Image/Title/Despot_Logo.bmp");
+	imgComp2->SetRect({ (WIN_SIZE_X / 2) - 350, 50, (WIN_SIZE_X / 2) - 350 + 700, 50 + 400 });
 
-	AnimatorComponent* aniComp = new AnimatorComponent(this, 2);
-	aniComp->SetImage(L"Image/Map/Left_Door.png");
-	aniComp->SetRect({ 100, 100, 180, 430 });
-	aniComp->SetFrame(4, 1);
-	aniComp->SetIsLoop(true);
-	aniComp->SetMotionSpeed(80.0f);
+
 }

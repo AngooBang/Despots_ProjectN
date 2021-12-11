@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 class ImageComponent;
+class TextComponent;
 template <typename T>
 class ButtonComponent;
 class StartButton : public GameObject
@@ -19,4 +20,6 @@ private:
 	ImageComponent* m_clickImg = nullptr;
 
 	ButtonComponent* m_buttonComp = nullptr;
+
+	TextComponent* m_textComp = nullptr;
 };

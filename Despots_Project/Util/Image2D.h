@@ -14,8 +14,8 @@ public:
 
 	inline void SetImageRect(D2D1_RECT_F rect) { m_image_rect = rect; }
 
-	inline int GetWidth() { return mp_bitmap->GetSize().width; }
-	inline int GetHeight() { return mp_bitmap->GetSize().height; }
+	inline int GetWidth() { return (INT)mp_bitmap->GetSize().width; }
+	inline int GetHeight() { return (INT)mp_bitmap->GetSize().height; }
 
 private:
 

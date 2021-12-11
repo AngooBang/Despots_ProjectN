@@ -14,9 +14,12 @@ public:
 
 	Image2D* FindImage(const wchar_t* path);
 
-
-
 	inline ID2D1HwndRenderTarget* GetRenderTarget() { return mp_render_target; }
+
+	inline IWICImagingFactory* GetImageFactory() { return mp_ImageFactory; }
+
+	inline IDWriteFactory* GetWriteFactory() { return mp_WriteFactory; }
+
 
 private:
 	map<wstring, Image2D*> mapImages;
@@ -25,7 +28,9 @@ private:
 
 	ID2D1HwndRenderTarget* mp_render_target = nullptr;
 
-	IWICImagingFactory* m_pImageFactory = nullptr;
+	IDWriteFactory* mp_WriteFactory = nullptr;
+
+	IWICImagingFactory* mp_ImageFactory = nullptr;
 
 	ID2D1Bitmap* mp_bitmap = nullptr;
 };

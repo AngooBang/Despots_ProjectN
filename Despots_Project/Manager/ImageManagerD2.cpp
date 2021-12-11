@@ -21,10 +21,18 @@ void ImageManagerD2::Init(HWND& _hWnd)
 
     }
     if (S_OK == CoCreateInstance(CLSID_WICImagingFactory, NULL,
-        CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pImageFactory)))
+        CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&mp_ImageFactory)))
     {
 
     }
+    //__uuidof(IDWriteFactory),
+    //    reinterpret_cast<IUnknown**>(&pDWriteFactory_)
+    if (S_OK == DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
+        __uuidof(mp_WriteFactory),
+        reinterpret_cast<IUnknown**>(&mp_WriteFactory)))
+    {
+    }
+
     AddImageList();
 }
 
@@ -49,13 +57,13 @@ void ImageManagerD2::AddImageList()
 {
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/BackGround.bmp");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Title/Despot_Logo.bmp", { 300, 10, 700, 400 });
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Despot_Logo.bmp");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Start_Hover.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Start_Active.png");
 
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/TItle/Exit_Hover.png");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/TItle/Exit_Active.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Exit_Hover.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Exit_Active.png");
 
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Wall.bmp");
     //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Bottom.bmp");
@@ -101,12 +109,12 @@ int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)
     // 그림 파일을 읽은 결과 값 (0이면 그림 읽기 실패, 1이면 그림 읽기 성공)
     int result = 0;
     // WIC용 Factory 객체를 사용하여 이미지 압축 해제를 위한 객체를 생성
-    if (S_OK == m_pImageFactory->CreateDecoderFromFilename(path, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &p_decoder)) {
+    if (S_OK == mp_ImageFactory->CreateDecoderFromFilename(path, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &p_decoder)) {
         // 파일을 구성하는 이미지 중에서 첫번째 이미지를 선택한다.
         if (S_OK == p_decoder->GetFrame(0, &p_frame))
         {
             // IWICBitmap형식의 비트맵을 ID2D1Bitmap. 형식으로 변환하기 위한 객체 생성
-            if (S_OK == m_pImageFactory->CreateFormatConverter(&p_converter))
+            if (S_OK == mp_ImageFactory->CreateFormatConverter(&p_converter))
             {
                 // 선택된 그림을 어떤 형식의 비트맵으로 변환할 것인지 설정
                 if (S_OK == p_converter->Initialize(p_frame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0.0f, WICBitmapPaletteTypeCustom))
