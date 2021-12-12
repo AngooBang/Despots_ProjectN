@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,14 +159,17 @@
     <ClInclude Include="Manager\ImageManagerD2.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Object\BackGround.h" />
+    <ClInclude Include="Object\Door.h" />
     <ClInclude Include="Object\ExitButton.h" />
     <ClInclude Include="Object\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Object\DespotLogo.h" />
     <ClInclude Include="Object\Obstacle.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\StartButton.h" />
     <ClInclude Include="Object\Text.h" />
+    <ClInclude Include="Object\TileMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\Layer.h">
@@ -202,14 +206,17 @@
     <ClCompile Include="Manager\ImageManagerD2.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Object\BackGround.cpp" />
+    <ClCompile Include="Object\Door.cpp" />
     <ClCompile Include="Object\ExitButton.cpp" />
     <ClCompile Include="Object\GameObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Object\DespotLogo.cpp" />
     <ClCompile Include="Object\Obstacle.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Object\StartButton.cpp" />
     <ClCompile Include="Object\Text.cpp" />
+    <ClCompile Include="Object\TileMap.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\Layer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

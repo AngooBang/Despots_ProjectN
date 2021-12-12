@@ -65,15 +65,15 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Exit_Hover.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Title/Exit_Active.png");
 
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Wall.bmp");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Bottom.bmp");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Ground_0.bmp");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Wall.bmp");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Bottom.bmp");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Ground_0.bmp");
 
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Left_Door.png");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Up_Open.png");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Right_Door.png");
-    //D2ImageManager::GetSingleton()->AddImage(L"Image/Map/Down_Reveal.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Up_Open.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Right_Door.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Down_Reveal.png");
 
 
 

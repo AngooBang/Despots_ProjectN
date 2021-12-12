@@ -10,6 +10,10 @@ public:
 
 	virtual void	Render() override;
 
+
+	int GetWidth();
+	int GetHeight();
+
 	void SetImage(const wchar_t* path);
 	void SetRect(RECT rect);
 	void SetIsVisible(bool isVisible);

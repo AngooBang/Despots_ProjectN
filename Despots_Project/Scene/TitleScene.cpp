@@ -4,6 +4,7 @@
 
 #include "Object/Text.h"
 #include "Object/BackGround.h"
+#include "Object/DespotLogo.h"
 #include "Object/StartButton.h"
 #include "Object/ExitButton.h"
 
@@ -11,11 +12,12 @@
 
 void TitleScene::Init()
 {
-	Layer* ui = FindLayer(L"UI");
+	Layer* back = FindLayer(L"Back");
 
 	Layer* ob = FindLayer(L"Objects");
 
-	BackGround* tempBackGround = new BackGround(this, ui, L"BackGround");
+	BackGround* tempBackGround = new BackGround(this, back, L"BackGround");
+	DespotLogo* despotLogo = new DespotLogo(this, back, L"DespotLogo");
 
 	StartButton* startButton = new StartButton(this, ob, L"StartButton");
 	ExitButton* exitButton = new ExitButton(this, ob, L"ExitButton");

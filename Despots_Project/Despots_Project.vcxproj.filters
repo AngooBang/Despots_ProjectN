@@ -136,6 +136,15 @@
     <ClInclude Include="Object\ExitButton.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Object\DespotLogo.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\TileMap.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Door.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -231,6 +240,15 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Object\ExitButton.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\DespotLogo.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\TileMap.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Door.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

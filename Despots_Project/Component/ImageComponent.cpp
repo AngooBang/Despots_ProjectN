@@ -9,6 +9,16 @@ void ImageComponent::Render()
 	m_img->Render(m_rect);
 }
 
+int ImageComponent::GetWidth()
+{
+	return m_img->GetWidth();
+}
+
+int ImageComponent::GetHeight()
+{
+	return m_img->GetHeight();
+}
+
 void ImageComponent::SetImage(const wchar_t* path)
 {
 	m_img = FIND_IMG(path);

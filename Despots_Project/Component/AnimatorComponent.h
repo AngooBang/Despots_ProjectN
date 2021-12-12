@@ -12,11 +12,17 @@ public:
 	virtual void	Update() override;
 	virtual void	Render() override;
 
+	void DownFrame();
+
 	void SetImage(const wchar_t* path);
 	void SetRect(RECT rect);
 	void SetFrame(int frameX, int frameY);
 	void SetMotionSpeed(float mSpeed);
 	void SetIsLoop(bool loop);
+	void SetCurrFrame(int frameX);
+
+	void ChangeImg(const wchar_t* path, int maxFrameX, int maxFrameY, int currFrameX);
+	
 
 private:
 	Image2D* m_img = nullptr;
