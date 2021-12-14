@@ -6,4 +6,5 @@ public:
 	using GameObject::GameObject;
 
 	virtual void Init() override;
+
 };

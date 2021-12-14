@@ -12,14 +12,17 @@ public:
 	virtual void	Update() override;
 	virtual void	Render() override;
 
-	void DownFrame();
-
 	void SetImage(const wchar_t* path);
 	void SetRect(RECT rect);
 	void SetFrame(int frameX, int frameY);
 	void SetMotionSpeed(float mSpeed);
 	void SetIsLoop(bool loop);
 	void SetCurrFrame(int frameX);
+	void SetIsReverse(bool isReverse);
+
+
+
+	bool GetIsReverse();
 
 	void ChangeImg(const wchar_t* path, int maxFrameX, int maxFrameY, int currFrameX);
 	
@@ -40,4 +43,5 @@ private:
 	float m_animationElapsed = 0.0f;
 
 	bool mb_isLoop = false;
+	bool mb_isReverse = false;
 };

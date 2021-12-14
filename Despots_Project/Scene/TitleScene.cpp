@@ -12,15 +12,15 @@
 
 void TitleScene::Init()
 {
-	Layer* back = FindLayer(L"Back");
+	Layer* m_backLayer = FindLayer(L"Back");
 
-	Layer* ob = FindLayer(L"Objects");
+	Layer* m_obLayer = FindLayer(L"Objects");
 
-	BackGround* tempBackGround = new BackGround(this, back, L"BackGround");
-	DespotLogo* despotLogo = new DespotLogo(this, back, L"DespotLogo");
+	BackGround* tempBackGround = new BackGround(this, m_backLayer, L"BackGround");
+	DespotLogo* despotLogo = new DespotLogo(this, m_backLayer, L"DespotLogo");
 
-	StartButton* startButton = new StartButton(this, ob, L"StartButton");
-	ExitButton* exitButton = new ExitButton(this, ob, L"ExitButton");
+	StartButton* startButton = new StartButton(this, m_obLayer, L"StartButton");
+	ExitButton* exitButton = new ExitButton(this, m_obLayer, L"ExitButton");
 
 	//Text* tempTxt = new Text(this, ui, L"Temp Text");
 	//tempTxt->SetPosition(500, 500);

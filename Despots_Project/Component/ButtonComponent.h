@@ -14,10 +14,7 @@ public:
 
 public:
 
-	// 이거 그냥 Component생성자도 따로 쓰는 경우가 있어서 2개만든거죠? 소리 안들려요...
-	// 지금 생성자가 두개인가요? 제가 주석처리해서 지금은 1개예요 원래 2개였어요
-	// 아아 지워도 될것같아요 이거떄문인가요? 일단 더 봐야해요
-//	using Component::Component;
+
 	ButtonComponent(GameObject* owner, INT32 order, gameobj_t* btn, callback_t callback)
 		: Component(owner, order)
 	{

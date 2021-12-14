@@ -68,7 +68,7 @@ const Scene* Layer::GetScene() const noexcept
 	return _scene;
 }
 
-std::wstring Layer::GetTag() const noexcept
+std::wstring Layer::GetType() const noexcept
 {
 	return _tag;
 }
@@ -88,6 +88,6 @@ void Layer::RemoveObject(const wstring& tag)
 	remove_if(_objects.begin(), _objects.end(),
 		[&tag](const GameObject* obj)
 		{
-			return obj->GetTag() == tag;
+			return obj->GetType() == tag;
 		});
 }

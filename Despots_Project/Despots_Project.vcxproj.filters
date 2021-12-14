@@ -145,6 +145,30 @@
     <ClInclude Include="Object\Door.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Manager\CameraManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\FullMap.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ColiderComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ColiderManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Tile.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\GameManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Character.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\CharacterManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -250,6 +274,30 @@
     </ClCompile>
     <ClCompile Include="Object\Door.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\CameraManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\FullMap.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ColiderComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ColiderManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Tile.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\GameManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Character.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\CharacterManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

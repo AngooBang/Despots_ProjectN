@@ -25,6 +25,7 @@ Game::~Game() noexcept
     DeleteObject(_backBitmap);
     DeleteDC(_backDC);
     ReleaseDC(_hWnd, _hDC);
+    SceneManager::GetInstance()->Release();
 }
 
 bool Game::Init(HINSTANCE hInst)
@@ -90,6 +91,7 @@ INT32 Game::Run()
         {
             if (SceneManager::GetInstance()->IsSetNextScene())
             {
+                SceneManager::GetInstance()->SetNextScene(L"Game");
                 SceneManager::GetInstance()->ChangeScene();
             }
 

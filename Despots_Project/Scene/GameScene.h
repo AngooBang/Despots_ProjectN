@@ -13,4 +13,8 @@ public:
 	virtual void		PhysicsUpdate() override;
 	virtual void		Render() override;
 	virtual void		Release() override;
+
+private:
+	Layer* m_backLayer = nullptr;
+	Layer* m_obLayer = nullptr;
 };

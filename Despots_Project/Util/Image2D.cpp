@@ -12,7 +12,8 @@ void Image2D::Render()
     // 화면에 gp_bitmap에 저장된 이미지를 출력.
     if (mp_bitmap != NULL)
     {
-        //D2ImageManager::GetSingleton()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, { 0, 0, 60, 330 });
+
+        m_image_rect = { (FLOAT)m_image_rect.left - CAMERA_POS.x, (FLOAT)m_image_rect.top - CAMERA_POS.y, (FLOAT)m_image_rect.right - CAMERA_POS.x, (FLOAT)m_image_rect.bottom - CAMERA_POS.y };
 
         ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR);
     }
@@ -25,19 +26,35 @@ void Image2D::Render()
 
 }
 
-void Image2D::Render(RECT rect)
+void Image2D::Render(RECT rect, bool isCam)
 {
+    
     m_image_rect = { (FLOAT)rect.left, (FLOAT)rect.top, (FLOAT)rect.right, (FLOAT)rect.bottom };
-    Render();
+    if (isCam)
+    {
+        Render();
+    }
+    else
+    {
+        UNFCT_Render();
+    }
+}
+
+void Image2D::UNFCT_Render()
+{
+    if (mp_bitmap != NULL)
+    {
+        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR);
+    }
 }
 
 void Image2D::FrameRender(RECT rect, RECT frame)
 {
-    m_image_rect = { (FLOAT)rect.left, (FLOAT)rect.top, (FLOAT)rect.right, (FLOAT)rect.bottom };
+    m_image_rect = { (FLOAT)rect.left - CAMERA_POS.x, (FLOAT)rect.top - CAMERA_POS.y, (FLOAT)rect.right - CAMERA_POS.x, (FLOAT)rect.bottom - CAMERA_POS.y };
     D2D1_RECT_F frameRect = { (FLOAT)frame.left, (FLOAT)frame.top, (FLOAT)frame.right, (FLOAT)frame.bottom };
     if (mp_bitmap != NULL)
     {
-        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, frameRect);
+        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, frameRect);
     }
 }
 

@@ -76,6 +76,7 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Map/Down_Reveal.png");
 
 
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Idle.png");
 
 
 

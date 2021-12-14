@@ -146,6 +146,7 @@
     <ClInclude Include="Component\AnimatorComponent.h" />
     <ClInclude Include="Component\ButtonComponent.h" />
     <ClInclude Include="Component\CircleComponent.h" />
+    <ClInclude Include="Component\ColiderComponent.h" />
     <ClInclude Include="Component\Component.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -156,11 +157,17 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IBehaviour.h" />
+    <ClInclude Include="Manager\CameraManager.h" />
+    <ClInclude Include="Manager\CharacterManager.h" />
+    <ClInclude Include="Manager\ColiderManager.h" />
+    <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\ImageManagerD2.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Object\BackGround.h" />
+    <ClInclude Include="Object\Character.h" />
     <ClInclude Include="Object\Door.h" />
     <ClInclude Include="Object\ExitButton.h" />
+    <ClInclude Include="Object\FullMap.h" />
     <ClInclude Include="Object\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -169,6 +176,7 @@
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\StartButton.h" />
     <ClInclude Include="Object\Text.h" />
+    <ClInclude Include="Object\Tile.h" />
     <ClInclude Include="Object\TileMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\GameScene.h" />
@@ -195,6 +203,7 @@
     <ClCompile Include="Component\AnimatorComponent.cpp" />
     <ClCompile Include="Component\ButtonComponent.cpp" />
     <ClCompile Include="Component\CircleComponent.cpp" />
+    <ClCompile Include="Component\ColiderComponent.cpp" />
     <ClCompile Include="Component\Component.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -203,11 +212,17 @@
     <ClCompile Include="Component\RectComponent.cpp" />
     <ClCompile Include="Component\TextComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Manager\CameraManager.cpp" />
+    <ClCompile Include="Manager\CharacterManager.cpp" />
+    <ClCompile Include="Manager\ColiderManager.cpp" />
+    <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\ImageManagerD2.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Object\BackGround.cpp" />
+    <ClCompile Include="Object\Character.cpp" />
     <ClCompile Include="Object\Door.cpp" />
     <ClCompile Include="Object\ExitButton.cpp" />
+    <ClCompile Include="Object\FullMap.cpp" />
     <ClCompile Include="Object\GameObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -216,6 +231,7 @@
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Object\StartButton.cpp" />
     <ClCompile Include="Object\Text.cpp" />
+    <ClCompile Include="Object\Tile.cpp" />
     <ClCompile Include="Object\TileMap.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\Layer.cpp">

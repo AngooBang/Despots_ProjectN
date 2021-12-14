@@ -27,6 +27,11 @@
 #include <unordered_map>
 #include <string>
 #include <type_traits>
+#include <d2d1.h>
+#include <dwrite.h>
+#include <wincodec.h>
+#include <map>
+#include <iostream>
 
 #include "Util/Type.h"
 #include "Util/Singleton.h"
@@ -35,3 +40,11 @@
 
 using namespace std;
 using namespace std::chrono;
+
+using namespace D2D1;
+
+#pragma comment(lib, "D2D1.lib")
+#pragma comment(lib, "Dwrite.lib")
+
+#include "Manager/ImageManagerD2.h"
+#include "Manager/CameraManager.h"

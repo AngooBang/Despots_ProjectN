@@ -5,43 +5,47 @@
 
 void AnimatorComponent::Update()
 {
-	m_animationElapsed += Timer::GetDeltaTime();
-	if (m_animationElapsed >= m_motionSpeed)
-	{
-		++m_currFrameX;
-		if (m_currFrameX >= m_maxFrameX)
-		{
-			if (mb_isLoop)
-			{
-				m_currFrameX = 0;
-			}
-			else
-			{
-				--m_currFrameX;
-			}
-		}
-		m_animationElapsed = 0.0f;
-	}
-}
+	if (GetStopUpdate()) return;
 
-void AnimatorComponent::DownFrame()
-{
-	m_animationElapsed += Timer::GetDeltaTime();
-	if (m_animationElapsed >= m_motionSpeed)
+	if (mb_isReverse == false)
 	{
-		--m_currFrameX;
-		if (m_currFrameX < 0)
+		m_animationElapsed += Timer::GetDeltaTime();
+		if (m_animationElapsed >= m_motionSpeed)
 		{
-			if (mb_isLoop)
+			++m_currFrameX;
+			if (m_currFrameX >= m_maxFrameX)
 			{
-				m_currFrameX = m_maxFrameX;
+				if (mb_isLoop)
+				{
+					m_currFrameX = 0;
+				}
+				else
+				{
+					--m_currFrameX;
+				}
 			}
-			else
-			{
-				++m_currFrameX;
-			}
+			m_animationElapsed = 0.0f;
 		}
-		m_animationElapsed = 0.0f;
+	}
+	else
+	{
+		m_animationElapsed += Timer::GetDeltaTime();
+		if (m_animationElapsed >= m_motionSpeed)
+		{
+			--m_currFrameX;
+			if (m_currFrameX < 0)
+			{
+				if (mb_isLoop)
+				{
+					m_currFrameX = m_maxFrameX;
+				}
+				else
+				{
+					++m_currFrameX;
+				}
+			}
+			m_animationElapsed = 0.0f;
+		}
 	}
 }
 
@@ -88,6 +92,16 @@ void AnimatorComponent::SetIsLoop(bool loop)
 void AnimatorComponent::SetCurrFrame(int frameX)
 {
 	m_currFrameX = frameX;
+}
+
+void AnimatorComponent::SetIsReverse(bool isReverse)
+{
+	mb_isReverse = isReverse;
+}
+
+bool AnimatorComponent::GetIsReverse()
+{
+	return mb_isReverse;
 }
 
 void AnimatorComponent::ChangeImg(const wchar_t* path, int maxFrameX, int maxFrameY, int currFrameX)

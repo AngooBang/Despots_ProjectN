@@ -39,3 +39,18 @@ void Component::Render()
 void Component::Release()
 {
 }
+
+void Component::SetOwner(GameObject* owner)
+{
+	_owner = owner;
+}
+
+void Component::SetStopUpdate(bool stopUpdate)
+{
+	_stopUpdate = stopUpdate;
+}
+
+bool Component::GetStopUpdate()
+{
+	return _stopUpdate;
+}

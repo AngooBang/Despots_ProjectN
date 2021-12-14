@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Object/Door.h"
 
 #define TILE_SIZE_X 20
 #define TILE_SIZE_Y 9
@@ -12,26 +12,28 @@
 #define BOTTOM_SIZE_X 900
 #define BOTTOM_SIZE_Y 50
 
-class Door;
+class Tile;
 class ImageComponent;
-struct Tile
-{
-	POINT pos = {};
-	RECT shape = {};
-	ImageComponent* img = nullptr;
-	bool smallTile[3][3] = { false };
-};
-
 class TileMap : public GameObject
 {
 public:
 	using GameObject::GameObject;
 
 	virtual void Init() override;
+	virtual void Update() override;
+
+	virtual void Release() override;
 	void InitTile();
 
-	void MoveLeftRoom();
+	void MoveRoom();
 
+	void SetMoveRoom(DoorDir dir);
+
+	void SetRoomNum(int num);
+
+	int GetRoomNum();
+
+	inline auto GetTileInfo() { return m_tileInfo; }
 private:
 	POINT m_pos = {};
 
@@ -44,4 +46,7 @@ private:
 	Door* m_upDoor = nullptr;
 	Door* m_rightDoor = nullptr;
 	Door* m_downDoor = nullptr;
+
+	bool mb_moveRoom[DoorDir::End] = { false };
+	int m_roomNum = -1;
 };

@@ -20,6 +20,10 @@
 	}												\
 }
 
+#define SAFE_RELEASE(p)	{ if (p) { p->Release(); delete p; p = nullptr; } } 
+#define SAFE_DELETE(p)	{ if (p) { delete p; p = nullptr; } }
+#define SAFE_UPDATE(p) { if (p) { p->Update();} } 
+
 #define WIN_SIZE_X 1280
 #define WIN_SIZE_Y 720
 
@@ -28,3 +32,5 @@
 #define INPUT_KEY_DOWN Input::GetButtonDown
 #define INPUT_KEY_UP Input::GetButtonUp
 #define INPUT_KEY_STAY Input::GetButton
+
+#define CAMERA_POS CameraManager::GetInstance()->GetCameraPos()

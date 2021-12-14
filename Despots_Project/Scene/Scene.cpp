@@ -75,7 +75,7 @@ void Scene::RemoveLayer(const std::wstring& tag)
 	remove_if(_layers.begin(), _layers.end(),
 		[&tag](const Layer* layer)
 		{
-			return layer->GetTag() == tag;
+			return layer->GetType() == tag;
 		});
 }
 
@@ -84,7 +84,7 @@ Layer* Scene::FindLayer(const std::wstring& tag)
 	auto iter = find_if(_layers.begin(), _layers.end(),
 		[&tag](const Layer* layer)
 		{
-			return layer->GetTag() == tag;
+			return layer->GetType() == tag;
 		});
 
 	if (iter == _layers.end())

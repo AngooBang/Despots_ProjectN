@@ -1,22 +1,37 @@
 #include "GameScene.h"
 #include "Object/BackGround.h"
-#include "Object/TileMap.h"
+#include "Object/FullMap.h"
+#include "../Util/Input.h"
+#include "../Manager/CameraManager.h"
+#include "../Manager/GameManager.h"
+#include "../Manager/CharacterManager.h"
 
 void GameScene::Init()
 {
-	Layer* back = FindLayer(L"Back");
-	Layer* ob = FindLayer(L"Objects");
+	m_backLayer = FindLayer(L"Back");
+	m_obLayer = FindLayer(L"Objects");
 
-	BackGround* tempBackGround = new BackGround(this, back, L"BackGround");
+	BackGround* backGround = new BackGround(this, m_backLayer, L"BackGround");
 
-	TileMap* tileMap1 = new TileMap(this, ob, L"TileMap1");
-	tileMap1->SetPosition({ 180, 70 });
+	FullMap* fullMap = new FullMap(this, m_obLayer, L"FullMap");
 
 	Scene::Init();
 }
 
 void GameScene::Update()
 {
+	if (Input::GetButton(VK_LEFT))
+		CameraManager::GetInstance()->AddCameraPos({ -10, 0 });
+	if (Input::GetButton(VK_RIGHT))
+		CameraManager::GetInstance()->AddCameraPos({ 10, 0 });
+	if (Input::GetButton(VK_UP))
+		CameraManager::GetInstance()->AddCameraPos({ 0, -10 });
+	if (Input::GetButton(VK_DOWN))
+		CameraManager::GetInstance()->AddCameraPos({ 0, 10 });
+
+	if (Input::GetButtonDown('C'))
+		CharacterManager::GetInstance()->AddCharacter(this, m_obLayer, L"Character");
+
 	Scene::Update();
 }
 

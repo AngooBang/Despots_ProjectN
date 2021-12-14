@@ -21,7 +21,7 @@ public:
 	virtual void		Release() override;
 
 	const Scene*		GetScene() const noexcept;
-	std::wstring		GetTag() const noexcept;
+	std::wstring		GetType() const noexcept;
 	INT32				GetZOrder() const noexcept;
 
 	void				AddObject(GameObject* obj);

@@ -19,9 +19,15 @@ public:
 	virtual void		Render() override;
 	virtual void		Release() override;
 
+
+	void				SetOwner(GameObject* owner);
+	void				SetStopUpdate(bool stopUpdate);
+	bool				GetStopUpdate();
+
 protected:
 	GameObject*			_owner = nullptr;
 
 private:
 	INT32				_order = 100;
+	bool				_stopUpdate = false;
 };

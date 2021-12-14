@@ -9,7 +9,9 @@ public:
 
 	virtual void Init(ID2D1Bitmap* bitmap, D2D1_RECT_F rect);
 	virtual void Render() override;
-	virtual void Render(RECT rect);
+	virtual void Render(RECT rect, bool isCam = true);
+	void UNFCT_Render();
+
 	void FrameRender(RECT rect, RECT frame);
 
 	inline void SetImageRect(D2D1_RECT_F rect) { m_image_rect = rect; }

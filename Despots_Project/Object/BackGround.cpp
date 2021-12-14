@@ -6,8 +6,10 @@
 void BackGround::Init()
 {
 	ImageComponent* imgComp = new ImageComponent(this, 1);
+	
 	imgComp->SetImage(L"Image/Title/BackGround.bmp");
 	imgComp->SetRect({ 0, 0, WIN_SIZE_X, WIN_SIZE_Y });
+	imgComp->SetIsCam(false);
 
 
 }

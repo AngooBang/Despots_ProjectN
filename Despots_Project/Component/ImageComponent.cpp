@@ -5,8 +5,7 @@
 void ImageComponent::Render()
 {
 	if (!mb_isVisible) return;
-
-	m_img->Render(m_rect);
+	m_img->Render(m_rect, mb_isCam);
 }
 
 int ImageComponent::GetWidth()
@@ -32,4 +31,9 @@ void ImageComponent::SetRect(RECT rect)
 void ImageComponent::SetIsVisible(bool isVisible)
 {
 	mb_isVisible = isVisible;
+}
+
+void ImageComponent::SetIsCam(bool isCam)
+{
+	mb_isCam = isCam;
 }
