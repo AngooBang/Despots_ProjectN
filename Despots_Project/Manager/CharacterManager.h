@@ -6,6 +6,7 @@
 class Character;
 class Scene;
 class Layer;
+class Tile;
 class CharacterManager : public Singleton<CharacterManager>
 {
 public:
@@ -13,6 +14,8 @@ public:
 	~CharacterManager() noexcept = default;
 
 	void AddCharacter(Scene* scene, Layer* layer, const std::wstring& tag);
+
+	void SelectCharacter(Tile* tile);
 private:
 	std::vector<Character*> m_vecChar;
 };

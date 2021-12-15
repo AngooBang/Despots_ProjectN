@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 
-class GameScene final : public Scene
+class GameScene : public Scene
 {
 public:
 	using Scene::Scene;
@@ -17,4 +17,6 @@ public:
 private:
 	Layer* m_backLayer = nullptr;
 	Layer* m_obLayer = nullptr;
+	Layer* m_obLayer2 = nullptr;
+	Layer* m_uiLayer = nullptr;
 };

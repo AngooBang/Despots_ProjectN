@@ -62,6 +62,7 @@ public:
 	INT32			GetHeight() const noexcept;
 	Pivot			GetPivot() const noexcept;
 	RECT			GetRect() const noexcept;
+	RECT*			GetRectP() noexcept;
 	Scene*			GetScene() noexcept;
 	Layer*			GetLayer() noexcept;
 private:

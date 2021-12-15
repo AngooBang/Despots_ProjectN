@@ -15,5 +15,25 @@ void CharacterManager::AddCharacter(Scene* scene, Layer* layer, const std::wstri
 									tile->m_inTile[2][1] = true;
 
 	newChar->Init();
+	newChar->SetTile(tile);
+	
 	m_vecChar.push_back(newChar);
+}
+
+void CharacterManager::SelectCharacter(Tile* tile)
+{
+	if (tile == nullptr)	return;
+
+	for (auto iter : m_vecChar)
+	{
+		iter->SetIsSelected(false);
+	}
+
+	for (auto iter : m_vecChar)
+	{
+		if (iter->GetTile() == tile)
+		{
+			iter->SetIsSelected(true);
+		}
+	}
 }

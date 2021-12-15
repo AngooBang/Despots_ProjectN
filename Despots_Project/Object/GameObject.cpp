@@ -187,6 +187,11 @@ RECT GameObject::GetRect() const noexcept
 	return _rect;
 }
 
+RECT* GameObject::GetRectP() noexcept
+{
+	return &_rect;
+}
+
 Scene* GameObject::GetScene() noexcept
 {
 	return _scene;

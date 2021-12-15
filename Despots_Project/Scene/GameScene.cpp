@@ -1,19 +1,28 @@
 #include "GameScene.h"
 #include "Object/BackGround.h"
 #include "Object/FullMap.h"
-#include "../Util/Input.h"
-#include "../Manager/CameraManager.h"
-#include "../Manager/GameManager.h"
-#include "../Manager/CharacterManager.h"
+#include "Object/SelectBox.h"
+#include "Object/MoveFrame.h"
+#include "Util/Input.h"
+#include "Manager/CameraManager.h"
+#include "Manager/GameManager.h"
+#include "Manager/CharacterManager.h"
 
 void GameScene::Init()
 {
 	m_backLayer = FindLayer(L"Back");
 	m_obLayer = FindLayer(L"Objects");
+	m_obLayer2 = FindLayer(L"Objects2");
+	m_uiLayer = FindLayer(L"UI");
 
 	BackGround* backGround = new BackGround(this, m_backLayer, L"BackGround");
 
+
 	FullMap* fullMap = new FullMap(this, m_obLayer, L"FullMap");
+
+	MoveFrame* moveFrame = new MoveFrame(this, m_obLayer2, L"MoveFrame");
+
+	SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
 
 	Scene::Init();
 }
@@ -32,6 +41,7 @@ void GameScene::Update()
 	if (Input::GetButtonDown('C'))
 		CharacterManager::GetInstance()->AddCharacter(this, m_obLayer, L"Character");
 
+	GameManager::GetInstance()->Update();
 	Scene::Update();
 }
 
