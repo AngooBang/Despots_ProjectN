@@ -11,7 +11,9 @@ public:
 	void SetImgComp(ImageComponent* imgComp);
 	ImageComponent* GetImgComp();
 
-	bool m_inTile[3][3] = { false };
+	int x;
+	int y;
+
 private:
 	ImageComponent* m_img = nullptr;
 };

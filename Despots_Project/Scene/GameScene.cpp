@@ -7,6 +7,7 @@
 #include "Manager/CameraManager.h"
 #include "Manager/GameManager.h"
 #include "Manager/CharacterManager.h"
+#include "Manager/PathFinderManager.h"
 
 void GameScene::Init()
 {
@@ -23,6 +24,7 @@ void GameScene::Init()
 	MoveFrame* moveFrame = new MoveFrame(this, m_obLayer2, L"MoveFrame");
 
 	SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
+
 
 	Scene::Init();
 }
@@ -41,7 +43,12 @@ void GameScene::Update()
 	if (Input::GetButtonDown('C'))
 		CharacterManager::GetInstance()->AddCharacter(this, m_obLayer, L"Character");
 
+
+	if (Input::GetButtonDown('P'))
+		PathFinderManager::GetInstance()->PrintMap();
+
 	GameManager::GetInstance()->Update();
+	CharacterManager::GetInstance()->Update();
 	Scene::Update();
 }
 

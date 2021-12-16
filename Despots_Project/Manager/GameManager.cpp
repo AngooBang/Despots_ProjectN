@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "stdafx.h"
 #include "Util/Input.h"
 #include "Manager/CharacterManager.h"
 #include "Object/TileMap.h"
@@ -21,6 +22,8 @@ void GameManager::Update()
 				m_moveFrame->SetRect(tempRc);
 				if(Input::GetButtonDown(VK_LBUTTON))
 					clickTile = m_currTileMap->GetTileInfo()[y][x];
+				if (Input::GetButtonDown(VK_RBUTTON))
+					CharacterManager::GetInstance()->GetMovePath(m_currTileMap->GetTileInfo()[y][x]);
 			}
 		}
 	}
@@ -35,7 +38,7 @@ Tile* GameManager::GetNewCharTile()
 	{
 		for (int y = 7; y >= 1; y--)
 		{
-			if (m_currTileMap->GetTileInfo()[y][x]->m_inTile[1][1] == false)
+			if (INTILE[y * 3 + 1][x * 3 + 1] == 0)
 			{
 				return m_currTileMap->GetTileInfo()[y][x];
 			}
@@ -43,6 +46,15 @@ Tile* GameManager::GetNewCharTile()
 	}
 
 	return nullptr;
+}
+
+TileMap* GameManager::GetCurrTileMap()
+{
+	return m_currTileMap;
+}
+
+void GameManager::CharacterMove(Tile* endTile)
+{
 }
 
 void GameManager::SetCurrTileMap(TileMap* tileMap)
@@ -54,3 +66,4 @@ void GameManager::SetMoveFrame(MoveFrame* moveFrame)
 {
 	m_moveFrame = moveFrame;
 }
+

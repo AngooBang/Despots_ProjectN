@@ -34,3 +34,5 @@
 #define INPUT_KEY_STAY Input::GetButton
 
 #define CAMERA_POS CameraManager::GetInstance()->GetCameraPos()
+
+#define INTILE PathFinderManager::GetInstance()->m_mapGraph

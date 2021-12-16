@@ -13,8 +13,11 @@ public:
 	virtual void Update() override;
 
 	Tile* GetNewCharTile();
+	TileMap* GetCurrTileMap();
+
 	void SetCurrTileMap(TileMap* tileMap);
 	void SetMoveFrame(MoveFrame* moveFrame);
+	void CharacterMove(Tile* endTile);
 
 private:
 	TileMap* m_currTileMap = nullptr;

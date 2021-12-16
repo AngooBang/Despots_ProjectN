@@ -1,8 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include <stack>
+
+enum class CharacterState { Idle, Move, Attack, Hit, Fly, End };
+
+using namespace std;
 
 class ImageComponent;
 class AnimatorComponent;
+class CharacterMovement;
 class Tile;
 class Character : public GameObject
 {
@@ -11,20 +17,28 @@ public:
 
 	virtual void Init() override;
 	virtual void Update() override;
+	virtual void Render() override;
 
-	void SetTile(Tile* tile);
 	void SetIsSelected(bool isSelected);
 
-	Tile* GetTile();
+	void SetTilePos(POINT pos);
+
+	POINT GetTilePos();
+
 	bool GetIsSelected();
+
+	void SetPath(stack<pair<int, int>> path);
 
 
 private:
 	AnimatorComponent*	m_idleAni = nullptr;
 	ImageComponent*		m_selectImg = nullptr;
 
+	CharacterState		m_state = CharacterState::End;
+	
+	POINT m_tilePos = {};
 
-	Tile*				m_seatTile = nullptr;
+	CharacterMovement* m_move = nullptr;
 
 	bool				mb_isSelected = false;
 };

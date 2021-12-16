@@ -23,6 +23,7 @@
 
 #include <chrono>
 #include <vector>
+#include <queue>
 #include <algorithm>
 #include <unordered_map>
 #include <string>
@@ -48,3 +49,4 @@ using namespace D2D1;
 
 #include "Manager/ImageManagerD2.h"
 #include "Manager/CameraManager.h"
+#include "Manager/PathFinderManager.h"

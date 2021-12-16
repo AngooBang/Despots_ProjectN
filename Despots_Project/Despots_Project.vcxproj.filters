@@ -23,7 +23,7 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{13bde7ea-7b6b-4680-8df1-6edac15f0c18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Player">
+    <Filter Include="Component\Character">
       <UniqueIdentifier>{cf7c61de-4ee5-41dd-973b-0338e43065c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -82,20 +82,11 @@
     <ClInclude Include="Scene\Layer.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\TempScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Player.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Component\RectComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Component\CircleComponent.h">
       <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\Player\PlayerMovement.h">
-      <Filter>Component\Player</Filter>
     </ClInclude>
     <ClInclude Include="Object\Obstacle.h">
       <Filter>Object</Filter>
@@ -175,6 +166,12 @@
     <ClInclude Include="Object\MoveFrame.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Manager\PathFinderManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Character\CharacterMovement.h">
+      <Filter>Component\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -218,20 +215,11 @@
     <ClCompile Include="Scene\Layer.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\TempScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Player.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Component\RectComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Component\CircleComponent.cpp">
       <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\Player\PlayerMovement.cpp">
-      <Filter>Component\Player</Filter>
     </ClCompile>
     <ClCompile Include="Object\Obstacle.cpp">
       <Filter>Object</Filter>
@@ -310,6 +298,12 @@
     </ClCompile>
     <ClCompile Include="Object\MoveFrame.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\PathFinderManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Character\CharacterMovement.cpp">
+      <Filter>Component\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

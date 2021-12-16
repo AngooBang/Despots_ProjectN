@@ -145,13 +145,13 @@
     <ClInclude Include="BasicGameFramework.h" />
     <ClInclude Include="Component\AnimatorComponent.h" />
     <ClInclude Include="Component\ButtonComponent.h" />
+    <ClInclude Include="Component\Character\CharacterMovement.h" />
     <ClInclude Include="Component\CircleComponent.h" />
     <ClInclude Include="Component\ColiderComponent.h" />
     <ClInclude Include="Component\Component.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Component\ImageComponent.h" />
-    <ClInclude Include="Component\Player\PlayerMovement.h" />
     <ClInclude Include="Component\RectComponent.h" />
     <ClInclude Include="Component\TextComponent.h" />
     <ClInclude Include="framework.h" />
@@ -162,6 +162,7 @@
     <ClInclude Include="Manager\ColiderManager.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\ImageManagerD2.h" />
+    <ClInclude Include="Manager\PathFinderManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Object\BackGround.h" />
     <ClInclude Include="Object\Character.h" />
@@ -174,7 +175,6 @@
     <ClInclude Include="Object\DespotLogo.h" />
     <ClInclude Include="Object\MoveFrame.h" />
     <ClInclude Include="Object\Obstacle.h" />
-    <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\SelectBox.h" />
     <ClInclude Include="Object\StartButton.h" />
     <ClInclude Include="Object\Text.h" />
@@ -188,7 +188,6 @@
     <ClInclude Include="Scene\Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Scene\TempScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -204,13 +203,13 @@
     <ClCompile Include="BasicGameFramework.cpp" />
     <ClCompile Include="Component\AnimatorComponent.cpp" />
     <ClCompile Include="Component\ButtonComponent.cpp" />
+    <ClCompile Include="Component\Character\CharacterMovement.cpp" />
     <ClCompile Include="Component\CircleComponent.cpp" />
     <ClCompile Include="Component\ColiderComponent.cpp" />
     <ClCompile Include="Component\Component.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Component\ImageComponent.cpp" />
-    <ClCompile Include="Component\Player\PlayerMovement.cpp" />
     <ClCompile Include="Component\RectComponent.cpp" />
     <ClCompile Include="Component\TextComponent.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -219,6 +218,7 @@
     <ClCompile Include="Manager\ColiderManager.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\ImageManagerD2.cpp" />
+    <ClCompile Include="Manager\PathFinderManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Object\BackGround.cpp" />
     <ClCompile Include="Object\Character.cpp" />
@@ -231,7 +231,6 @@
     <ClCompile Include="Object\DespotLogo.cpp" />
     <ClCompile Include="Object\MoveFrame.cpp" />
     <ClCompile Include="Object\Obstacle.cpp" />
-    <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Object\SelectBox.cpp" />
     <ClCompile Include="Object\StartButton.cpp" />
     <ClCompile Include="Object\Text.cpp" />
@@ -244,7 +243,6 @@
     <ClCompile Include="Scene\Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Scene\TempScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

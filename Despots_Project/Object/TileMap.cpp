@@ -3,6 +3,7 @@
 #include "Object/Tile.h"
 #include "Component/ImageComponent.h"
 #include "Manager/CameraManager.h"
+#include "Manager/ImageManagerD2.h"
 #include "Object/Door.h"
 #include "Object/FullMap.h"
 
@@ -127,6 +128,24 @@ int TileMap::GetRoomNum()
 	return m_roomNum;
 }
 
+void TileMap::Render()
+{
+	ID2D1SolidColorBrush* brush;
+	ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
+
+	for (int i = 0; i < TILE_SIZE_Y; ++i)
+	{
+		for (int j = 0; j < TILE_SIZE_X; ++j)
+		{
+			m_tileInfo[i][j]->GetImgComp()->SetIsVisible(false);
+			D2D1_RECT_F rect = { (FLOAT)m_tileInfo[i][j]->GetRect().left, (FLOAT)m_tileInfo[i][j]->GetRect().top, (FLOAT)m_tileInfo[i][j]->GetRect().right, (FLOAT)m_tileInfo[i][j]->GetRect().bottom };
+
+			ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);
+		}
+	}
+	GameObject::Render();
+}
+
 void TileMap::Release()
 {
 
@@ -149,6 +168,8 @@ void TileMap::InitTile()
 			m_tileInfo[i][j]->SetImgComp(new ImageComponent(m_tileInfo[i][j], 2));
 			m_tileInfo[i][j]->GetImgComp()->SetImage(L"Image/Map/Ground_0.bmp");
 			m_tileInfo[i][j]->GetImgComp()->SetRect(m_tileInfo[i][j]->GetRect());
+			m_tileInfo[i][j]->y = i;
+			m_tileInfo[i][j]->x = j;
 
 		}
 	}
