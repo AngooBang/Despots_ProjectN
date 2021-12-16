@@ -17,6 +17,7 @@ void Character::Init()
 	m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
 	m_idleAni->SetFrame(6, 1);
 	m_idleAni->SetIsLoop(true);
+	m_idleAni->SetScale(1.5f);
 
 	m_selectImg = new ImageComponent(this, 1);
 	m_selectImg->SetImage(L"Image/Character/Selected.png");
@@ -37,14 +38,14 @@ void Character::Update()
 	else
 		m_selectImg->SetIsVisible(false);
 
-	SetRect({ GetPosition().x - 30, GetPosition().y - 60,
-			GetPosition().x + 30, GetPosition().y + 20 });
+	SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 });
 	RECT selectRc = GetRect();
-	selectRc = { selectRc.left + 10 , selectRc.top + 50, selectRc.right - 10, selectRc.bottom - 15 };
+	selectRc = { selectRc.left + 5 , selectRc.top + 40, selectRc.right - 5, selectRc.bottom - 10 };
 	m_selectImg->SetRect(selectRc);
 
 	m_idleAni->SetRect(GetRect());
-
+	
 	GameObject::Update();
 }
 

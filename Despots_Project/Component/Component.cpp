@@ -40,6 +40,11 @@ void Component::Release()
 {
 }
 
+GameObject* Component::GetOwner()
+{
+	return _owner;
+}
+
 void Component::SetOwner(GameObject* owner)
 {
 	_owner = owner;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "AnimatorComponent.h"
+#include "Object/GameObject.h"
 #include "Util/Image2D.h"
 #include "Util/Timer.h"
 
@@ -55,7 +56,17 @@ void AnimatorComponent::Render()
 						m_frameHeight * m_currFrameY,
 						m_frameWidth * (m_currFrameX + 1),
 						m_frameHeight * (m_currFrameY + 1) };
-	m_img->FrameRender(m_rect, frameRect);
+	if (m_scale == 1.0f)
+	{
+		m_img->FrameRender(m_rect, frameRect);
+
+	}
+	else
+	{
+		
+		m_img->FrameRender(m_rect, frameRect, GetOwner()->GetPosition(), m_scale);
+
+	}
 }
 
 
@@ -97,6 +108,11 @@ void AnimatorComponent::SetCurrFrame(int frameX)
 void AnimatorComponent::SetIsReverse(bool isReverse)
 {
 	mb_isReverse = isReverse;
+}
+
+void AnimatorComponent::SetScale(float scale)
+{
+	m_scale = scale;
 }
 
 bool AnimatorComponent::GetIsReverse()

@@ -20,6 +20,7 @@ public:
 	virtual void		Release() override;
 
 
+	GameObject*			GetOwner();
 	void				SetOwner(GameObject* owner);
 	void				SetStopUpdate(bool stopUpdate);
 	bool				GetStopUpdate();

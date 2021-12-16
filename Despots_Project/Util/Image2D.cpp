@@ -48,14 +48,32 @@ void Image2D::UNFCT_Render()
     }
 }
 
-void Image2D::FrameRender(RECT rect, RECT frame)
+void Image2D::FrameRender(RECT rect, RECT frame, POINT pos, float scale)
 {
-    m_image_rect = { (FLOAT)rect.left - CAMERA_POS.x, (FLOAT)rect.top - CAMERA_POS.y, (FLOAT)rect.right - CAMERA_POS.x, (FLOAT)rect.bottom - CAMERA_POS.y };
-    D2D1_RECT_F frameRect = { (FLOAT)frame.left, (FLOAT)frame.top, (FLOAT)frame.right, (FLOAT)frame.bottom };
-    if (mp_bitmap != NULL)
+    if (scale == 1.0f)
     {
-        ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, frameRect);
+        m_image_rect = { (FLOAT)rect.left - CAMERA_POS.x, (FLOAT)rect.top - CAMERA_POS.y, (FLOAT)rect.right - CAMERA_POS.x, (FLOAT)rect.bottom - CAMERA_POS.y };
+        D2D1_RECT_F frameRect = { (FLOAT)frame.left, (FLOAT)frame.top, (FLOAT)frame.right, (FLOAT)frame.bottom };
+        if (mp_bitmap != NULL)
+        {
+            ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, frameRect);
+        }
     }
+    else
+    {
+        m_image_rect = { (FLOAT)rect.left - CAMERA_POS.x, (FLOAT)rect.top - CAMERA_POS.y, (FLOAT)rect.right - CAMERA_POS.x, (FLOAT)rect.bottom - CAMERA_POS.y };
+        D2D1_RECT_F frameRect = { (FLOAT)frame.left, (FLOAT)frame.top, (FLOAT)frame.right, (FLOAT)frame.bottom };
+        ImageManagerD2::GetInstance()->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Scale(scale, scale,
+            D2D1_POINT_2F{ (float)pos.x,(float)pos.y }));
+        if (mp_bitmap != NULL)
+        {
+            ImageManagerD2::GetInstance()->GetRenderTarget()->DrawBitmap(mp_bitmap, m_image_rect, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, frameRect);
+        }
+        // 사용 후 원상태로
+        ImageManagerD2::GetInstance()->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Scale(1.0f, 1.0f,
+            D2D1_POINT_2F{ (float)pos.x,(float)pos.y }));
+    }
+
 }
 
 

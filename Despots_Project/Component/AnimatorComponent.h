@@ -19,6 +19,7 @@ public:
 	void SetIsLoop(bool loop);
 	void SetCurrFrame(int frameX);
 	void SetIsReverse(bool isReverse);
+	void SetScale(float scale);
 
 
 
@@ -41,6 +42,8 @@ private:
 
 	float m_motionSpeed = 80.0f;
 	float m_animationElapsed = 0.0f;
+
+	float m_scale = 1.0f;
 
 	bool mb_isLoop = false;
 	bool mb_isReverse = false;

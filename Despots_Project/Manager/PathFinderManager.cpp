@@ -5,24 +5,29 @@
 stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
 {
 
-    vector<vector<int>> f;
+    vector<vector<float>> f;
     for (int i = 0; i < MAP_SIZE_Y; ++i)
         f.emplace_back(MAP_SIZE_X, INF);
     f[start.Y][start.X] = 0;
 
+    vector<vector<float>> g;
+    for (int i = 0; i < MAP_SIZE_Y; ++i)
+        g.emplace_back(MAP_SIZE_X, 0);
+
+
     Pos path[MAP_SIZE_Y][MAP_SIZE_X];
     path[start.Y][start.X] = start;
 
-    priority_queue<pair<int, Pos>> pq;
+    priority_queue<pair<float, Pos>> pq;
     pq.emplace(0, start);
 
-    int dy[] = { -1, -1, 0, 1, 1, 1, 0, -1 };
-    int dx[] = { 0, 1, 1, 1, 0, -1, -1, -1 };
-    int dg[] = { 10, 14, 10, 14, 10, 14, 10, 14 };
+    int dy[] = { -1, 1,0, 0 ,-1, 1,-1,1 };
+    int dx[] = { 0, 0,-1, 1 ,-1,-1, 1,1 };
+    float dg[] = { STR,STR,STR,STR,DIA,DIA,DIA,DIA };
 
     while (false == pq.empty())
     {
-        int w = -pq.top().first;
+        float w = -pq.top().first;
         Pos pos = pq.top().second;
         pq.pop();
 
@@ -51,7 +56,8 @@ stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
                 continue;
             }
 
-            int nf = dg[i] + Huristic_M({ nx, ny }, end);
+            float ng = Euclidean({ nx, ny }, pos) + g[pos.Y][pos.X];
+            float nf = dg[i] + Euclidean({ nx, ny }, end) + g[pos.Y][pos.X];
             //cout << "\n";
             //cout << "nx : "<< nx << "\n";
             //cout << "end.x : " << end.X << "\n";
@@ -63,11 +69,13 @@ stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
             if (f[ny][nx] > nf)
             {
                 f[ny][nx] = nf;
+                g[ny][nx] = ng;
 
                 path[ny][nx] = pos;
 
-                //cout << "path x : " << path[ny][nx].X << "\n";
+                //cout << "path x : " << path[ny][nx].X;
                 //cout << "path y : " << path[ny][nx].Y << "\n";
+                //puts("");
 
                 pq.emplace(-f[ny][nx], Pos{ nx, ny });
             }
@@ -92,6 +100,11 @@ int PathFinderManager::Huristic_M(Pos a, Pos b)
     return abs(a.X - b.X) + abs(a.Y - b.Y);
 }
 
+
+float PathFinderManager::Euclidean(Pos a, Pos b)
+{
+    return sqrtf(pow(abs(a.X - b.X), 2) + pow(abs(a.Y - b.Y), 2));
+}
 
 
 void PathFinderManager::PrintMap()
@@ -177,7 +190,7 @@ stack<pair<int, int>> PathFinderManager::PathFind()
 
     stack<pair<int, int>> st = Astar({ startX, startY }, { endX, endY });
 
-    //PrintMap();
+    PrintMap();
     ClearMap();
 
     return st;

@@ -12,7 +12,7 @@ public:
 	virtual void Render(RECT rect, bool isCam = true);
 	void UNFCT_Render();
 
-	void FrameRender(RECT rect, RECT frame);
+	void FrameRender(RECT rect, RECT frame, POINT pos = {}, float scale = 1.0f);
 
 	inline void SetImageRect(D2D1_RECT_F rect) { m_image_rect = rect; }
 

@@ -8,6 +8,9 @@
 #define MAP_SIZE_X 60
 #define MAP_SIZE_Y 27
 
+#define DIA 1.4f
+#define STR 1.0f
+
 using namespace std;
 
 struct Pos
@@ -28,6 +31,8 @@ public:
     stack<pair<int, int>> Astar(Pos start, Pos end);
 
     int Huristic_M(Pos a, Pos b);
+
+    float Euclidean(Pos a, Pos b);
 
     void PrintMap();
     void ClearMap();
