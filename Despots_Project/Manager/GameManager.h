@@ -21,8 +21,6 @@ public:
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
 
-
-
 	void CharacterMove(Tile* endTile);
 
 private:
@@ -30,4 +28,5 @@ private:
 
 	MoveFrame* m_moveFrame = nullptr;
 	CharacterType m_charType = CharacterType::None;
+
 };

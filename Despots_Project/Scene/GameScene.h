@@ -16,7 +16,8 @@ public:
 
 private:
 	Layer* m_backLayer = nullptr;
-	Layer* m_obLayer = nullptr;
-	Layer* m_obLayer2 = nullptr;
+	Layer* m_mapLayer = nullptr;
+	Layer* m_objectLayer = nullptr;
+	Layer* m_shopLayer = nullptr;
 	Layer* m_uiLayer = nullptr;
 };

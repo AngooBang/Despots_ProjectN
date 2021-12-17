@@ -59,6 +59,7 @@ CharacterType GameManager::GetCharType()
 	return m_charType;
 }
 
+
 void GameManager::CharacterMove(Tile* endTile)
 {
 }
@@ -77,4 +78,3 @@ void GameManager::SetCharType(CharacterType type)
 {
 	m_charType = type;
 }
-

@@ -84,6 +84,9 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Run.png");
 
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Icon.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Mark.png");
+
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/Swordman_Mark.png");
 

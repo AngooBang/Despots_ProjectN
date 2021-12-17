@@ -20,15 +20,23 @@ public:
 	virtual void Update() override;
 	virtual void OnColision(ColTypes tag) override;
 
+	void SetDataToType();
+
+	void SetCharType(CharacterType type);
+
 private:
 
 	ImageComponent* m_itemImg = nullptr;
-	ImageComponent* m_itemMark = nullptr;
+	ImageComponent* m_itemMark = nullptr; 
 
 	ColiderComponent* m_itemColider = nullptr;
 	TextComponent* m_cost = nullptr;
 
-	CharacterType m_charType = CharacterType::GutSword;
+	CharacterType m_charType = CharacterType::None;
 	float m_elapsed = 0.0f;
+
+	int m_aniY = 0;
+	bool mb_aniHelp = false;
+
 	bool mb_isSelect = false;
 };

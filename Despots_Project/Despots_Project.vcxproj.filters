@@ -175,6 +175,9 @@
     <ClInclude Include="Object\Item.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Shop.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -309,6 +312,9 @@
       <Filter>Component\Character</Filter>
     </ClCompile>
     <ClCompile Include="Object\Item.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Shop.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

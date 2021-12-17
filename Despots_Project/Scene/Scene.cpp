@@ -5,9 +5,11 @@
 
 Scene::Scene()
 {
+
 	Layer* backLayer = new Layer(this, L"Back", 1);
-	Layer* obLayer = new Layer(this, L"Objects", 2);
-	Layer* obLayer2 = new Layer(this, L"Objects2", 3);
+	Layer* mapLayer = new Layer(this, L"Map", 2);
+	Layer* objectLayer = new Layer(this, L"Object", 3);
+	Layer* shopLayer = new Layer(this, L"Shop", 3);
 	Layer* uiLayer = new Layer(this, L"UI", 100);
 }
 

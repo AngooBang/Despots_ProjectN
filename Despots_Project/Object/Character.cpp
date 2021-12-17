@@ -48,9 +48,9 @@ void Character::Init()
 
 void Character::Update()
 {
+	GameObject::Update();
 	SetDataToType();
 
-	GameObject::Update();
 
 	if (mb_isSelected)
 		m_selectImg->SetIsVisible(true);
@@ -98,6 +98,7 @@ void Character::OnColision(ColTypes tag)
 		if (GameManager::GetInstance()->GetCharType() != CharacterType::None)
 		{
 			m_type = GameManager::GetInstance()->GetCharType();
+
 			GameManager::GetInstance()->SetCharType(CharacterType::None);
 		}
 		break;

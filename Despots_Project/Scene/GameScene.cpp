@@ -3,7 +3,7 @@
 #include "Object/FullMap.h"
 #include "Object/SelectBox.h"
 #include "Object/MoveFrame.h"
-#include "Object/Item.h"
+#include "Object/Shop.h"
 #include "Util/Input.h"
 #include "Manager/CameraManager.h"
 #include "Manager/GameManager.h"
@@ -13,21 +13,25 @@
 void GameScene::Init()
 {
 	m_backLayer = FindLayer(L"Back");
-	m_obLayer = FindLayer(L"Objects");
-	m_obLayer2 = FindLayer(L"Objects2");
+	m_mapLayer = FindLayer(L"Map");
+	m_objectLayer = FindLayer(L"Object");
+	m_shopLayer = FindLayer(L"Shop");
 	m_uiLayer = FindLayer(L"UI");
 
 	BackGround* backGround = new BackGround(this, m_backLayer, L"BackGround");
 
 
-	FullMap* fullMap = new FullMap(this, m_obLayer, L"FullMap");
+	FullMap* fullMap = new FullMap(this, m_mapLayer, L"FullMap");
 
-	Item* item = new Item(this, m_obLayer2, L"Item1");
-	item->SetPosition({ 800, 300 });
+	//shop->Init();
 
-	MoveFrame* moveFrame = new MoveFrame(this, m_obLayer2, L"MoveFrame");
+	MoveFrame* moveFrame = new MoveFrame(this, m_objectLayer, L"MoveFrame");
+	Shop* shop = new Shop(this, m_objectLayer, L"Shop");
 
 	SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
+	
+	CharacterManager::GetInstance()->SetScene(this);
+	CharacterManager::GetInstance()->SetLayer(m_objectLayer);
 
 
 	Scene::Init();
@@ -35,6 +39,8 @@ void GameScene::Init()
 
 void GameScene::Update()
 {
+	Scene::Update();
+
 	if (Input::GetButton(VK_LEFT))
 		CameraManager::GetInstance()->AddCameraPos({ -10, 0 });
 	if (Input::GetButton(VK_RIGHT))
@@ -45,7 +51,7 @@ void GameScene::Update()
 		CameraManager::GetInstance()->AddCameraPos({ 0, 10 });
 
 	if (Input::GetButtonDown('C'))
-		CharacterManager::GetInstance()->AddCharacter(this, m_obLayer, L"Character");
+		CharacterManager::GetInstance()->AddCharacter();
 
 
 	if (Input::GetButtonDown('P'))
@@ -53,7 +59,6 @@ void GameScene::Update()
 
 	GameManager::GetInstance()->Update();
 	CharacterManager::GetInstance()->Update();
-	Scene::Update();
 }
 
 void GameScene::PhysicsUpdate()

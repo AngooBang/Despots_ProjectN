@@ -14,7 +14,7 @@ void TitleScene::Init()
 {
 	Layer* m_backLayer = FindLayer(L"Back");
 
-	Layer* m_obLayer = FindLayer(L"Objects");
+	Layer* m_obLayer = FindLayer(L"Object");
 
 	BackGround* tempBackGround = new BackGround(this, m_backLayer, L"BackGround");
 	DespotLogo* despotLogo = new DespotLogo(this, m_backLayer, L"DespotLogo");
