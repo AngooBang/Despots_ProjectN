@@ -39,12 +39,12 @@ wstring ColiderComponent::GetTag()
 	return m_tag;
 }
 
-void ColiderComponent::SetShape(RECT rect)
+void ColiderComponent::SetRect(RECT rect)
 {
 	m_colRect = rect;
 }
 
-RECT ColiderComponent::GetShape()
+RECT ColiderComponent::GetRect()
 {
 	return m_colRect;
 }

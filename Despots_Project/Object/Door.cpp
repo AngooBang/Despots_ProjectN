@@ -113,7 +113,7 @@ void Door::OnColision(ColTypes tag)
 			break;
 		}
 		break;
-	case ColTypes::MouseClick:
+	case ColTypes::MouseClickDown:
 		m_state = DoorState::Click;
 		mb_chageState = true;
 		switch (m_dir)

@@ -19,7 +19,9 @@ public:
 	void SetIsLoop(bool loop);
 	void SetCurrFrame(int frameX);
 	void SetIsReverse(bool isReverse);
+	void SetIsVisible(bool isVisible);
 	void SetScale(float scale);
+	void SetHorizontalReverse(bool reverse);
 
 
 
@@ -45,6 +47,8 @@ private:
 
 	float m_scale = 1.0f;
 
+	bool mb_isVisible = true;
 	bool mb_isLoop = false;
 	bool mb_isReverse = false;
+	bool mb_horizontalReverse = NULL;
 };

@@ -3,6 +3,7 @@
 #include "Object/FullMap.h"
 #include "Object/SelectBox.h"
 #include "Object/MoveFrame.h"
+#include "Object/Item.h"
 #include "Util/Input.h"
 #include "Manager/CameraManager.h"
 #include "Manager/GameManager.h"
@@ -20,6 +21,9 @@ void GameScene::Init()
 
 
 	FullMap* fullMap = new FullMap(this, m_obLayer, L"FullMap");
+
+	Item* item = new Item(this, m_obLayer2, L"Item1");
+	item->SetPosition({ 800, 300 });
 
 	MoveFrame* moveFrame = new MoveFrame(this, m_obLayer2, L"MoveFrame");
 

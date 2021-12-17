@@ -21,15 +21,19 @@ ColiderComponent* ColiderManager::FindColider(const wstring& tag)
 
 void ColiderManager::CheckToMouse(ColiderComponent* col)
 {	
-	RECT tempRC = col->GetShape();
+	RECT tempRC = col->GetRect();
 	if (PtInRect(&tempRC, Input::GetMousePosition()))
 	{
 		if (Input::GetButtonDown(VK_LBUTTON))
 		{
-			col->GetOwner()->OnColision(ColTypes::MouseClick);
+			col->GetOwner()->OnColision(ColTypes::MouseClickDown);
 			return;
 		}
-
+		if (Input::GetButtonUp(VK_LBUTTON))
+		{
+			col->GetOwner()->OnColision(ColTypes::MouseClickUp);
+			return;
+		}
 		col->GetOwner()->OnColision(ColTypes::MouseHover);
 
 	}

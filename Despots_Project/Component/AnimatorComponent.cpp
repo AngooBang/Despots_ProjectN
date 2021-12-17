@@ -52,21 +52,23 @@ void AnimatorComponent::Update()
 
 void AnimatorComponent::Render()
 {
+	if (mb_isVisible == false) return;
+
 	RECT frameRect = { m_frameWidth * m_currFrameX,
 						m_frameHeight * m_currFrameY,
 						m_frameWidth * (m_currFrameX + 1),
 						m_frameHeight * (m_currFrameY + 1) };
-	if (m_scale == 1.0f)
+	if (mb_horizontalReverse == false)
 	{
-		m_img->FrameRender(m_rect, frameRect);
-
+		//cout << "¿À¸¥ÂÊ º½" << '\n';
+			m_img->FrameRender(m_rect, frameRect, GetOwner()->GetPosition(), m_scale);
 	}
 	else
 	{
-		
-		m_img->FrameRender(m_rect, frameRect, GetOwner()->GetPosition(), m_scale);
-
+		//cout << "¿ÞÂÊ º½" << '\n';
+			m_img->FrameHReverseRender(m_rect, frameRect, GetOwner()->GetPosition(), m_scale);
 	}
+
 }
 
 
@@ -110,9 +112,19 @@ void AnimatorComponent::SetIsReverse(bool isReverse)
 	mb_isReverse = isReverse;
 }
 
+void AnimatorComponent::SetIsVisible(bool isVisible)
+{
+	mb_isVisible = isVisible;
+}
+
 void AnimatorComponent::SetScale(float scale)
 {
 	m_scale = scale;
+}
+
+void AnimatorComponent::SetHorizontalReverse(bool reverse)
+{
+	mb_horizontalReverse = reverse;
 }
 
 bool AnimatorComponent::GetIsReverse()

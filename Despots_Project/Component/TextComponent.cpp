@@ -6,7 +6,7 @@ void TextComponent::Init()
 	if (mb_isKor)
 	{
 		ImageManagerD2::GetInstance()->GetWriteFactory()->CreateTextFormat(
-			L"Noto Sans CJK JP Regular",
+			L"¹Ý´Þ",
 			//L"±¼¸²",
 			NULL,
 			DWRITE_FONT_WEIGHT_NORMAL,

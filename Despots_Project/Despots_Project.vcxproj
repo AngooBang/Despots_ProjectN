@@ -173,6 +173,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Object\DespotLogo.h" />
+    <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\MoveFrame.h" />
     <ClInclude Include="Object\Obstacle.h" />
     <ClInclude Include="Object\SelectBox.h" />
@@ -229,6 +230,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Object\DespotLogo.cpp" />
+    <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\MoveFrame.cpp" />
     <ClCompile Include="Object\Obstacle.cpp" />
     <ClCompile Include="Object\SelectBox.cpp" />

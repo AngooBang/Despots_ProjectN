@@ -137,7 +137,7 @@ void TileMap::Render()
 	{
 		for (int j = 0; j < TILE_SIZE_X; ++j)
 		{
-			m_tileInfo[i][j]->GetImgComp()->SetIsVisible(false);
+			m_tileInfo[i][j]->GetImgComp()->SetIsVisible(true);
 			D2D1_RECT_F rect = { (FLOAT)m_tileInfo[i][j]->GetRect().left, (FLOAT)m_tileInfo[i][j]->GetRect().top, (FLOAT)m_tileInfo[i][j]->GetRect().right, (FLOAT)m_tileInfo[i][j]->GetRect().bottom };
 
 			ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);

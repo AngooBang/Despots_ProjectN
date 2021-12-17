@@ -29,6 +29,7 @@ void GameManager::Update()
 	}
 	// 2. 클릭된 타일을 가지고있는 캐릭터를 찾아 선택상태로 만들어줌
 	CharacterManager::GetInstance()->SelectCharacter(clickTile);
+
 	
 }
 
@@ -53,6 +54,11 @@ TileMap* GameManager::GetCurrTileMap()
 	return m_currTileMap;
 }
 
+CharacterType GameManager::GetCharType()
+{
+	return m_charType;
+}
+
 void GameManager::CharacterMove(Tile* endTile)
 {
 }
@@ -65,5 +71,10 @@ void GameManager::SetCurrTileMap(TileMap* tileMap)
 void GameManager::SetMoveFrame(MoveFrame* moveFrame)
 {
 	m_moveFrame = moveFrame;
+}
+
+void GameManager::SetCharType(CharacterType type)
+{
+	m_charType = type;
 }
 

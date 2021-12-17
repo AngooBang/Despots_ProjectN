@@ -18,6 +18,11 @@ int ImageComponent::GetHeight()
 	return m_img->GetHeight();
 }
 
+RECT ImageComponent::GetRect()
+{
+	return m_rect;
+}
+
 void ImageComponent::SetImage(const wchar_t* path)
 {
 	m_img = FIND_IMG(path);

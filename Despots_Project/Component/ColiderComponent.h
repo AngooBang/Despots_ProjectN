@@ -2,7 +2,7 @@
 #include "Component.h"
 #include <string>
 
-enum class ColTypes { Character, Monster, Door, MouseHover, MouseClick, None };
+enum class ColTypes { Character, Monster, Door, MouseHover, MouseClickDown, MouseClickUp, Item, None };
 
 class ColiderComponent : public Component
 {
@@ -21,8 +21,8 @@ public:
 	ColTypes GetType();
 	std::wstring GetTag();
 
-	void SetShape(RECT rect);
-	RECT GetShape();
+	void SetRect(RECT rect);
+	RECT GetRect();
 
 	GameObject* GetOwner();
 

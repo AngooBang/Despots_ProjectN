@@ -13,6 +13,7 @@ public:
 
 	int GetWidth();
 	int GetHeight();
+	RECT GetRect();
 
 	void SetImage(const wchar_t* path);
 	void SetRect(RECT rect);
