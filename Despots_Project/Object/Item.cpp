@@ -22,7 +22,7 @@ void Item::Init()
 	m_cost->SetFontSize(18);
 	m_cost->SetIsKor(true);
 
-	m_itemColider = new ColiderComponent(this, 2, m_itemImg->GetRect(), ColTypes::Item, L"Item1");
+	m_itemColider = new ColiderComponent(this, 2, m_itemImg->GetRect(), ColTypes::Item, L"Item");
 
 	SetDataToType();
 
@@ -64,6 +64,11 @@ void Item::Update()
 
 	}
 
+	//if (Input::GetButtonUp(MK_LBUTTON))
+	//{
+	//	GameManager::GetInstance()->SetCharType(CharacterType::None);
+	//}
+
 
 }
 
@@ -103,13 +108,33 @@ void Item::SetDataToType()
 		m_cost->SetText(L"2");
 		break;
 	case CharacterType::GutSword:
-		m_itemMark->SetImage(L"Image/Character/Swordman/Swordman_Mark.png");
+		m_itemMark->SetImage(L"Image/Character/Swordman/Swordman_Icon.png");
 
 		m_itemImg->SetImage(L"Image/Character/Swordman/GutsSword_Mark.png");
 
 		m_cost->SetText(L"8");
 		break;
+	case CharacterType::Shield:
+		m_itemMark->SetImage(L"Image/Character/Tanker/Tanker_Icon.png");
 
+		m_itemImg->SetImage(L"Image/Character/Tanker/Shield_Mark.png");
+
+		m_cost->SetText(L"10");
+		break;
+	case CharacterType::Crossbow:
+		m_itemMark->SetImage(L"Image/Character/Shooter/Shooter_Icon.png");
+
+		m_itemImg->SetImage(L"Image/Character/Shooter/Crossbow_Mark.png");
+
+		m_cost->SetText(L"9");
+		break;
+	case CharacterType::Ring:
+		m_itemMark->SetImage(L"Image/Character/Mage/Mage_Icon.png");
+
+		m_itemImg->SetImage(L"Image/Character/Mage/Ring_Mark.png");
+
+		m_cost->SetText(L"9");
+		break;
 	}
 }
 

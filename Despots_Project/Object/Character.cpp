@@ -43,6 +43,8 @@ void Character::Init()
 
 	m_type = CharacterType::Normal;
 	m_state = CharacterState::Idle;
+
+	m_renderRect = GetRect();
 	
 }
 
@@ -81,8 +83,8 @@ void Character::Update()
 	RECT selectRc = { GetPosition().x - 17, GetPosition().y, GetPosition().x + 17, GetPosition().y + 12 };
 	m_selectImg->SetRect(selectRc);
 
-	m_idleAni->SetRect(GetRect());
-	m_runAni->SetRect(GetRect());
+	m_idleAni->SetRect(m_renderRect);
+	m_runAni->SetRect(m_renderRect);
 	m_colider->SetRect(GetRect());
 	
 
@@ -141,6 +143,9 @@ void Character::SetDataToType()
 	switch (m_type)
 	{
 	case CharacterType::Normal:
+		m_renderRect = { GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 };
+
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
 		m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
@@ -150,13 +155,53 @@ void Character::SetDataToType()
 		m_runAni->SetFrame(8, 1);
 		break;
 	case CharacterType::GutSword:
-		SetRect({ GetPosition().x - 50, GetPosition().y - 40,
-			GetPosition().x + 30, GetPosition().y + 22 });
+		m_renderRect = { GetPosition().x - 50, GetPosition().y - 40,
+			GetPosition().x + 30, GetPosition().y + 22 };
+
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 });
 		m_idleAni->SetImage(L"Image/Character/Swordman/GutsSword_Idle.png");
 		m_idleAni->SetFrame(6, 1);
 
 		m_runAni->SetImage(L"Image/Character/Swordman/GutsSword_Run.png");
 		m_runAni->SetFrame(12, 1);
+		break;
+	case CharacterType::Shield:
+		m_renderRect = { GetPosition().x - 28, GetPosition().y - 45,
+			GetPosition().x + 28, GetPosition().y + 22 };
+
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 });
+		m_idleAni->SetImage(L"Image/Character/Tanker/Shield_Idle.png");
+		m_idleAni->SetFrame(6, 1);
+
+		m_runAni->SetImage(L"Image/Character/Tanker/Shield_Run.png");
+		m_runAni->SetFrame(6, 1);
+		break;
+	case CharacterType::Crossbow:
+		m_renderRect = { GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 40, GetPosition().y + 22 };
+
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 });
+		m_idleAni->SetImage(L"Image/Character/Shooter/Crossbow_Idle.png");
+		m_idleAni->SetFrame(6, 1);
+
+		m_runAni->SetImage(L"Image/Character/Shooter/Crossbow_Run.png");
+		m_runAni->SetFrame(6, 1);
+		break;
+	case CharacterType::Ring:
+		m_renderRect = { GetPosition().x - 30, GetPosition().y - 60,
+			GetPosition().x + 30, GetPosition().y + 22 };
+
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+			GetPosition().x + 22, GetPosition().y + 22 });
+		m_idleAni->SetImage(L"Image/Character/Mage/Ring_Idle.png");
+		m_idleAni->SetFrame(6, 1);
+		m_idleAni->SetMotionSpeed(80.0f);
+
+		m_runAni->SetImage(L"Image/Character/Mage/Ring_Run.png");
+		m_runAni->SetFrame(6, 1);
 		break;
 	}
 }

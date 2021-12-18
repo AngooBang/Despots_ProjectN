@@ -13,10 +13,10 @@ void Shop::Init()
 	m_item3->SetPosition({ 940, 250 });
 	m_item4->SetPosition({ 1010, 250 });
 
-	m_item1->SetCharType(CharacterType::GutSword);
-	m_item2->SetCharType(CharacterType::GutSword);
+	m_item1->SetCharType(CharacterType::Shield);
+	m_item2->SetCharType(CharacterType::Crossbow);
 	m_item3->SetCharType(CharacterType::GutSword);
-	m_item4->SetCharType(CharacterType::Normal);
+	m_item4->SetCharType(CharacterType::Ring);
 
 	m_item1->Init();
 	m_item2->Init();

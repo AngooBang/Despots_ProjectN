@@ -81,19 +81,39 @@ void ImageManagerD2::AddImageList()
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Selected.png");
 
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Icon.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Mark.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Run.png");
 
-    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Icon.png");
-    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Mark.png");
 
-
-    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/Swordman_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/Swordman_Icon.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Mark.png");
-
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Run.png");
+
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Shooter_Icon.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Run.png");
+
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Tanker/Tanker_Icon.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Tanker/Shield_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Tanker/Shield_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Tanker/Shield_Run.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Mage_Icon.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Run.png");
 
 }
 

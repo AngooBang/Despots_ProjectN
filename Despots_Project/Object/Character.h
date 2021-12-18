@@ -6,7 +6,7 @@ enum class CharacterState { Idle, Run, Attack, Hit, Fly, End };
 
 enum class CharacterDir { Left, Right };
 
-enum class CharacterType { Normal, GutSword, None };
+enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
 using namespace std;
 
@@ -53,6 +53,8 @@ private:
 	CharacterState		m_state = CharacterState::End;
 	
 	POINT m_tilePos = {};
+	RECT m_renderRect = {};
+
 
 	CharacterMovement* m_move = nullptr;
 
