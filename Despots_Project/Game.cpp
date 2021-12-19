@@ -108,6 +108,11 @@ INT32 Game::Run()
         }
     }
 
+
+    // 게임의 릴리즈는 어디?
+    ImageManagerD2::GetInstance()->Release();
+
+
     return static_cast<INT32>(msg.wParam);
 }
 

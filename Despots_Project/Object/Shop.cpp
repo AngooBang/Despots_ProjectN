@@ -1,34 +1,74 @@
 #include "Shop.h"
+#include "stdafx.h"
 #include "Object/Item.h"
 
-void Shop::Init()
+void Shop::Show()
 {
-	m_item1 = new Item(GetScene(), GetLayer(), L"Item1");
-	m_item2 = new Item(GetScene(), GetLayer(), L"Item2");
-	m_item3 = new Item(GetScene(), GetLayer(), L"Item3");
-	m_item4 = new Item(GetScene(), GetLayer(), L"Item4");
+	if (m_item1 != nullptr)
+	{
+		SAFE_RELEASE(m_item1);
+	}
+	if (m_item2 != nullptr)
+	{
+		SAFE_RELEASE(m_item2);
+	}
+	if (m_item3 != nullptr)
+	{
+		SAFE_RELEASE(m_item3);
+	}
+	
+	m_item1 = new Item(GetScene(), GetLayer(), L"Item");
+	m_item2 = new Item(GetScene(), GetLayer(), L"Item");
+	m_item3 = new Item(GetScene(), GetLayer(), L"Item");
 
 	m_item1->SetPosition({ 800, 250 });
 	m_item2->SetPosition({ 870, 250 });
 	m_item3->SetPosition({ 940, 250 });
-	m_item4->SetPosition({ 1010, 250 });
 
-	m_item1->SetCharType(CharacterType::Shield);
-	m_item2->SetCharType(CharacterType::Crossbow);
-	m_item3->SetCharType(CharacterType::GutSword);
-	m_item4->SetCharType(CharacterType::Ring);
+	int ran = rand() % 4;
+	switch (ran)
+	{
+	case 0:
+		m_item1->SetCharType(CharacterType::Shield);
+		break;
+	case 1:
+		m_item1->SetCharType(CharacterType::GutSword);
+		break;
+	case 2:
+		m_item1->SetCharType(CharacterType::Crossbow);
+		break;
+	case 3:
+		m_item1->SetCharType(CharacterType::Ring);
+		break;
+	}
+
+	ran = rand() % 4;
+	switch (ran)
+	{
+	case 0:
+		m_item2->SetCharType(CharacterType::Shield);
+		break;
+	case 1:
+		m_item2->SetCharType(CharacterType::GutSword);
+		break;
+	case 2:
+		m_item2->SetCharType(CharacterType::Crossbow);
+		break;
+	case 3:
+		m_item2->SetCharType(CharacterType::Ring);
+		break;
+	}
+
+	m_item3->SetCharType(CharacterType::Normal);
 
 	m_item1->Init();
 	m_item2->Init();
 	m_item3->Init();
-	m_item4->Init();
 
-
-
-	GameObject::Init();
 }
 
-void Shop::Update()
+void Shop::SetVisible(bool isVisible)
 {
-	GameObject::Update();
+	mb_isVisible = isVisible;
 }
+

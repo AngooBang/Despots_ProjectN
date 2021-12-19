@@ -85,9 +85,26 @@ void Layer::AddObject(GameObject* obj)
 
 void Layer::RemoveObject(const wstring& tag)
 {
-	remove_if(_objects.begin(), _objects.end(),
-		[&tag](const GameObject* obj)
+	if (tag == L"Item")
+	{
+		for (auto iter = _objects.begin(); iter != _objects.end();)
 		{
-			return obj->GetType() == tag;
-		});
+			if ((*iter)->GetType() == tag)
+				iter = _objects.erase(iter);
+			else
+				++iter;
+		}
+	}
+	else
+	{
+		remove_if(_objects.begin(), _objects.end(),
+			[&tag](const GameObject* obj)
+			{
+				return obj->GetType() == tag;
+			});
+	}
+
+
+
+
 }

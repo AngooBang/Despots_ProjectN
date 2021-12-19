@@ -4,29 +4,27 @@
 #include <vector>
 #include <string>
 
-class Character;
+class Monster;
 class Scene;
 class Layer;
 class Tile;
-class CharacterManager : public Singleton<CharacterManager>, IBehaviour
+class MonsterManager : public Singleton<MonsterManager>, IBehaviour
 {
 public:
-	CharacterManager() noexcept = default;
-	~CharacterManager() noexcept = default;
+	MonsterManager() noexcept = default;
+	~MonsterManager() noexcept = default;
 
 	virtual void Update() override;
 
-	void AddCharacter();
+	void AddMonster();
 
-	void SelectCharacter(Tile* tile);
-
-	void GetMovePath(Tile* endTile);
+	void BattleStart();
 
 	void SetScene(Scene* scene);
 	void SetLayer(Layer* layer);
 
 private:
-	std::vector<Character*> m_vecChar;
+	std::vector<Monster*> m_vecMon;
 
 	int	m_addCount = 0;
 

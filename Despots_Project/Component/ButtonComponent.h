@@ -68,6 +68,8 @@ public:
 		}
 	}
 
+	inline void SetButtonState(eButtonState state) { m_state = state; }
+
 	inline eButtonState GetButtonState() { return m_state; }
 	inline void SetCollisionRect(RECT rect) { m_collisionRect = rect; }
 

@@ -2,7 +2,7 @@
 #include "Component.h"
 #include <string>
 
-enum class ColTypes { Character, Monster, Door, MouseHover, MouseClickDown, MouseClickUp, Item, None };
+enum class ColTypes { Character, Monster, Door, MouseHover, MouseClickDown, MouseClickUp, Item, Button, None };
 
 class ColiderComponent : public Component
 {

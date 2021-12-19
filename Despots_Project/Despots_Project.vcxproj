@@ -162,18 +162,21 @@
     <ClInclude Include="Manager\ColiderManager.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\ImageManagerD2.h" />
+    <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\PathFinderManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Object\BackGround.h" />
     <ClInclude Include="Object\Character.h" />
     <ClInclude Include="Object\Door.h" />
     <ClInclude Include="Object\ExitButton.h" />
+    <ClInclude Include="Object\FightButton.h" />
     <ClInclude Include="Object\FullMap.h" />
     <ClInclude Include="Object\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Object\DespotLogo.h" />
     <ClInclude Include="Object\Item.h" />
+    <ClInclude Include="Object\Monster.h" />
     <ClInclude Include="Object\MoveFrame.h" />
     <ClInclude Include="Object\Obstacle.h" />
     <ClInclude Include="Object\SelectBox.h" />
@@ -220,18 +223,21 @@
     <ClCompile Include="Manager\ColiderManager.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\ImageManagerD2.cpp" />
+    <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\PathFinderManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Object\BackGround.cpp" />
     <ClCompile Include="Object\Character.cpp" />
     <ClCompile Include="Object\Door.cpp" />
     <ClCompile Include="Object\ExitButton.cpp" />
+    <ClCompile Include="Object\FightButton.cpp" />
     <ClCompile Include="Object\FullMap.cpp" />
     <ClCompile Include="Object\GameObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Object\DespotLogo.cpp" />
     <ClCompile Include="Object\Item.cpp" />
+    <ClCompile Include="Object\Monster.cpp" />
     <ClCompile Include="Object\MoveFrame.cpp" />
     <ClCompile Include="Object\Obstacle.cpp" />
     <ClCompile Include="Object\SelectBox.cpp" />

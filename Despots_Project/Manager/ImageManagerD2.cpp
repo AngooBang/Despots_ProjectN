@@ -115,6 +115,18 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Run.png");
 
+
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/InterFace/FightButton_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/InterFace/FightButton_Hover.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/InterFace/FightButton_Click.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/InterFace/FightButton_Disable.png");
+
+
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Burrow.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Idle.png");
 }
 
 int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)

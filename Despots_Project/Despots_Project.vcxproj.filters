@@ -178,6 +178,15 @@
     <ClInclude Include="Object\Shop.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Manager\MonsterManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Monster.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\FightButton.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -315,6 +324,15 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object\Shop.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\MonsterManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Monster.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\FightButton.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

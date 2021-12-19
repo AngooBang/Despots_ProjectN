@@ -3,11 +3,14 @@
 #include "Object/FullMap.h"
 #include "Object/SelectBox.h"
 #include "Object/MoveFrame.h"
+#include "Object/FightButton.h"
 #include "Object/Shop.h"
 #include "Util/Input.h"
+#include "Scene/Layer.h"
 #include "Manager/CameraManager.h"
 #include "Manager/GameManager.h"
 #include "Manager/CharacterManager.h"
+#include "Manager/MonsterManager.h"
 #include "Manager/PathFinderManager.h"
 
 void GameScene::Init()
@@ -26,13 +29,17 @@ void GameScene::Init()
 	//shop->Init();
 
 	MoveFrame* moveFrame = new MoveFrame(this, m_objectLayer, L"MoveFrame");
-	Shop* shop = new Shop(this, m_objectLayer, L"Shop");
+	m_shop = new Shop(this, m_shopLayer, L"Shop");
 
-	SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
+	//SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
+
+	FightButton* fightBtn = new FightButton(this, m_uiLayer, L"FightButton");
 	
 	CharacterManager::GetInstance()->SetScene(this);
 	CharacterManager::GetInstance()->SetLayer(m_objectLayer);
 
+	MonsterManager::GetInstance()->SetScene(this);
+	MonsterManager::GetInstance()->SetLayer(m_objectLayer);
 
 	Scene::Init();
 }
@@ -53,12 +60,21 @@ void GameScene::Update()
 	if (Input::GetButtonDown('C'))
 		CharacterManager::GetInstance()->AddCharacter();
 
+	if (Input::GetButtonDown('M'))
+		MonsterManager::GetInstance()->AddMonster();
+
+	if (Input::GetButtonDown('S'))
+	{
+		m_shopLayer->RemoveObject(L"Item");
+		m_shop->Show();
+	}
 
 	if (Input::GetButtonDown('P'))
 		PathFinderManager::GetInstance()->PrintMap();
 
 	GameManager::GetInstance()->Update();
 	CharacterManager::GetInstance()->Update();
+	MonsterManager::GetInstance()->Update();
 }
 
 void GameScene::PhysicsUpdate()

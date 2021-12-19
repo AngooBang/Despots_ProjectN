@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Util/Input.h"
 #include "Manager/CharacterManager.h"
+#include "Manager/MonsterManager.h"
 #include "Object/TileMap.h"
 #include "Object/Tile.h"
 #include "Object/MoveFrame.h"
@@ -49,6 +50,38 @@ Tile* GameManager::GetNewCharTile()
 	return nullptr;
 }
 
+Tile* GameManager::GetNewMonTile()
+{
+	//가득 차있는지 체크
+	bool isFull = true;
+	for (int i = 12; i <= 18; ++i)
+	{
+		for (int j = 1; j <= 7; ++j)
+		{
+			if (INTILE[j * 3 + 1][i * 3 + 1] == 0)
+			{
+				isFull = false;
+			}
+		}
+	}
+	if (isFull)
+		return nullptr;
+	else
+	{
+		while (true)
+		{
+			int x = rand() % 7 + 1;
+			int y = rand() % 7 + 1;
+
+			if (INTILE[(y * 3 + 1)][x * 3 + 1 + 33] == 0)
+			{
+				return m_currTileMap->GetTileInfo()[y][x + 11];
+			}
+		}
+	}
+	return nullptr;
+}
+
 TileMap* GameManager::GetCurrTileMap()
 {
 	return m_currTileMap;
@@ -62,6 +95,12 @@ CharacterType GameManager::GetCharType()
 
 void GameManager::CharacterMove(Tile* endTile)
 {
+}
+
+void GameManager::BattleStart()
+{
+	m_gameState = GameState::Battle;
+	MonsterManager::GetInstance()->BattleStart();
 }
 
 void GameManager::SetCurrTileMap(TileMap* tileMap)
