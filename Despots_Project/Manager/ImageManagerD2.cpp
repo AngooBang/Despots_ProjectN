@@ -48,6 +48,7 @@ void ImageManagerD2::Release()
     for (it = mapImages.begin(); it != mapImages.end();)
     {
         // erase에서 리턴값으로 it의 다음 iterator를 돌려주게됨. 계속 대입해서 반복시킴
+        SAFE_RELEASE(it->second);
         it = mapImages.erase(it);
     }
 
@@ -85,6 +86,7 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Icon.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Fly.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Run.png");
 
@@ -92,6 +94,7 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/Swordman_Icon.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Mark.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Fly.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/GutsSword_Run.png");
 

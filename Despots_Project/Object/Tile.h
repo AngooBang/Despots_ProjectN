@@ -7,6 +7,7 @@ public:
 	using GameObject::GameObject;
 
 
+	virtual void Render() override;
 
 	void SetImgComp(ImageComponent* imgComp);
 	ImageComponent* GetImgComp();

@@ -12,14 +12,17 @@ void FightButton::Init()
 	m_idleImg = new ImageComponent(this, 2);
 	m_idleImg->SetImage(L"Image/InterFace/FightButton_Idle.png");
 	m_idleImg->SetRect(GetRect());
+	m_idleImg->SetIsCam(false);
 
 	m_hoverImg = new ImageComponent(this, 2);
 	m_hoverImg->SetImage(L"Image/InterFace/FightButton_Hover.png");
 	m_hoverImg->SetRect(GetRect());
+	m_hoverImg->SetIsCam(false);
 
 	m_clickImg = new ImageComponent(this, 2);
 	m_clickImg->SetImage(L"Image/InterFace/FightButton_Click.png");
 	m_clickImg->SetRect(GetRect());
+	m_clickImg->SetIsCam(false);
 
 	m_buttonComp = new ButtonComponent(this, 2, this, &FightButton::BattleStart);
 	m_buttonComp->SetCollisionRect(GetRect());

@@ -41,6 +41,8 @@ void GameScene::Init()
 	MonsterManager::GetInstance()->SetScene(this);
 	MonsterManager::GetInstance()->SetLayer(m_objectLayer);
 
+	GameManager::GetInstance()->LoadStage();
+
 	Scene::Init();
 }
 

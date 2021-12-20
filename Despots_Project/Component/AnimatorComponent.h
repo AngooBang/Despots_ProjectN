@@ -21,10 +21,12 @@ public:
 	void SetIsReverse(bool isReverse);
 	void SetIsVisible(bool isVisible);
 	void SetScale(float scale);
+	void SetIsCam(bool isCam);
+	void SetEndAni(bool endAni);
 	void SetHorizontalReverse(bool reverse);
 
-
-
+	bool GetIsVisible();
+	bool GetEndAni();
 	bool GetIsReverse();
 
 	void ChangeImg(const wchar_t* path, int maxFrameX, int maxFrameY, int currFrameX);
@@ -50,5 +52,7 @@ private:
 	bool mb_isVisible = true;
 	bool mb_isLoop = false;
 	bool mb_isReverse = false;
+	bool mb_isCam = true;
 	bool mb_horizontalReverse = NULL;
+	bool mb_endAni = false;
 };

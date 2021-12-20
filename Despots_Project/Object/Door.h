@@ -10,14 +10,11 @@ enum DoorDir { Left, Top, Right, Bottom, End};
 
 enum class DoorState { Idle, Hover, Click };
 
-template <typename T>
-class ButtonComponent;
 class AnimatorComponent;
 class TileMap;
 class Door : public GameObject
 {
 public:
-	using ButtonComponent = ButtonComponent<TileMap>;
 	//GameObject(Scene* scene, Layer* layer, const std::wstring& tag);
 	Door(Scene* scene, Layer* layer, const std::wstring& tag, DoorDir dir, TileMap* owner)
 		: GameObject(scene, layer, tag)
@@ -28,10 +25,11 @@ public:
 	virtual ~Door() noexcept = default;
 
 	virtual void Init() override;
-
 	virtual void Update() override;
-
 	virtual void OnColision(ColTypes tag) override;
+	virtual void Render() override;
+
+	void SetIsVisible(bool isVisible);
 
 
 private:
@@ -48,4 +46,5 @@ private:
 	ColiderComponent* m_colider = nullptr;
 
 	bool mb_chageState = false;
+	bool mb_isVisible = true;
 };

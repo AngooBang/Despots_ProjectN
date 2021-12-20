@@ -25,6 +25,7 @@ public:
 	virtual void OnColision(ColTypes tag) override;
 	virtual void Render() override;
 
+	void FlySavePos();
 
 	void StateUpdate();
 
@@ -36,6 +37,7 @@ public:
 
 	bool GetIsSelected();
 
+	CharacterState GetState();
 
 	void SetState(CharacterState state);
 	void SetIsSelected(bool isSelected);
@@ -50,9 +52,14 @@ private:
 	ImageComponent*		m_selectImg = nullptr;
 	ColiderComponent*	m_colider = nullptr;
 
+	AnimatorComponent*	m_flyAni = nullptr;
+
 	CharacterState		m_state = CharacterState::End;
 	
 	POINT m_tilePos = {};
+	LONG m_flyDestY = NULL;
+
+	POINT m_renderPos = {};
 	RECT m_renderRect = {};
 
 
@@ -61,4 +68,5 @@ private:
 	CharacterType		m_type = CharacterType::None;
 	CharacterDir		m_dir = CharacterDir::Right;
 	bool				mb_isSelected = false;
+	bool				mb_isVisible = true;
 };

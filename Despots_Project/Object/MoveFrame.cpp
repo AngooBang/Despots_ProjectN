@@ -7,6 +7,7 @@ void MoveFrame::Init()
 	m_img = new ImageComponent(this, 1);
 	m_img->SetImage(L"Image/Map/MoveFrame.png");
 	m_img->SetRect({ 0, 0, 45, 45 });
+	m_img->SetIsCam(false);
 	GameManager::GetInstance()->SetMoveFrame(this);
 }
 

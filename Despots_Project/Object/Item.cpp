@@ -12,9 +12,11 @@ void Item::Init()
 {
 	m_itemImg = new ImageComponent(this, 2);
 	m_itemImg->SetRect({ GetPosition().x - (ITEM_SIZE_X / 2), GetPosition().y - (ITEM_SIZE_Y / 2),   GetPosition().x + (ITEM_SIZE_X / 2), GetPosition().y + (ITEM_SIZE_Y / 2) });
+	m_itemImg->SetIsCam(false);
 
 	m_itemMark = new ImageComponent(this, 2);
 	m_itemMark->SetRect({ GetPosition().x - (MARK_SIZE_X / 2), GetPosition().y - (ITEM_SIZE_Y / 2 + 20) - (MARK_SIZE_Y / 2), GetPosition().x + (MARK_SIZE_X / 2), GetPosition().y - (ITEM_SIZE_Y / 2 + 20) + (MARK_SIZE_Y / 2) });
+	m_itemMark->SetIsCam(false);
 
 	m_cost = new TextComponent(this, 2);
 	m_cost->SetRect({ GetPosition().x - (MARK_SIZE_X / 2), GetPosition().y + (ITEM_SIZE_Y / 2 + 30) - (MARK_SIZE_Y / 2), GetPosition().x + (MARK_SIZE_X / 2), GetPosition().y + (ITEM_SIZE_Y / 2 + 30) + (MARK_SIZE_Y / 2) });

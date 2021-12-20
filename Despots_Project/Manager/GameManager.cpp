@@ -103,6 +103,38 @@ void GameManager::BattleStart()
 	MonsterManager::GetInstance()->BattleStart();
 }
 
+void GameManager::LoadStage()
+{
+	switch (m_stageNum)
+	{
+	case 1:
+		for (int i = 0; i < 1; ++i)
+		{
+			MonsterManager::GetInstance()->AddMonster();
+		}
+		break;
+	case 2:
+		for (int i = 0; i < 2; ++i)
+		{
+			MonsterManager::GetInstance()->AddMonster();
+		}
+		break;
+	case 3:
+		for (int i = 0; i < 3; ++i)
+		{
+			MonsterManager::GetInstance()->AddMonster();
+		}
+		break;
+	case 4:
+		for (int i = 0; i < 1; ++i)
+		{
+			MonsterManager::GetInstance()->AddMonster();
+		}
+		break;
+	}
+	CharacterManager::GetInstance()->FlyCharacter();
+}
+
 void GameManager::SetCurrTileMap(TileMap* tileMap)
 {
 	m_currTileMap = tileMap;
@@ -116,4 +148,14 @@ void GameManager::SetMoveFrame(MoveFrame* moveFrame)
 void GameManager::SetCharType(CharacterType type)
 {
 	m_charType = type;
+}
+
+void GameManager::AddStageNum(int num)
+{
+	m_stageNum += num;
+}
+
+int GameManager::GetStageNum()
+{
+	return m_stageNum;
 }

@@ -24,9 +24,16 @@ public:
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
 
+	void AddStageNum(int num);
+	int GetStageNum();
+	
+
+
 	void CharacterMove(Tile* endTile);
 
 	void BattleStart();
+
+	void LoadStage();
 
 private:
 	GameState m_gameState = GameState::Stanby;
@@ -36,4 +43,5 @@ private:
 	MoveFrame* m_moveFrame = nullptr;
 	CharacterType m_charType = CharacterType::None;
 
+	int m_stageNum = 1;
 };

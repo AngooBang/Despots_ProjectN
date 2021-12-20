@@ -1,6 +1,7 @@
 #include "Door.h"
 #include "Component/AnimatorComponent.h"
 #include "Manager/ColiderManager.h"
+#include "Manager/GameManager.h"
 #include "Object/TileMap.h"
 
 void Door::Init()
@@ -145,6 +146,18 @@ void Door::OnColision(ColTypes tag)
 	default:
 		break;
 	}
+}
+
+void Door::Render()
+{
+	if (mb_isVisible == false) return;
+
+	GameObject::Render();
+}
+
+void Door::SetIsVisible(bool isVisible)
+{
+	mb_isVisible = isVisible;
 }
 
 

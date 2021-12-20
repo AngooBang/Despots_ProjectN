@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CharacterManager.h"
+#include "CameraManager.h"
 #include "PathFinderManager.h"
 #include "Object/Character.h"
 #include "GameManager.h"
@@ -12,7 +13,8 @@ void CharacterManager::Update()
 		Tile* tile = GameManager::GetInstance()->GetNewCharTile();
 		if (tile == nullptr)	return;
 
-		POINT charPos = { (tile->GetRect().left + tile->GetRect().right) / 2, (tile->GetRect().top + tile->GetRect().bottom) / 2 };
+		POINT charPos = { (tile->GetRect().left + tile->GetRect().right) / 2,
+			(tile->GetRect().top + tile->GetRect().bottom) / 2 };
 
 
 		PathFinderManager::GetInstance()->SetInTileData(tile, 2);
@@ -26,6 +28,25 @@ void CharacterManager::Update()
 
 	}
 	m_addCount = 0;
+}
+
+void CharacterManager::FlyCharacter()
+{
+	// 타일맵을 받아서 m_tilePos의 값으로 포지션값을 맞춰준다.
+
+	// 상태를 Fly로 만들어 위에서 떨어지게끔 만들어준다.
+	for (auto iter : m_vecChar)
+	{
+		iter->SetState(CharacterState::Fly);
+	}
+}
+
+void CharacterManager::VisibleOff()
+{
+	for (auto iter : m_vecChar)
+	{
+		iter->SetState(CharacterState::End);
+	}
 }
 
 void CharacterManager::AddCharacter()

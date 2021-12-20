@@ -4,10 +4,10 @@
 #include "Util/Image2D.h"
 #include "Util/Timer.h"
 
+bool once = false;
 void AnimatorComponent::Update()
 {
 	if (GetStopUpdate()) return;
-
 	if (mb_isReverse == false)
 	{
 		m_animationElapsed += Timer::GetDeltaTime();
@@ -22,6 +22,9 @@ void AnimatorComponent::Update()
 				}
 				else
 				{
+					if(once)
+						mb_endAni = true;
+					once = true;
 					--m_currFrameX;
 				}
 			}
@@ -42,6 +45,9 @@ void AnimatorComponent::Update()
 				}
 				else
 				{
+					if (once)
+						mb_endAni = true;
+					once = true;
 					++m_currFrameX;
 				}
 			}
@@ -122,9 +128,29 @@ void AnimatorComponent::SetScale(float scale)
 	m_scale = scale;
 }
 
+void AnimatorComponent::SetIsCam(bool isCam)
+{
+	mb_isCam = isCam;
+}
+
+void AnimatorComponent::SetEndAni(bool endAni)
+{
+	mb_endAni = endAni;
+}
+
 void AnimatorComponent::SetHorizontalReverse(bool reverse)
 {
 	mb_horizontalReverse = reverse;
+}
+
+bool AnimatorComponent::GetIsVisible()
+{
+	return mb_isVisible;
+}
+
+bool AnimatorComponent::GetEndAni()
+{
+	return mb_endAni;
 }
 
 bool AnimatorComponent::GetIsReverse()

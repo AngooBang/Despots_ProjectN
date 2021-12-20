@@ -14,5 +14,5 @@ public:
 	void SetCameraPos(POINT pos);
 	POINT GetCameraPos();
 private:
-	POINT m_cameraPos = {};
+	POINT m_cameraPos = {0, 0};
 };

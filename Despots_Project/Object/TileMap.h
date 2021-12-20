@@ -28,6 +28,8 @@ public:
 
 	void MoveRoom();
 
+	void SetShowDoor(DoorDir dir);
+
 	void SetMoveRoom(DoorDir dir);
 
 	void SetRoomNum(int num);
@@ -48,6 +50,7 @@ private:
 	Door* m_rightDoor = nullptr;
 	Door* m_downDoor = nullptr;
 
+	bool mb_showDoor[DoorDir::End] = { false };
 	bool mb_moveRoom[DoorDir::End] = { false };
 	int m_roomNum = -1;
 };

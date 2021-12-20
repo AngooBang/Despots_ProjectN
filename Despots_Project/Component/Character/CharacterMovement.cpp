@@ -28,7 +28,8 @@ void CharacterMovement::Update()
 
 	if (mb_isMove == false)
 	{
-		m_owner->SetState(CharacterState::Idle);
+		if(m_owner->GetState() == CharacterState::Run)
+			m_owner->SetState(CharacterState::Idle);
 		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
 	}
 	else

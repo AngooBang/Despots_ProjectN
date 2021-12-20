@@ -1,5 +1,10 @@
 #include "Tile.h"
 
+void Tile::Render()
+{
+	GameObject::Render();
+}
+
 void Tile::SetImgComp(ImageComponent* imgComp)
 {
 	m_img = imgComp;

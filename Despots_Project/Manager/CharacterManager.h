@@ -16,6 +16,9 @@ public:
 
 	virtual void Update() override;
 
+	void FlyCharacter();
+	void VisibleOff();
+
 	void AddCharacter();
 
 	void SelectCharacter(Tile* tile);

@@ -2,6 +2,7 @@
 #include "Component/ImageComponent.h"
 #include "Component/AnimatorComponent.h"
 #include "Component/ColiderComponent.h"
+#include "Manager/CameraManager.h"
 
 Monster::Monster(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
 	:GameObject(scene, layer, tag)
@@ -33,14 +34,17 @@ void Monster::Init()
 
 
 	m_state = MonsterState::Burrow;
+	m_type = MonsterType::Dalek;
 
+	m_renderRect = GetRect();
 	GameObject::Init();
 }
 
 void Monster::Update()
 {
-	StateUpdate();
 	GameObject::Update();
+	SetDataToType();
+	StateUpdate();
 
 	switch (m_dir)
 	{
@@ -53,6 +57,10 @@ void Monster::Update()
 		m_idleAni->SetHorizontalReverse(true);
 		break;
 	}
+	m_burrowImg->SetRect(m_renderRect);
+	m_idleAni->SetRect(m_renderRect);
+
+	m_colider->SetRect(GetRect());
 }
 
 void Monster::OnColision(ColTypes tag)
@@ -80,6 +88,20 @@ void Monster::StateUpdate()
 
 void Monster::SetDataToType()
 {
+	POINT renderPos = { GetPosition().x + CameraManager::GetInstance()->GetCameraPos().x,
+			GetPosition().y + CameraManager::GetInstance()->GetCameraPos().y };
+	switch (m_type)
+	{
+	case MonsterType::Dalek:
+		m_renderRect = { renderPos.x - 22, renderPos.y - 40,
+		renderPos.x + 22, renderPos.y + 22 };
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+		GetPosition().x + 22, GetPosition().y + 22 });
+
+		m_idleAni->SetImage(L"Image/Monster/Dalek_Idle.png");
+		m_idleAni->SetFrame(6, 1);
+		break;
+	}
 }
 
 POINT Monster::GetTilePos()
