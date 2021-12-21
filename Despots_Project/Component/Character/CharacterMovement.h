@@ -1,6 +1,6 @@
 #pragma once
 #include "../Component.h"
-#include <stack>
+#include <queue>
 
 using namespace std;
 
@@ -14,12 +14,12 @@ public:
 	virtual void	Update() override;
 
 	void			Move();
-	void			SetPath(stack<pair<int, int>> path);
+	void			SetPath(deque<POINT> path);
 private:
 	float					m_speed = 0.2f;
 
 	Character*				m_owner = nullptr;
-	stack<pair<int, int>>	m_path;
+	deque<POINT>	m_path;
 
 	bool					mb_isMove = false;
 };

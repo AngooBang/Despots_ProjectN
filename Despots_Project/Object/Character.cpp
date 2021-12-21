@@ -39,6 +39,13 @@ void Character::Init()
 	m_runAni->SetMotionSpeed(50.0f);
 	m_runAni->SetScale(1.4f);
 
+	m_attackAni = new AnimatorComponent(this, 2);
+	m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
+	m_attackAni->SetFrame(4, 1);
+	m_attackAni->SetIsLoop(false);
+	m_attackAni->SetMotionSpeed(80.0f);
+	m_attackAni->SetScale(1.4f);
+
 
 	m_selectImg = new ImageComponent(this, 1);
 	m_selectImg->SetImage(L"Image/Character/Selected.png");
@@ -75,7 +82,10 @@ void Character::Update()
 		m_state = CharacterState::Idle;
 	}
 
-
+	if (m_attackAni->GetEndAni() && m_state == CharacterState::Attack)
+	{
+		m_state = CharacterState::Idle;
+	}
 
 	switch (m_dir)
 	{
@@ -107,6 +117,8 @@ void Character::Update()
 	m_flyAni->SetRect(m_renderRect);
 	m_idleAni->SetRect(m_renderRect);
 	m_runAni->SetRect(m_renderRect);
+	m_attackAni->SetRect(m_renderRect);
+
 	m_colider->SetRect(GetRect());
 
 
@@ -158,6 +170,7 @@ void Character::StateUpdate()
 		{
 			m_flyAni->SetCurrFrame(0);
 			m_flyAni->SetEndAni(false);
+			FlySavePos();
 			SetPosition({ GetPosition().x, 0 });
 		}
 		if (GetPosition().y < m_flyDestY)
@@ -168,9 +181,14 @@ void Character::StateUpdate()
 		{
 			SetPosition(GetPosition().x, m_flyDestY);
 		}
+		if (m_type == CharacterType::GutSword)
+		{
+			m_renderRect = { m_renderRect.left + 20, m_renderRect.top, m_renderRect.right + 20, m_renderRect.bottom };
+		}
 		m_flyAni->SetIsVisible(true);
 		m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
 		break;
 
 
@@ -178,13 +196,28 @@ void Character::StateUpdate()
 		m_flyAni->SetIsVisible(false);
 		m_idleAni->SetIsVisible(true);
 		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
 		break;
 
 	case CharacterState::Run:
 		m_flyAni->SetIsVisible(false);
 		m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(true);
+		m_attackAni->SetIsVisible(false);
 		break;
+
+	case CharacterState::Attack:
+		if (m_attackAni->GetIsVisible() == false)
+		{
+			m_attackAni->SetCurrFrame(0);
+			m_attackAni->SetEndAni(false);
+		}
+		m_flyAni->SetIsVisible(false);
+		m_idleAni->SetIsVisible(false);
+		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(true);
+		break;
+
 
 	default:
 		break;
@@ -213,6 +246,9 @@ void Character::SetDataToType()
 
 		m_runAni->SetImage(L"Image/Character/Normal/Normal_Run.png");
 		m_runAni->SetFrame(8, 1);
+
+		m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
+		m_attackAni->SetFrame(4, 1);
 		break;
 	case CharacterType::GutSword:
 		m_renderRect = { m_renderPos.x - 50, m_renderPos.y - 40,
@@ -300,7 +336,7 @@ CharacterState Character::GetState()
 	return m_state;
 }
 
-void Character::SetPath(stack<pair<int, int>> path)
+void Character::SetPath(deque<POINT> path)
 {
 	m_move->SetPath(path);
 }

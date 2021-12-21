@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "MonsterManager.h"
 #include "Manager/GameManager.h"
 #include "Manager/PathFinderManager.h"
@@ -29,7 +30,7 @@ void MonsterManager::Update()
 		POINT monPos = { (tile->GetRect().left + tile->GetRect().right) / 2, (tile->GetRect().top + tile->GetRect().bottom) / 2 };
 
 
-		PathFinderManager::GetInstance()->SetInTileData(tile, 2);
+		PathFinderManager::GetInstance()->SetInTileDataM(tile, 5);
 
 		Monster* newMonster = new Monster(_scene, _layer, L"Monster", monPos);
 		newMonster->Init();
@@ -63,4 +64,9 @@ void MonsterManager::SetScene(Scene* scene)
 void MonsterManager::SetLayer(Layer* layer)
 {
 	_layer = layer;
+}
+
+vector<Monster*> MonsterManager::GetVecMon()
+{
+	return m_vecMon;
 }

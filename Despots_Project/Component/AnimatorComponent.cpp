@@ -4,7 +4,6 @@
 #include "Util/Image2D.h"
 #include "Util/Timer.h"
 
-bool once = false;
 void AnimatorComponent::Update()
 {
 	if (GetStopUpdate()) return;
@@ -22,9 +21,13 @@ void AnimatorComponent::Update()
 				}
 				else
 				{
-					if(once)
+					if (mb_isLastFrameSub)
+					{
 						mb_endAni = true;
-					once = true;
+						mb_isLastFrameSub = false;
+					}
+
+					mb_isLastFrameSub = true;
 					--m_currFrameX;
 				}
 			}
@@ -45,9 +48,13 @@ void AnimatorComponent::Update()
 				}
 				else
 				{
-					if (once)
+					if (mb_isLastFrameSub)
+					{
 						mb_endAni = true;
-					once = true;
+						mb_isLastFrameSub = false;
+					}
+
+					mb_isLastFrameSub = true;
 					++m_currFrameX;
 				}
 			}

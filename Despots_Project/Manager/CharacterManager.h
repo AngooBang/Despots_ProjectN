@@ -16,6 +16,10 @@ public:
 
 	virtual void Update() override;
 
+	void BattleStart();
+
+	void FindMonsterPath();
+
 	void FlyCharacter();
 	void VisibleOff();
 
@@ -30,9 +34,9 @@ public:
 
 private:
 	std::vector<Character*> m_vecChar;
-
 	int	m_addCount = 0;
 
+	float	m_pathFindElapsed = 0.0f;
 	Scene* _scene = nullptr;
 	Layer* _layer = nullptr;
 

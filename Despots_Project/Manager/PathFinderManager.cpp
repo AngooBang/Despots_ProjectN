@@ -2,7 +2,11 @@
 #include "Object/Tile.h"
 #include "stdafx.h"
 
-stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
+int dy[] = { -1, 1,0, 0 ,-1, 1,-1,1 };
+int dx[] = { 0, 0,-1, 1 ,-1,-1, 1,1 };
+float dg[] = { STR,STR,STR,STR,DIA,DIA,DIA,DIA };
+
+deque<POINT> PathFinderManager::Astar(Pos start, Pos end)
 {
 
     vector<vector<float>> f;
@@ -15,15 +19,11 @@ stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
         g.emplace_back(MAP_SIZE_X, 0);
 
 
-    Pos path[MAP_SIZE_Y][MAP_SIZE_X];
+    Pos path[MAP_SIZE_Y][MAP_SIZE_X] = { NULL };
     path[start.Y][start.X] = start;
 
     priority_queue<pair<float, Pos>> pq;
     pq.emplace(0, start);
-
-    int dy[] = { -1, 1,0, 0 ,-1, 1,-1,1 };
-    int dx[] = { 0, 0,-1, 1 ,-1,-1, 1,1 };
-    float dg[] = { STR,STR,STR,STR,DIA,DIA,DIA,DIA };
 
     while (false == pq.empty())
     {
@@ -82,13 +82,18 @@ stack<pair<int, int>> PathFinderManager::Astar(Pos start, Pos end)
         }
     }
     
-    stack<pair<int, int>> pathStack;
+    deque<POINT> pathStack;
+    if (path[end.Y][end.X].X == NULL) // 길이 없을때
+    {
+        return pathStack;
+    }
+
     Pos curr = end;
     while (curr != start)
     {
         m_mapGraph[curr.Y][curr.X] = 4;
 
-        pathStack.push(make_pair(curr.Y, curr.X));
+        pathStack.push_back({curr.X, curr.Y});
         curr = path[curr.Y][curr.X];
     }
 
@@ -109,12 +114,21 @@ float PathFinderManager::Euclidean(Pos a, Pos b)
 
 void PathFinderManager::PrintMap()
 {
+    cout << ' ';
+    for (int i = 0; i < MAP_SIZE_X; ++i)
+    {
+        if (i < 10) cout << ' ';
+        cout << i;
+    }
+    cout << '\n';
     for (int r = 0; r < MAP_SIZE_Y; ++r)
     {
+        if (r < 10) cout << ' ';
+        cout << r;
         for (int c = 0; c < MAP_SIZE_X; ++c)
         {
             if (m_mapGraph[r][c] == 0)
-                cout << " ";
+                cout << "X";
             else if (m_mapGraph[r][c] == 1)
                 cout << "S";
             else if (m_mapGraph[r][c] == 2)
@@ -123,8 +137,11 @@ void PathFinderManager::PrintMap()
                 cout << "E";
             else if (m_mapGraph[r][c] == 4)
                 cout << "P";
+            else if (m_mapGraph[r][c] == 5)
+                cout << "M";
+            cout << ' ';
         }
-        cout << endl;
+        cout << '\n';
     }
     puts("");
 }
@@ -135,7 +152,7 @@ void PathFinderManager::ClearMap()
     {
         for (int x = 0; x < MAP_SIZE_X; ++x)
         {
-            if (m_mapGraph[y][x] != 2)
+            if (m_mapGraph[y][x] != 2 && m_mapGraph[y][x] != 5)
                 m_mapGraph[y][x] = 0;
         }
     }
@@ -152,6 +169,52 @@ void PathFinderManager::SetInTileData(Tile* tile, int value)
     INTILE[y * 3 + 2][x * 3 + 1] = value;
 }
 
+void PathFinderManager::SetInTileDataM(Tile* tile, int value)
+{
+    int x = tile->x;
+    int y = tile->y;
+    INTILE[y * 3][x * 3] = value;         INTILE[y * 3][x * 3 + 1] = value;       INTILE[y * 3][x * 3 + 2] = value;
+    INTILE[y * 3 + 1][x * 3] = value;     INTILE[y * 3 + 1][x * 3 + 1] = value;   INTILE[y * 3 + 1][x * 3 + 2] = value;
+    INTILE[y * 3 + 2][x * 3] = value;     INTILE[y * 3 + 2][x * 3 + 1] = value;   INTILE[y * 3 + 2][x * 3 + 2] = value;
+}
+
+POINT PathFinderManager::GetEndTile(POINT pos)
+{
+    // POINT 를 기준으로 가장 가까우면서 자리를 차지하고 있지 않은 POINT값 return
+    queue<POINT> queue;
+    queue.push(pos);
+
+    // 추가처리 : 유닛이 도착지점에 가는 도중에 도착지점이 (벽, 장애물)이 될 경우 새로운 도착지점을 찾아서 길찾기를 해준다.
+    // 도착지점이 움직인다면?
+    // 길찾기 알고리즘은 객체가 요청할때마다
+    while (queue.empty() == false)
+    {
+        POINT nowPos = queue.front();
+        queue.pop();
+        for (int i = 0; i < 8; ++i)
+        {
+            int ny = dy[i] + nowPos.y;
+            int nx = dx[i] + nowPos.x;
+
+            if (m_mapGraph[ny][nx] == 5 || m_mapGraph[ny][nx] == 2)
+                queue.push({ nx, ny });
+            if (m_mapGraph[ny][nx] == 0)
+                return { nx, ny };
+        }
+    }
+    
+}
+
+bool PathFinderManager::IsObstacle(POINT pos)
+{
+    if (m_mapGraph[pos.y][pos.x] == 2)
+        return true;
+    else
+        return false;
+}
+
+
+
 void PathFinderManager::SetInTileData(int x, int y, int value)
 {
 
@@ -163,7 +226,7 @@ void PathFinderManager::SetInTileData(int x, int y, int value)
 
 }
 
-stack<pair<int, int>> PathFinderManager::PathFind()
+deque<POINT> PathFinderManager::PathFind()
 {
     int startY = 0;
     int startX = 0;
@@ -188,10 +251,42 @@ stack<pair<int, int>> PathFinderManager::PathFind()
         }
     }
 
-    stack<pair<int, int>> st = Astar({ startX, startY }, { endX, endY });
+    deque<POINT> st = Astar({ startX, startY }, { endX, endY });
+    if (st.empty())
+    {
+        // 길이 없을때 차선책을 구해야함
+    }
+
+    SetInTileData(startX, startX, 0);
+    //SetInTileData(endX, endY, 2);
 
     PrintMap();
     ClearMap();
 
     return st;
+}
+
+deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
+{
+    m_mapGraph[start.y][start.x] = 1;
+    m_mapGraph[end.y][end.x] = 3;
+
+    // 도착점 차선책설정  (flood fill Algorithm)
+    end = PathFinderManager::GetInstance()->GetEndTile(end);
+
+    deque<POINT> dq;
+    if (start.x == end.x && start.y == end.y)
+    {
+        return dq;
+    }
+    dq = Astar({ start.x, start.y }, { end.x, end.y });
+
+    
+
+    //SetInTileData(start.x, start.y, 0);
+
+    //PrintMap();
+    ClearMap();
+
+    return dq;
 }

@@ -16,8 +16,30 @@ CharacterMovement::CharacterMovement(Character* owner, INT32 order) noexcept
 
 void CharacterMovement::Update()
 {
+	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	{
+		//if (m_path.size() <= 2/*공격 사거리*/)
+		//{
+		//	while (m_path.empty() == false)
+		//	{
+		//		m_path.pop_back();
+		//	}
+		//}
+	}
 	if (m_path.empty() == false)
 	{
+		if (mb_isMove == false)
+		{
+
+			//이동전 초기값 지정구간
+			PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
+		}
+		// 도착점이 장애물이 되었을때
+		if (PathFinderManager::GetInstance()->IsObstacle(m_path.front()))
+		{
+			PathFinderManager::GetInstance()->PathFindPoint(m_owner->GetTilePos(), m_path.front());
+		}
+
 		mb_isMove = true;
 		Move();
 	}
@@ -28,9 +50,15 @@ void CharacterMovement::Update()
 
 	if (mb_isMove == false)
 	{
-		if(m_owner->GetState() == CharacterState::Run)
-			m_owner->SetState(CharacterState::Idle);
 		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
+		if (m_owner->GetState() == CharacterState::Run)
+		{
+			if(GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+				m_owner->SetState(CharacterState::Idle);
+			else
+				m_owner->SetState(CharacterState::Attack);
+
+		}
 	}
 	else
 	{
@@ -44,21 +72,23 @@ void CharacterMovement::Update()
 
 void CharacterMovement::Move()
 {
-	int y = m_path.top().first;
-	int x = m_path.top().second;
+	POINT pos = m_path.back();
+	//cout << m_path.size() << '\n';
+	//int y = m_path.top().first;
+	//int x = m_path.top().second;
 
 
 	POINT tileMapPos = GameManager::GetInstance()->GetCurrTileMap()->GetPosition();
 
-	POINT destPoint = { tileMapPos.x + x * 15 + 7, tileMapPos.y + WALL_SIZE_Y + y * 15 + 7 };
+	POINT destPoint = { tileMapPos.x + pos.x * 15 + 7, tileMapPos.y + WALL_SIZE_Y + pos.y * 15 + 7 };
 
 	POINT charPos = _owner->GetPosition();
 
-	if (x > m_owner->GetTilePos().x)
+	if (pos.x > m_owner->GetTilePos().x)
 	{
 		m_owner->SetDir(CharacterDir::Right);
 	}
-	else if (x < m_owner->GetTilePos().x)
+	else if (pos.x < m_owner->GetTilePos().x)
 	{
 		m_owner->SetDir(CharacterDir::Left);
 	}
@@ -66,9 +96,10 @@ void CharacterMovement::Move()
 
 	if (destPoint.x - 2 <= charPos.x && charPos.x <= destPoint.x + 2 && destPoint.y - 2 <= charPos.y && charPos.y <= destPoint.y + 2)
 	{
-		m_owner->SetTilePos({ x, y });
-		m_path.pop();
-
+	//if(destPoint.x == charPos.x && destPoint.y == charPos.y)
+	//{
+		m_owner->SetTilePos({ pos.x, pos.y });
+		m_path.pop_back();
 
 
 		return;
@@ -84,9 +115,14 @@ void CharacterMovement::Move()
 
 
 	_owner->SetPosition(charPos);
+
+	//POINT tilePos = GameManager::GetInstance()->DistPosToTilePos(charPos);
+
+	//PathFinderManager::GetInstance()->SetInTileData(tilePos.x, tilePos.y, 0);
+	
 }
 
-void CharacterMovement::SetPath(stack<pair<int, int>> path)
+void CharacterMovement::SetPath(deque<POINT> path)
 {
 	m_path = path;
 }

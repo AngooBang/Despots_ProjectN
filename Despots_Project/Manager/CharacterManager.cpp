@@ -1,10 +1,13 @@
 #include "stdafx.h"
-#include "CharacterManager.h"
-#include "CameraManager.h"
-#include "PathFinderManager.h"
+#include "Manager/CharacterManager.h"
+#include "Manager/CameraManager.h"
+#include "Manager/PathFinderManager.h"
+#include "Manager/MonsterManager.h"
+#include "Manager/GameManager.h"
 #include "Object/Character.h"
-#include "GameManager.h"
+#include "Object/Monster.h"
 #include "Object/Tile.h"
+#include "Util/Timer.h"
 
 void CharacterManager::Update()
 {
@@ -23,11 +26,70 @@ void CharacterManager::Update()
 		newChar->Init();
 		newChar->SetTilePos({ tile->x * 3 + 1, tile->y * 3 + 1 });
 
-
 		m_vecChar.push_back(newChar);
-
 	}
 	m_addCount = 0;
+
+	m_pathFindElapsed += Timer::GetDeltaTime();
+	switch (GameManager::GetInstance()->GetGameState())
+	{
+	case GameState::Stanby:
+
+		break;
+	case GameState::Battle:
+		if (m_pathFindElapsed > 500.0f)
+		{
+			FindMonsterPath();
+			m_pathFindElapsed = 0.0f;
+		}
+		break;
+	}
+}
+
+void CharacterManager::BattleStart()
+{
+	// 배틀 시작시 초기값 지정
+
+	//FindMonsterPath();
+}
+
+
+void CharacterManager::FindMonsterPath()
+{
+	// 캐릭터를 하나하나 작업해서 path를 넣어줌(가장 가까운 몬스터 기준으로..)
+	vector<Monster*> vecMon = MonsterManager::GetInstance()->GetVecMon();
+	for(auto iter : m_vecChar)
+	{
+		deque<POINT> tempDeq;
+
+		POINT startPos = iter->GetTilePos();
+		for (auto moniter : vecMon)
+		{
+			POINT endPos = moniter->GetTilePos();
+
+
+
+			deque<POINT> currDeq;
+			//if (abs(startPos.x - endPos.x) > 2)
+			//{
+			//	if (abs(startPos.y - endPos.y) > 2)
+			//	{
+			currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
+			if (currDeq.empty())
+			{
+				return;
+			}
+
+			if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
+			{
+				tempDeq = currDeq;
+			}
+			//	}
+			//}
+
+		}
+		iter->SetPath(tempDeq);
+	}
 }
 
 void CharacterManager::FlyCharacter()
@@ -99,7 +161,7 @@ void CharacterManager::GetMovePath(Tile* endTile)
 
 	INTILE[endTile->y * 3 + 1][endTile->x * 3 + 1] = 3;
 
-	stack<pair<int, int>> path = PathFinderManager::GetInstance()->PathFind();
+	deque<POINT> path = PathFinderManager::GetInstance()->PathFind();
 
 	//선택 캐릭터의 상태를 Move로 변화 및 path 지정
 	selectedChar->SetPath(path);

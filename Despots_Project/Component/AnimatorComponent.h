@@ -49,10 +49,15 @@ private:
 
 	float m_scale = 1.0f;
 
+
+
 	bool mb_isVisible = true;
 	bool mb_isLoop = false;
 	bool mb_isReverse = false;
 	bool mb_isCam = true;
 	bool mb_horizontalReverse = NULL;
 	bool mb_endAni = false;
+
+
+	bool mb_isLastFrameSub = false;
 };

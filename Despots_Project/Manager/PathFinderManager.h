@@ -1,4 +1,6 @@
 #pragma once
+#include <Windows.h>
+#include <queue>
 #include <vector>
 #include <string>
 #include <stack>
@@ -13,6 +15,9 @@
 
 using namespace std;
 
+
+// 경로가 찾아지지 않을때 (벽,장애물 무시)처리
+// 길찾기를 했는데, 도착지에 다른애가 있을때
 struct Pos
 {
     int X;
@@ -23,12 +28,13 @@ struct Pos
     bool operator!=(const Pos& other) const { return !(*this == other); }
 };
 
+//struct POINT;
 class Tile;
 class PathFinderManager : public Singleton<PathFinderManager>
 {
 public:
 
-    stack<pair<int, int>> Astar(Pos start, Pos end);
+    deque<POINT> Astar(Pos start, Pos end);
 
     int Huristic_M(Pos a, Pos b);
 
@@ -39,8 +45,15 @@ public:
 
     void SetInTileData(int x, int y, int value);
     void SetInTileData(Tile* tile, int value);
+
+    void SetInTileDataM(Tile* tile, int value);
+    POINT GetEndTile(POINT pos);
+
+    bool IsObstacle(POINT pos);
     
-    stack<pair<int, int>> PathFind();
+
+    deque<POINT> PathFind();
+    deque<POINT> PathFindPoint(POINT start, POINT end);
 
 	int m_mapGraph[MAP_SIZE_Y][MAP_SIZE_X] = { 0 };
 private:

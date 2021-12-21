@@ -92,6 +92,11 @@ CharacterType GameManager::GetCharType()
 	return m_charType;
 }
 
+GameState GameManager::GetGameState()
+{
+	return m_gameState;
+}
+
 
 void GameManager::CharacterMove(Tile* endTile)
 {
@@ -101,6 +106,7 @@ void GameManager::BattleStart()
 {
 	m_gameState = GameState::Battle;
 	MonsterManager::GetInstance()->BattleStart();
+	CharacterManager::GetInstance()->BattleStart();
 }
 
 void GameManager::LoadStage()
@@ -153,6 +159,20 @@ void GameManager::SetCharType(CharacterType type)
 void GameManager::AddStageNum(int num)
 {
 	m_stageNum += num;
+}
+
+POINT GameManager::DistPosToTilePos(POINT pos)
+{
+	POINT valuePos = pos;
+	POINT tileStartPos = m_currTileMap->GetTileInfo()[0][0]->GetPosition();
+
+	valuePos.x -= tileStartPos.x;
+	valuePos.y -= tileStartPos.y;
+
+	valuePos.x /= 15;
+	valuePos.y /= 15;
+
+	return valuePos;
 }
 
 int GameManager::GetStageNum()

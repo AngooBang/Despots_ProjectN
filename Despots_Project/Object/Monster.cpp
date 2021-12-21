@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "stdafx.h"
 #include "Component/ImageComponent.h"
 #include "Component/AnimatorComponent.h"
 #include "Component/ColiderComponent.h"

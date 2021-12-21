@@ -19,14 +19,17 @@ public:
 	Tile* GetNewMonTile();
 	TileMap* GetCurrTileMap();
 	CharacterType GetCharType();
+	GameState GetGameState();
+	int GetStageNum();
+
 
 	void SetCurrTileMap(TileMap* tileMap);
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
 
 	void AddStageNum(int num);
-	int GetStageNum();
-	
+
+	POINT DistPosToTilePos(POINT pos);
 
 
 	void CharacterMove(Tile* endTile);

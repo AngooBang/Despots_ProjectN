@@ -23,6 +23,8 @@ public:
 	void SetScene(Scene* scene);
 	void SetLayer(Layer* layer);
 
+	vector<Monster*> GetVecMon();
+
 private:
 	std::vector<Monster*> m_vecMon;
 

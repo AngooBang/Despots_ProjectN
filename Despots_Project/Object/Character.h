@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include <stack>
+#include <queue>
 
 enum class CharacterState { Idle, Run, Attack, Hit, Fly, End };
 
@@ -42,17 +42,19 @@ public:
 	void SetState(CharacterState state);
 	void SetIsSelected(bool isSelected);
 	void SetTilePos(POINT pos);
-	void SetPath(stack<pair<int, int>> path);
+	void SetPath(deque<POINT> path);
 	void SetDir(CharacterDir dir);
 
 
 private:
+	AnimatorComponent*	m_flyAni = nullptr;
 	AnimatorComponent*	m_idleAni = nullptr;
 	AnimatorComponent*	m_runAni = nullptr;
+	AnimatorComponent*	m_attackAni = nullptr;
+
 	ImageComponent*		m_selectImg = nullptr;
 	ColiderComponent*	m_colider = nullptr;
 
-	AnimatorComponent*	m_flyAni = nullptr;
 
 	CharacterState		m_state = CharacterState::End;
 	
