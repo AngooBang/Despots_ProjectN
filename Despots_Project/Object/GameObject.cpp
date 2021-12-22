@@ -157,6 +157,12 @@ void GameObject::SetRect(RECT rect) noexcept
 	_rect = rect;
 }
 
+void GameObject::SetRect(RECT rect, int size) noexcept
+{
+	// 사이즈만큼 키워서 멤버에 입력
+	_rect = { rect.left - size, rect.top - size, rect.right + size, rect.bottom + size };
+}
+
 LONG GameObject::GetY() const noexcept
 {
 	return _position.y;
@@ -180,6 +186,13 @@ INT32 GameObject::GetHeight() const noexcept
 Pivot GameObject::GetPivot() const noexcept
 {
 	return _pivot;
+}
+
+RECT GameObject::GetRect(int size) const noexcept
+{
+	// 사이즈만큼 키워서 반환해줌, 멤버변수엔 영향x
+	RECT tempRect = { _rect.left - size, _rect.top - size, _rect.right + size, _rect.bottom + size };
+	return tempRect;
 }
 
 RECT GameObject::GetRect() const noexcept

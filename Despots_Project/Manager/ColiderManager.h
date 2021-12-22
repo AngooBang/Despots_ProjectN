@@ -11,6 +11,7 @@ public:
 	ColiderComponent* FindColider(const std::wstring& tag);
 
 	void CheckToMouse(ColiderComponent* col);
+	void CheckToColider(ColiderComponent* col);
 private:
 	std::vector<ColiderComponent*> m_vecCols;
 };

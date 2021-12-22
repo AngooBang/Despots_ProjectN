@@ -21,7 +21,7 @@ public:
 
 	virtual void Init() override;
 	virtual void Update() override;
-	virtual void OnColision(ColTypes tag) override;
+	virtual void OnColision(ColiderComponent* col1, ColiderComponent* col2) override;
 	virtual void Render() override;
 
 
@@ -44,20 +44,23 @@ public:
 
 
 private:
-	AnimatorComponent* m_idleAni = nullptr;
-	AnimatorComponent* m_runAni = nullptr;
-	ImageComponent* m_burrowImg = nullptr;
-	ColiderComponent* m_colider = nullptr;
+	AnimatorComponent*	m_idleAni = nullptr;
+	AnimatorComponent*	m_runAni = nullptr;
+	ImageComponent*		m_burrowImg = nullptr;
+	ColiderComponent*	m_colider = nullptr;
 
 	MonsterState		m_state = MonsterState::End;
 
-	POINT m_tilePos = {};
-	RECT m_renderRect = {};
+	POINT				m_tilePos = {};
+	RECT				m_renderRect = {};
 
 
-	CharacterMovement* m_move = nullptr;
+	CharacterMovement*	m_move = nullptr;
 
-	MonsterType		m_type = MonsterType::None;
-	MonsterDir		m_dir = MonsterDir::Left;
+	
+	MonsterType			m_type = MonsterType::None;
+	MonsterDir			m_dir = MonsterDir::Left;
 	bool				mb_isSelected = false;
+
+	int					m_hp = 50;
 };

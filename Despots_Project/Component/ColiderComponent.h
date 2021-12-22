@@ -2,8 +2,9 @@
 #include "Component.h"
 #include <string>
 
-enum class ColTypes { Character, Monster, Door, MouseHover, MouseClickDown, MouseClickUp, Item, Button, None };
+enum class ColTypes { Character, CAtkRange, CAtk, Monster, Door, MouseHover, MouseClickDown, MouseClickUp, Item, Button, None };
 
+class CharacterAttack;
 class ColiderComponent : public Component
 {
 
@@ -18,11 +19,16 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-	ColTypes GetType();
-	std::wstring GetTag();
 
+	void SetIsAlive(bool isAlive);
 	void SetRect(RECT rect);
+	void SetCAtkComp(CharacterAttack* cAtkComp);
+
+	std::wstring GetTag();
+	ColTypes GetType();
 	RECT GetRect();
+	CharacterAttack* GetCAtkComp();
+	bool GetIsAlive();
 
 	GameObject* GetOwner();
 
@@ -30,4 +36,8 @@ private:
 	RECT m_colRect = {};
 	ColTypes m_type = ColTypes::None;
 	std::wstring m_tag = L"";
+	CharacterAttack* m_cAtkComp = nullptr;
+	
+
+	bool mb_isAlive = true;
 };

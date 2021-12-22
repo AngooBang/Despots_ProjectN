@@ -15,12 +15,15 @@ ColiderComponent::ColiderComponent(GameObject* owner, INT32 order, RECT rect, Co
 void ColiderComponent::Update()
 {
 	// 필요할 때마다 자기자신을 넣어주며 콜라이더매니저에게 충돌여부 확인 요청
+	if (!mb_isAlive) return;
 
 	ColiderManager::GetInstance()->CheckToMouse(this);
+	ColiderManager::GetInstance()->CheckToColider(this);
 }
 
 void ColiderComponent::Render()
 {
+	if (!mb_isAlive) return;
 	ID2D1SolidColorBrush* brush;
 	ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
 	
@@ -39,14 +42,34 @@ wstring ColiderComponent::GetTag()
 	return m_tag;
 }
 
+void ColiderComponent::SetIsAlive(bool isAlive)
+{
+	mb_isAlive = isAlive;
+}
+
 void ColiderComponent::SetRect(RECT rect)
 {
 	m_colRect = rect;
 }
 
+void ColiderComponent::SetCAtkComp(CharacterAttack* cAtkComp)
+{
+	m_cAtkComp = cAtkComp;
+}
+
 RECT ColiderComponent::GetRect()
 {
 	return m_colRect;
+}
+
+CharacterAttack* ColiderComponent::GetCAtkComp()
+{
+	return m_cAtkComp;
+}
+
+bool ColiderComponent::GetIsAlive()
+{
+	return mb_isAlive;
 }
 
 GameObject* ColiderComponent::GetOwner()

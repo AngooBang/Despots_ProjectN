@@ -10,8 +10,7 @@ public:
 	Singleton& operator=(const Singleton&&) = delete;
 	virtual ~Singleton() = default;
 
-	static T* GetInstance() noexcept
-	{
+	static T* GetInstance() noexcept	{
 		static T instance;
 
 		return &instance;

@@ -145,6 +145,7 @@
     <ClInclude Include="BasicGameFramework.h" />
     <ClInclude Include="Component\AnimatorComponent.h" />
     <ClInclude Include="Component\ButtonComponent.h" />
+    <ClInclude Include="Component\Character\CharacterAttack.h" />
     <ClInclude Include="Component\Character\CharacterMovement.h" />
     <ClInclude Include="Component\CircleComponent.h" />
     <ClInclude Include="Component\ColiderComponent.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="BasicGameFramework.cpp" />
     <ClCompile Include="Component\AnimatorComponent.cpp" />
     <ClCompile Include="Component\ButtonComponent.cpp" />
+    <ClCompile Include="Component\Character\CharacterAttack.cpp" />
     <ClCompile Include="Component\Character\CharacterMovement.cpp" />
     <ClCompile Include="Component\CircleComponent.cpp" />
     <ClCompile Include="Component\ColiderComponent.cpp" />

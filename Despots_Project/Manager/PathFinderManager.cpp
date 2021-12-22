@@ -1,10 +1,12 @@
 #include "PathFinderManager.h"
 #include "Object/Tile.h"
 #include "stdafx.h"
-
-int dy[] = { -1, 1,0, 0 ,-1, 1,-1,1 };
-int dx[] = { 0, 0,-1, 1 ,-1,-1, 1,1 };
-float dg[] = { STR,STR,STR,STR,DIA,DIA,DIA,DIA };
+//
+//int dy[] = { -1, 1,0, 0 ,-1, 1,-1,1 };
+//int dx[] = { 0, 0,-1, 1 ,-1,-1, 1,1 };
+int dy[] = {  0, -1, 1, -1, 1, 0,-1, 1 };
+int dx[] = { -1, -1,-1,  0, 0, 1, 1, 1 };
+float dg[] = { STR,DIA,DIA,STR,STR,STR,DIA,DIA };
 
 deque<POINT> PathFinderManager::Astar(Pos start, Pos end)
 {
@@ -114,21 +116,12 @@ float PathFinderManager::Euclidean(Pos a, Pos b)
 
 void PathFinderManager::PrintMap()
 {
-    cout << ' ';
-    for (int i = 0; i < MAP_SIZE_X; ++i)
-    {
-        if (i < 10) cout << ' ';
-        cout << i;
-    }
-    cout << '\n';
     for (int r = 0; r < MAP_SIZE_Y; ++r)
     {
-        if (r < 10) cout << ' ';
-        cout << r;
         for (int c = 0; c < MAP_SIZE_X; ++c)
         {
             if (m_mapGraph[r][c] == 0)
-                cout << "X";
+                cout << " ";
             else if (m_mapGraph[r][c] == 1)
                 cout << "S";
             else if (m_mapGraph[r][c] == 2)
@@ -139,7 +132,6 @@ void PathFinderManager::PrintMap()
                 cout << "P";
             else if (m_mapGraph[r][c] == 5)
                 cout << "M";
-            cout << ' ';
         }
         cout << '\n';
     }
@@ -173,9 +165,11 @@ void PathFinderManager::SetInTileDataM(Tile* tile, int value)
 {
     int x = tile->x;
     int y = tile->y;
-    INTILE[y * 3][x * 3] = value;         INTILE[y * 3][x * 3 + 1] = value;       INTILE[y * 3][x * 3 + 2] = value;
-    INTILE[y * 3 + 1][x * 3] = value;     INTILE[y * 3 + 1][x * 3 + 1] = value;   INTILE[y * 3 + 1][x * 3 + 2] = value;
-    INTILE[y * 3 + 2][x * 3] = value;     INTILE[y * 3 + 2][x * 3 + 1] = value;   INTILE[y * 3 + 2][x * 3 + 2] = value;
+                                                                                  INTILE[y * 3 - 1][x * 3 + 1] = value;
+                                          INTILE[y * 3][x * 3] = value;         INTILE[y * 3][x * 3 + 1] = value;       INTILE[y * 3][x * 3 + 2] = value;
+    INTILE[y * 3 + 1][x * 3 - 1] = value; INTILE[y * 3 + 1][x * 3] = value;     INTILE[y * 3 + 1][x * 3 + 1] = value;   INTILE[y * 3 + 1][x * 3 + 2] = value; INTILE[y * 3 + 1][x * 3 + 3] = value;
+                                            INTILE[y * 3 + 2][x * 3] = value;     INTILE[y * 3 + 2][x * 3 + 1] = value;   INTILE[y * 3 + 2][x * 3 + 2] = value;
+                                                                                 INTILE[y * 3 + 3][x * 3 + 1] = value;
 }
 
 POINT PathFinderManager::GetEndTile(POINT pos)
@@ -191,15 +185,16 @@ POINT PathFinderManager::GetEndTile(POINT pos)
     {
         POINT nowPos = queue.front();
         queue.pop();
+        if (m_mapGraph[nowPos.y][nowPos.x] == 0)
+            return nowPos;
         for (int i = 0; i < 8; ++i)
         {
-            int ny = dy[i] + nowPos.y;
             int nx = dx[i] + nowPos.x;
+            int ny = dy[i] + nowPos.y;
 
-            if (m_mapGraph[ny][nx] == 5 || m_mapGraph[ny][nx] == 2)
-                queue.push({ nx, ny });
-            if (m_mapGraph[ny][nx] == 0)
-                return { nx, ny };
+            //if (m_mapGraph[ny][nx] == 5 || m_mapGraph[ny][nx] == 2)
+            queue.push({ nx, ny });
+
         }
     }
     
@@ -217,12 +212,12 @@ bool PathFinderManager::IsObstacle(POINT pos)
 
 void PathFinderManager::SetInTileData(int x, int y, int value)
 {
-
-    INTILE[y][x] = value;
-    INTILE[y - 1][x] = value;
-    INTILE[y + 1][x] = value;
-    INTILE[y][x - 1] = value;
-    INTILE[y][x + 1] = value;
+    
+    if(INTILE[y][x] != 5) INTILE[y][x] = value;
+    if(INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
+    if(INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
+    if(INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
+    if(INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
 
 }
 
@@ -268,17 +263,25 @@ deque<POINT> PathFinderManager::PathFind()
 
 deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
 {
+
+    //PathFinderManager::GetInstance()->SetInTileData(start.x, start.y, 0);
     m_mapGraph[start.y][start.x] = 1;
     m_mapGraph[end.y][end.x] = 3;
 
-    // 도착점 차선책설정  (flood fill Algorithm)
-    end = PathFinderManager::GetInstance()->GetEndTile(end);
+    // 차선책을 따로 보관을해서
+
+    // 지금 구한 길과 차선책의 사이즈를 비교해서 더 크면 이동 X
 
     deque<POINT> dq;
     if (start.x == end.x && start.y == end.y)
     {
         return dq;
     }
+
+    // 도착점 차선책설정  (flood fill Algorithm)
+    end = PathFinderManager::GetInstance()->GetEndTile(end);
+
+
     dq = Astar({ start.x, start.y }, { end.x, end.y });
 
     

@@ -3,6 +3,7 @@
 #include "Component/ImageComponent.h"
 #include "Component/AnimatorComponent.h"
 #include "Component/ColiderComponent.h"
+#include "Component/Character/CharacterAttack.h"
 #include "Manager/CameraManager.h"
 
 Monster::Monster(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
@@ -64,9 +65,17 @@ void Monster::Update()
 	m_colider->SetRect(GetRect());
 }
 
-void Monster::OnColision(ColTypes tag)
+void Monster::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 {
+	switch (col2->GetType())
+	{
+	case ColTypes::CAtk:
+		m_hp -= col2->GetCAtkComp()->GetAtkDamage();
+		break;
+	}
 }
+
+
 
 void Monster::Render()
 {

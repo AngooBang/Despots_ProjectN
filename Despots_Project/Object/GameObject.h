@@ -21,6 +21,7 @@ public:
 	virtual void	Update() override;
 	virtual void	PhysicsUpdate() override;
 	virtual void	OnColision(ColTypes tag) { };
+	virtual void	OnColision(ColiderComponent* col1, ColiderComponent* col2) { };
 	virtual void	Render() override;
 	virtual void	Release() override;
 
@@ -52,6 +53,7 @@ public:
 	void			SetSize(DSize size) noexcept;
 	void			SetPivot(Pivot pivot) noexcept;
 	void			SetRect(RECT rect) noexcept;
+	void			SetRect(RECT rect, int size) noexcept;
 
 	std::wstring	GetType() const noexcept;
 	POINT			GetPosition() const noexcept;
@@ -61,6 +63,7 @@ public:
 	INT32			GetWidth() const noexcept;
 	INT32			GetHeight() const noexcept;
 	Pivot			GetPivot() const noexcept;
+	RECT			GetRect(int size) const noexcept;
 	RECT			GetRect() const noexcept;
 	RECT*			GetRectP() noexcept;
 	Scene*			GetScene() noexcept;

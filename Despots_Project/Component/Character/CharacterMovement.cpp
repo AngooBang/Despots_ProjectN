@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Manager/GameManager.h"
 #include "Manager/PathFinderManager.h"
+#include "Manager/CharacterManager.h"
 #include "Object/Character.h"
 #include "Object/TileMap.h"
 #include "Util/Timer.h"
@@ -16,57 +17,42 @@ CharacterMovement::CharacterMovement(Character* owner, INT32 order) noexcept
 
 void CharacterMovement::Update()
 {
-	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
-	{
-		//if (m_path.size() <= 2/*공격 사거리*/)
-		//{
-		//	while (m_path.empty() == false)
-		//	{
-		//		m_path.pop_back();
-		//	}
-		//}
-	}
+
+
+
 	if (m_path.empty() == false)
 	{
 		if (mb_isMove == false)
 		{
-
 			//이동전 초기값 지정구간
 			PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
 		}
 		// 도착점이 장애물이 되었을때
 		if (PathFinderManager::GetInstance()->IsObstacle(m_path.front()))
 		{
-			PathFinderManager::GetInstance()->PathFindPoint(m_owner->GetTilePos(), m_path.front());
+			CharacterManager::GetInstance()->FindNewPath(m_owner);
 		}
 
 		mb_isMove = true;
+		m_owner->SetState(CharacterState::Run);
 		Move();
 	}
 	else
 	{
 		mb_isMove = false;
-	}
-
-	if (mb_isMove == false)
-	{
 		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
-		if (m_owner->GetState() == CharacterState::Run)
+		if (m_owner->GetIsRangeInMon())
 		{
-			if(GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			m_owner->SetState(CharacterState::Attack);
+		}
+		else
+		{
+			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+				CharacterManager::GetInstance()->FindNewPath(m_owner);
+			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
 				m_owner->SetState(CharacterState::Idle);
-			else
-				m_owner->SetState(CharacterState::Attack);
-
 		}
 	}
-	else
-	{
-		m_owner->SetState(CharacterState::Run);
-
-	}
-
-
 }
 
 
@@ -125,4 +111,9 @@ void CharacterMovement::Move()
 void CharacterMovement::SetPath(deque<POINT> path)
 {
 	m_path = path;
+}
+
+void CharacterMovement::SetIsMove(bool isMove)
+{
+	mb_isMove = isMove;
 }

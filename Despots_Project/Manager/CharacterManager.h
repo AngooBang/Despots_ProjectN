@@ -20,6 +20,8 @@ public:
 
 	void FindMonsterPath();
 
+	void FindNewPath(Character* character);
+
 	void FlyCharacter();
 	void VisibleOff();
 

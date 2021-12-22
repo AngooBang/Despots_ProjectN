@@ -187,6 +187,9 @@
     <ClInclude Include="Object\FightButton.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Component\Character\CharacterAttack.h">
+      <Filter>Component\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -334,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="Object\FightButton.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Character\CharacterAttack.cpp">
+      <Filter>Component\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

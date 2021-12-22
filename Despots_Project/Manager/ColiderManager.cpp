@@ -39,3 +39,21 @@ void ColiderManager::CheckToMouse(ColiderComponent* col)
 	}
 }
 
+void ColiderManager::CheckToColider(ColiderComponent* col)
+{
+	RECT colRC = col->GetRect();
+
+	RECT tempRC;
+	
+	for (auto iter : m_vecCols)
+	{
+		if (iter == col) continue;
+		if (iter->GetIsAlive() == false) continue;
+		RECT secRC = iter->GetRect();
+		if (IntersectRect(&tempRC, &colRC, &secRC))
+		{
+			col->GetOwner()->OnColision(col, iter);
+		}
+	}
+}
+

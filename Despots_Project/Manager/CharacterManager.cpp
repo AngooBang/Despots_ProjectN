@@ -39,7 +39,7 @@ void CharacterManager::Update()
 	case GameState::Battle:
 		if (m_pathFindElapsed > 500.0f)
 		{
-			FindMonsterPath();
+			//FindMonsterPath();
 			m_pathFindElapsed = 0.0f;
 		}
 		break;
@@ -50,7 +50,7 @@ void CharacterManager::BattleStart()
 {
 	// 배틀 시작시 초기값 지정
 
-	//FindMonsterPath();
+	FindMonsterPath();
 }
 
 
@@ -83,6 +83,7 @@ void CharacterManager::FindMonsterPath()
 			if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
 			{
 				tempDeq = currDeq;
+				iter->SetTarget(moniter);
 			}
 			//	}
 			//}
@@ -90,6 +91,42 @@ void CharacterManager::FindMonsterPath()
 		}
 		iter->SetPath(tempDeq);
 	}
+}
+
+void CharacterManager::FindNewPath(Character* character)
+{
+	vector<Monster*> vecMon = MonsterManager::GetInstance()->GetVecMon();
+	deque<POINT> tempDeq;
+
+	POINT startPos = character->GetTilePos();
+	for (auto moniter : vecMon)
+	{
+		POINT endPos = moniter->GetTilePos();
+
+
+
+		deque<POINT> currDeq;
+		//if (abs(startPos.x - endPos.x) > 2)
+		//{
+		//	if (abs(startPos.y - endPos.y) > 2)
+		//	{
+		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
+		if (currDeq.empty())
+		{
+			return;
+		}
+
+		if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
+		{
+			tempDeq = currDeq;
+			character->SetTarget(moniter);
+		}
+		//	}
+		//}
+
+	}
+
+	character->SetPath(tempDeq);
 }
 
 void CharacterManager::FlyCharacter()

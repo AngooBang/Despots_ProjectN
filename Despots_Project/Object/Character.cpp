@@ -3,6 +3,7 @@
 #include "Component/AnimatorComponent.h"
 #include "Component/ImageComponent.h"
 #include "Component/Character/CharacterMovement.h"
+#include "Component/Character/CharacterAttack.h"
 #include "Util/Timer.h"
 #include "Manager/GameManager.h"
 
@@ -43,7 +44,7 @@ void Character::Init()
 	m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
 	m_attackAni->SetFrame(4, 1);
 	m_attackAni->SetIsLoop(false);
-	m_attackAni->SetMotionSpeed(80.0f);
+	m_attackAni->SetMotionSpeed(100.0f);
 	m_attackAni->SetScale(1.4f);
 
 
@@ -53,13 +54,30 @@ void Character::Init()
 
 	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Character, L"Character");
 
-	m_move = new CharacterMovement(this, 1);
 
+	m_atkRange = NORMAL_ATK_RANGE;
+	m_atkRangeCol = new ColiderComponent(this, 2, GetRect(m_atkRange), ColTypes::CAtkRange, L"CAtkRange");
+	
+	m_moveComp = new CharacterMovement(this, 1);
+
+
+	m_atkComp = new CharacterAttack(this, 1);
+	m_atkCol = new ColiderComponent(this, 2, {}, ColTypes::CAtk, L"CAtk");
+	
+	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
+	m_atkComp->SetIdleAni(m_idleAni);
+	m_atkComp->SetAtkAni(m_attackAni);
+	m_atkComp->SetAtkCol(m_atkCol);
+
+	m_atkCol->SetIsAlive(false);
+	m_atkCol->SetCAtkComp(m_atkComp);
 
 	m_type = CharacterType::Normal;
 	m_state = CharacterState::Idle;
 
 	m_renderRect = GetRect();
+
+	GameObject::Init();
 	
 }
 
@@ -82,10 +100,8 @@ void Character::Update()
 		m_state = CharacterState::Idle;
 	}
 
-	if (m_attackAni->GetEndAni() && m_state == CharacterState::Attack)
-	{
-		m_state = CharacterState::Idle;
-	}
+
+
 
 	switch (m_dir)
 	{
@@ -94,25 +110,19 @@ void Character::Update()
 		m_flyAni->SetHorizontalReverse(false);
 		m_idleAni->SetHorizontalReverse(false);
 		m_runAni->SetHorizontalReverse(false);
+		m_attackAni->SetHorizontalReverse(false);
 		break;
 	case CharacterDir::Left:
 		// 왼쪽 봄
 		m_flyAni->SetHorizontalReverse(true);
 		m_idleAni->SetHorizontalReverse(true);
 		m_runAni->SetHorizontalReverse(true);
+		m_attackAni->SetHorizontalReverse(true);
 		break;
 	}
-	//SetRect({ GetPosition().x - 22, GetPosition().y - 40,
-	//		GetPosition().x + 22, GetPosition().y + 22 });
-	//selectRc = { selectRc.left + 5 , selectRc.top + 40, selectRc.right - 5, selectRc.bottom - 10 };
 
-	//pos 를이용하여 조절필요
 	RECT selectRc = { m_renderPos.x - 17, m_renderPos.y, m_renderPos.x + 17, m_renderPos.y + 12 };
 	m_selectImg->SetRect(selectRc);
-
-	//m_idleAni->SetRect(GetRect());
-	//m_runAni->SetRect(GetRect());
-	//m_colider->SetRect(GetRect());
 
 	m_flyAni->SetRect(m_renderRect);
 	m_idleAni->SetRect(m_renderRect);
@@ -120,6 +130,7 @@ void Character::Update()
 	m_attackAni->SetRect(m_renderRect);
 
 	m_colider->SetRect(GetRect());
+	m_atkRangeCol->SetRect(GetRect(m_atkRange));
 
 
 }
@@ -136,7 +147,22 @@ void Character::OnColision(ColTypes tag)
 			GameManager::GetInstance()->SetCharType(CharacterType::None);
 		}
 		break;
+	default:
+		break;
 	}
+}
+
+void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
+{
+	switch (col1->GetType())
+	{
+	case ColTypes::CAtkRange:
+		if (col2->GetType() == ColTypes::Monster)
+			mb_rangeInMon = true;
+		break;
+
+	}
+
 }
 
 void Character::Render()
@@ -144,11 +170,8 @@ void Character::Render()
 	if (!mb_isVisible) return;
 	//ID2D1SolidColorBrush* brush;
 	//ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
-
 	//D2D1_RECT_F rect = { (FLOAT)GetRect().left, (FLOAT)GetRect().top, (FLOAT)GetRect().right, (FLOAT)GetRect().bottom };
-
-	//ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);
-	
+	//ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);	
 	GameObject::Render();
 }
 
@@ -207,15 +230,10 @@ void Character::StateUpdate()
 		break;
 
 	case CharacterState::Attack:
-		if (m_attackAni->GetIsVisible() == false)
-		{
-			m_attackAni->SetCurrFrame(0);
-			m_attackAni->SetEndAni(false);
-		}
 		m_flyAni->SetIsVisible(false);
-		m_idleAni->SetIsVisible(false);
+		//m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(false);
-		m_attackAni->SetIsVisible(true);
+		//m_attackAni->SetIsVisible(false);
 		break;
 
 
@@ -237,10 +255,6 @@ void Character::SetDataToType()
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
 
-		//m_renderRect = { GetPosition().x - 22, GetPosition().y - 40,
-		//	GetPosition().x + 22, GetPosition().y + 22 };
-		//SetRect({ GetPosition().x - 22, GetPosition().y - 40,
-		//	GetPosition().x + 22, GetPosition().y + 22 });
 		m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
 		m_idleAni->SetFrame(6, 1);
 
@@ -249,6 +263,17 @@ void Character::SetDataToType()
 
 		m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
 		m_attackAni->SetFrame(4, 1);
+		switch (m_dir)
+		{
+		case CharacterDir::Left:
+			m_atkCol->SetRect({ GetPosition().x - 32, GetPosition().y - 30, GetPosition().x,  GetPosition().y + 30 });
+			break;
+		case CharacterDir::Right:
+			m_atkCol->SetRect({ GetPosition().x, GetPosition().y - 30, GetPosition().x + 32,  GetPosition().y + 30 });
+			break;
+		default:
+			break;
+		}
 		break;
 	case CharacterType::GutSword:
 		m_renderRect = { m_renderPos.x - 50, m_renderPos.y - 40,
@@ -305,6 +330,8 @@ void Character::SetDataToType()
 	}
 }
 
+
+
 void Character::SetState(CharacterState state)
 {
 	m_state = state;
@@ -331,6 +358,11 @@ bool Character::GetIsSelected()
 	return mb_isSelected;
 }
 
+bool Character::GetIsRangeInMon()
+{
+	return mb_rangeInMon;
+}
+
 CharacterState Character::GetState()
 {
 	return m_state;
@@ -338,10 +370,15 @@ CharacterState Character::GetState()
 
 void Character::SetPath(deque<POINT> path)
 {
-	m_move->SetPath(path);
+	m_moveComp->SetPath(path);
 }
 
 void Character::SetDir(CharacterDir dir)
 {
 	m_dir = dir;
+}
+
+void Character::SetTarget(Monster* target)
+{
+	m_target = target;
 }
