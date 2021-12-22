@@ -48,21 +48,21 @@ void Character::Init()
 	m_attackAni->SetScale(1.4f);
 
 
-	m_selectImg = new ImageComponent(this, 1);
+	m_selectImg = new ImageComponent(this, 2);
 	m_selectImg->SetImage(L"Image/Character/Selected.png");
 	m_selectImg->SetIsVisible(false);
 
-	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Character, L"Character");
+	m_colider = new ColiderComponent(this, 1, GetRect(), ColTypes::Character, L"Character");
 
 
 	m_atkRange = NORMAL_ATK_RANGE;
-	m_atkRangeCol = new ColiderComponent(this, 2, GetRect(m_atkRange), ColTypes::CAtkRange, L"CAtkRange");
+	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(m_atkRange), ColTypes::CAtkRange, L"CAtkRange");
 	
 	m_moveComp = new CharacterMovement(this, 1);
 
 
 	m_atkComp = new CharacterAttack(this, 1);
-	m_atkCol = new ColiderComponent(this, 2, {}, ColTypes::CAtk, L"CAtk");
+	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
 	
 	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
 	m_atkComp->SetIdleAni(m_idleAni);
@@ -83,6 +83,7 @@ void Character::Init()
 
 void Character::Update()
 {
+	mb_rangeInMon = false;
 	GameObject::Update();
 
 	SetDataToType();
@@ -157,8 +158,10 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 	switch (col1->GetType())
 	{
 	case ColTypes::CAtkRange:
+		// 사거리 콜라이더에 들어오지 않았을때 false로 해주는 작업도 필요함.
 		if (col2->GetType() == ColTypes::Monster)
 			mb_rangeInMon = true;
+
 		break;
 
 	}

@@ -6,6 +6,7 @@
 #include "Object/TileMap.h"
 #include "Object/Tile.h"
 #include "Object/MoveFrame.h"
+#include "Object/Monster.h"
 
 void GameManager::Update()
 {
@@ -31,7 +32,27 @@ void GameManager::Update()
 	// 2. 클릭된 타일을 가지고있는 캐릭터를 찾아 선택상태로 만들어줌
 	CharacterManager::GetInstance()->SelectCharacter(clickTile);
 
-	
+	// 전투상태일때 남은몬스터 확인 후 없다면 다시 스탠바이로~
+	if(m_gameState == GameState::Battle)
+		CheckMonsterLeft();
+}
+
+void GameManager::CheckMonsterLeft()
+{
+	vector<Monster*> tempMon = MonsterManager::GetInstance()->GetVecMon();
+
+	bool isMonsterLeft = false;
+	for (auto iter : tempMon)
+	{
+		if (iter->GetIsAlive())
+			isMonsterLeft = true;
+	}
+
+	if (!isMonsterLeft)
+	{
+		m_gameState = GameState::Stanby;
+	}
+	return;
 }
 
 Tile* GameManager::GetNewCharTile()

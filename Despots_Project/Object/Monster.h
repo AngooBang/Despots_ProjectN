@@ -34,6 +34,7 @@ public:
 	POINT GetTilePos();
 
 	bool GetIsSelected();
+	bool GetIsAlive();
 
 
 	void SetState(MonsterState state);
@@ -46,6 +47,8 @@ public:
 private:
 	AnimatorComponent*	m_idleAni = nullptr;
 	AnimatorComponent*	m_runAni = nullptr;
+	AnimatorComponent*	m_deathAni = nullptr;
+
 	ImageComponent*		m_burrowImg = nullptr;
 	ColiderComponent*	m_colider = nullptr;
 
@@ -61,6 +64,7 @@ private:
 	MonsterType			m_type = MonsterType::None;
 	MonsterDir			m_dir = MonsterDir::Left;
 	bool				mb_isSelected = false;
+	bool				mb_isAlive = true;
 
 	int					m_hp = 50;
 };

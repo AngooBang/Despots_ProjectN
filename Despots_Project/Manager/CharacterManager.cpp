@@ -101,6 +101,7 @@ void CharacterManager::FindNewPath(Character* character)
 	POINT startPos = character->GetTilePos();
 	for (auto moniter : vecMon)
 	{
+		if (moniter->GetIsAlive() == false) continue;
 		POINT endPos = moniter->GetTilePos();
 
 

@@ -131,6 +131,7 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Burrow.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Death.png");
 }
 
 int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)

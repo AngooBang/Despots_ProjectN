@@ -39,8 +39,18 @@ void MonsterManager::Update()
 
 		m_vecMon.push_back(newMonster);
 	}
-
 	m_addCount = 0;
+
+
+	//for (auto iter = m_vecMon.begin(); iter != m_vecMon.end(); ++iter)
+	//{
+	//	if ((*iter)->GetIsAlive() == false)
+	//	{
+	//		m_vecMon.erase(iter);
+	//		SAFE_RELEASE((*iter));
+	//	}
+	//}
+
 }
 
 void MonsterManager::AddMonster()

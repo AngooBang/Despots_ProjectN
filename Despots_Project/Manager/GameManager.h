@@ -15,6 +15,18 @@ public:
 
 	virtual void Update() override;
 
+	void CheckMonsterLeft();
+	
+	void AddStageNum(int num);
+
+	POINT DistPosToTilePos(POINT pos);
+
+	void CharacterMove(Tile* endTile);
+
+	void BattleStart();
+
+	void LoadStage();
+
 	Tile* GetNewCharTile();
 	Tile* GetNewMonTile();
 	TileMap* GetCurrTileMap();
@@ -26,17 +38,6 @@ public:
 	void SetCurrTileMap(TileMap* tileMap);
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
-
-	void AddStageNum(int num);
-
-	POINT DistPosToTilePos(POINT pos);
-
-
-	void CharacterMove(Tile* endTile);
-
-	void BattleStart();
-
-	void LoadStage();
 
 private:
 	GameState m_gameState = GameState::Stanby;

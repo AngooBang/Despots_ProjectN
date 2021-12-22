@@ -273,10 +273,6 @@ deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
     // 지금 구한 길과 차선책의 사이즈를 비교해서 더 크면 이동 X
 
     deque<POINT> dq;
-    if (start.x == end.x && start.y == end.y)
-    {
-        return dq;
-    }
 
     // 도착점 차선책설정  (flood fill Algorithm)
     end = PathFinderManager::GetInstance()->GetEndTile(end);

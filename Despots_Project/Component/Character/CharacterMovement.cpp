@@ -39,6 +39,12 @@ void CharacterMovement::Update()
 	}
 	else
 	{
+
+		if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()) && mb_isMove)
+		{
+			CharacterManager::GetInstance()->FindNewPath(m_owner);
+			return;
+		}
 		mb_isMove = false;
 		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
 		if (m_owner->GetIsRangeInMon())
