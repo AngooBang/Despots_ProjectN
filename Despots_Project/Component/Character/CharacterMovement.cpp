@@ -18,8 +18,6 @@ CharacterMovement::CharacterMovement(Character* owner, INT32 order) noexcept
 void CharacterMovement::Update()
 {
 
-
-
 	if (m_path.empty() == false)
 	{
 		if (mb_isMove == false)
@@ -36,6 +34,14 @@ void CharacterMovement::Update()
 		mb_isMove = true;
 		m_owner->SetState(CharacterState::Run);
 		Move();
+		// 원거리캐릭들은 사거리가 되면 멈춤
+		if (m_owner->GetCType() == CharacterType::Crossbow || m_owner->GetCType() == CharacterType::Ring)
+		{
+			if (m_owner->GetIsRangeInMon() && GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			{
+				m_path.clear();
+			}
+		}
 	}
 	else
 	{
@@ -53,9 +59,9 @@ void CharacterMovement::Update()
 		}
 		else
 		{
-			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			if (GameManager::GetInstance()->GetGameState() == GameState::Battle && m_owner->GetState() == CharacterState::Idle)
 				CharacterManager::GetInstance()->FindNewPath(m_owner);
-			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby && m_owner->GetState() == CharacterState::Run)
 				m_owner->SetState(CharacterState::Idle);
 		}
 	}

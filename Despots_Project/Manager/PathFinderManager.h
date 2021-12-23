@@ -46,6 +46,8 @@ public:
     void SetInTileData(int x, int y, int value);
     void SetInTileData(Tile* tile, int value);
 
+    void SetInTileDataL(int x, int y, int value);
+
     void SetInTileDataM(Tile* tile, int value);
     POINT GetEndTile(POINT pos);
 

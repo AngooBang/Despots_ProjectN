@@ -10,7 +10,20 @@ enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
 
 #define NORMAL_ATK_RANGE 10
+#define NORMAL_ATK_DMG 5
+#define NORMAL_ATK_SPEED 2.0f
 
+#define GUTS_ATK_RANGE 20
+#define GUTS_ATK_DMG 30
+#define GUTS_ATK_SPEED 4.5f
+
+#define SHIELD_ATK_RANGE 5
+#define SHIELD_ATK_DMG 15
+#define SHIELD_ATK_SPEED 3.0f
+
+#define CROSSBOW_ATK_RANGE 300
+#define CROSSBOW_ATK_DMG 20
+#define CROSSBOW_ATK_SPEED 4.0f
 using namespace std;
 
 class ImageComponent;
@@ -39,15 +52,19 @@ public:
 	// 상태세터만들기
 
 	POINT GetTilePos();
+	POINT GetStanbyPos();
 
 	bool GetIsSelected();
 	bool GetIsRangeInMon();
 	CharacterState GetState();
+	CharacterDir GetDir();
+	CharacterType GetCType();
 
 
 	void SetState(CharacterState state);
 	void SetIsSelected(bool isSelected);
 	void SetTilePos(POINT pos);
+	void SetStanbyPos(POINT pos);
 	void SetPath(deque<POINT> path);
 	void SetDir(CharacterDir dir);
 	void SetTarget(Monster* target);
@@ -64,13 +81,14 @@ private:
 	ColiderComponent*	m_atkRangeCol = nullptr;
 	ColiderComponent*	m_atkCol = nullptr;
 
-	int					m_atkRange = NULL;
-
 	CharacterState		m_state = CharacterState::End;
 
 	Monster*			m_target = nullptr;
 	
 	POINT m_tilePos = {};
+
+	POINT m_stanbyPos = {};
+
 	LONG m_flyDestY = NULL;
 
 	POINT m_renderPos = {};

@@ -41,6 +41,7 @@ void GameScene::Init()
 	MonsterManager::GetInstance()->SetScene(this);
 	MonsterManager::GetInstance()->SetLayer(m_objectLayer);
 
+	GameManager::GetInstance()->SetShop(m_shop);
 	GameManager::GetInstance()->LoadStage();
 
 	Scene::Init();
@@ -48,6 +49,9 @@ void GameScene::Init()
 
 void GameScene::Update()
 {
+	GameManager::GetInstance()->Update();
+	CharacterManager::GetInstance()->Update();
+	MonsterManager::GetInstance()->Update();
 	Scene::Update();
 
 	if (Input::GetButton(VK_LEFT))
@@ -67,16 +71,12 @@ void GameScene::Update()
 
 	if (Input::GetButtonDown('S'))
 	{
-		m_shopLayer->RemoveObject(L"Item");
 		m_shop->Show();
 	}
 
 	if (Input::GetButtonDown('P'))
 		PathFinderManager::GetInstance()->PrintMap();
 
-	GameManager::GetInstance()->Update();
-	CharacterManager::GetInstance()->Update();
-	MonsterManager::GetInstance()->Update();
 }
 
 void GameScene::PhysicsUpdate()

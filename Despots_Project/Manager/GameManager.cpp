@@ -7,30 +7,34 @@
 #include "Object/Tile.h"
 #include "Object/MoveFrame.h"
 #include "Object/Monster.h"
+#include "Object/Shop.h"
 
 void GameManager::Update()
 {
-	Tile* clickTile = nullptr;
-	// 1. 타일에 클릭을 검사
-	for (int y = 1; y <= 7; ++y)
+	if (m_gameState == GameState::Stanby)
 	{
-		for (int x = 1; x <= 7; ++x)
+		Tile* clickTile = nullptr;
+		// 1. 타일에 클릭을 검사
+		for (int y = 1; y <= 7; ++y)
 		{
-			RECT tempRc = m_currTileMap->GetTileInfo()[y][x]->GetRect();
-			POINT mousePt = Input::GetMousePosition();
-			
-			if (PtInRect(&tempRc, mousePt))
+			for (int x = 1; x <= 7; ++x)
 			{
-				m_moveFrame->SetRect(tempRc);
-				if(Input::GetButtonDown(VK_LBUTTON))
-					clickTile = m_currTileMap->GetTileInfo()[y][x];
-				if (Input::GetButtonDown(VK_RBUTTON))
-					CharacterManager::GetInstance()->GetMovePath(m_currTileMap->GetTileInfo()[y][x]);
+				RECT tempRc = m_currTileMap->GetTileInfo()[y][x]->GetRect();
+				POINT mousePt = Input::GetMousePosition();
+
+				if (PtInRect(&tempRc, mousePt))
+				{
+					m_moveFrame->SetRect(tempRc);
+					if (Input::GetButtonDown(VK_LBUTTON))
+						clickTile = m_currTileMap->GetTileInfo()[y][x];
+					if (Input::GetButtonDown(VK_RBUTTON))
+						CharacterManager::GetInstance()->GetMovePath(m_currTileMap->GetTileInfo()[y][x]);
+				}
 			}
 		}
+		// 2. 클릭된 타일을 가지고있는 캐릭터를 찾아 선택상태로 만들어줌
+		CharacterManager::GetInstance()->SelectCharacter(clickTile);
 	}
-	// 2. 클릭된 타일을 가지고있는 캐릭터를 찾아 선택상태로 만들어줌
-	CharacterManager::GetInstance()->SelectCharacter(clickTile);
 
 	// 전투상태일때 남은몬스터 확인 후 없다면 다시 스탠바이로~
 	if(m_gameState == GameState::Battle)
@@ -50,7 +54,8 @@ void GameManager::CheckMonsterLeft()
 
 	if (!isMonsterLeft)
 	{
-		m_gameState = GameState::Stanby;
+		BattleQuit();
+		// 캐릭터가 전멸시 GameOver를 띄우고 타이틀씬으로 돌아가는명령 필요
 	}
 	return;
 }
@@ -128,10 +133,20 @@ void GameManager::BattleStart()
 	m_gameState = GameState::Battle;
 	MonsterManager::GetInstance()->BattleStart();
 	CharacterManager::GetInstance()->BattleStart();
+	m_shop->SetIsAlive(false);
+}
+
+void GameManager::BattleQuit()
+{
+	// 전투가 끝난후 스탠바이로 넘어가는 함수 구현 필요 (캐릭터의위치를 기존의 위치로 이동, 상태를 Idle로, 상점을 띄워줌, 코인을 추가함 등..)
+	m_gameState = GameState::Stanby;
+	CharacterManager::GetInstance()->BattleQuit();
+	m_shop->Show();
 }
 
 void GameManager::LoadStage()
 {
+	// 문을 통해 다른스테이지로 이동을 마쳤을때
 	switch (m_stageNum)
 	{
 	case 1:
@@ -159,7 +174,15 @@ void GameManager::LoadStage()
 		}
 		break;
 	}
+
+	// 캐릭터 이동(fly 애니메이션 출력)
 	CharacterManager::GetInstance()->FlyCharacter();
+}
+
+void GameManager::ShopVisibleOff()
+{
+	// 상점없애줌
+	m_shop->SetIsAlive(false);
 }
 
 void GameManager::SetCurrTileMap(TileMap* tileMap)
@@ -175,6 +198,11 @@ void GameManager::SetMoveFrame(MoveFrame* moveFrame)
 void GameManager::SetCharType(CharacterType type)
 {
 	m_charType = type;
+}
+
+void GameManager::SetShop(Shop* shop)
+{
+	m_shop = shop;
 }
 
 void GameManager::AddStageNum(int num)

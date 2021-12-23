@@ -66,5 +66,5 @@ private:
 	bool				mb_isSelected = false;
 	bool				mb_isAlive = true;
 
-	int					m_hp = 50;
+	int					m_hp = 10;
 };

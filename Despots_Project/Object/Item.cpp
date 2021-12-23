@@ -34,6 +34,11 @@ void Item::Init()
 
 void Item::Update()
 {
+	if (!mb_isAlive)
+	{
+		m_itemColider->SetIsAlive(false);
+		return;
+	}
 	GameObject::Update();
 	SetDataToType();
 	if (mb_isSelect)
@@ -96,6 +101,17 @@ void Item::OnColision(ColTypes tag)
 		//GameManager::GetInstance()->SetCharType(CharacterType::None);
 		break;
 	}
+}
+
+void Item::Render()
+{
+	if (!mb_isAlive) return;
+	GameObject::Render();
+}
+
+void Item::SetIsAlive(bool isAlive)
+{
+	mb_isAlive = isAlive;
 }
 
 void Item::SetDataToType()

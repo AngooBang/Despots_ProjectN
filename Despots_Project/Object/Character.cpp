@@ -23,7 +23,7 @@ void Character::Init()
 	m_flyAni->SetImage(L"Image/Character/Normal/Normal_Fly.png");
 	m_flyAni->SetFrame(14, 1);
 	m_flyAni->SetIsLoop(false);
-	m_flyAni->SetMotionSpeed(90.0f);
+	m_flyAni->SetMotionSpeed(0.09f);
 	m_flyAni->SetScale(2.0f);
 
 	m_idleAni = new AnimatorComponent(this, 2);
@@ -37,14 +37,14 @@ void Character::Init()
 	m_runAni->SetImage(L"Image/Character/Normal/Normal_Run.png");
 	m_runAni->SetFrame(8, 1);
 	m_runAni->SetIsLoop(true);
-	m_runAni->SetMotionSpeed(50.0f);
+	m_runAni->SetMotionSpeed(0.05f);
 	m_runAni->SetScale(1.4f);
 
 	m_attackAni = new AnimatorComponent(this, 2);
 	m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
 	m_attackAni->SetFrame(4, 1);
 	m_attackAni->SetIsLoop(false);
-	m_attackAni->SetMotionSpeed(100.0f);
+	m_attackAni->SetMotionSpeed(0.1f);
 	m_attackAni->SetScale(1.4f);
 
 
@@ -55,19 +55,21 @@ void Character::Init()
 	m_colider = new ColiderComponent(this, 1, GetRect(), ColTypes::Character, L"Character");
 
 
-	m_atkRange = NORMAL_ATK_RANGE;
-	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(m_atkRange), ColTypes::CAtkRange, L"CAtkRange");
+	m_atkComp = new CharacterAttack(this, 1);
+	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::CAtkRange, L"CAtkRange");
 	
 	m_moveComp = new CharacterMovement(this, 1);
 
 
-	m_atkComp = new CharacterAttack(this, 1);
 	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
 	
 	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
 	m_atkComp->SetIdleAni(m_idleAni);
 	m_atkComp->SetAtkAni(m_attackAni);
 	m_atkComp->SetAtkCol(m_atkCol);
+	m_atkComp->SetAttackRange(NORMAL_ATK_RANGE);
+	m_atkComp->SetAttackDamage(NORMAL_ATK_DMG);
+	m_atkComp->SetAttackSpeed(NORMAL_ATK_SPEED);
 
 	m_atkCol->SetIsAlive(false);
 	m_atkCol->SetCAtkComp(m_atkComp);
@@ -128,11 +130,25 @@ void Character::Update()
 	m_flyAni->SetRect(m_renderRect);
 	m_idleAni->SetRect(m_renderRect);
 	m_runAni->SetRect(m_renderRect);
-	m_attackAni->SetRect(m_renderRect);
+	if (m_type == CharacterType::GutSword)
+	{
+		m_attackAni->SetRect({ m_renderRect.left - 10, m_renderRect.top , m_renderRect.right + 20, m_renderRect.bottom +10 });
+	}
+	else
+	{
+		m_attackAni->SetRect(m_renderRect);
+	}
 
 	m_colider->SetRect(GetRect());
-	m_atkRangeCol->SetRect(GetRect(m_atkRange));
-
+	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
+	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	{
+		m_atkRangeCol->SetIsAlive(true);
+	}
+	else
+	{
+		m_atkRangeCol->SetIsAlive(false);
+	}
 
 }
 
@@ -160,7 +176,14 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 	case ColTypes::CAtkRange:
 		// 사거리 콜라이더에 들어오지 않았을때 false로 해주는 작업도 필요함.
 		if (col2->GetType() == ColTypes::Monster)
+		{
 			mb_rangeInMon = true;
+			if (GetRect().left <= col2->GetRect().left)
+				m_dir = CharacterDir::Right;
+			else
+				m_dir = CharacterDir::Left;
+
+		}
 
 		break;
 
@@ -201,15 +224,23 @@ void Character::StateUpdate()
 		}
 		if (GetPosition().y < m_flyDestY)
 		{
-			SetPosition({ GetPosition().x, (LONG)(GetPosition().y + 1.5f * Timer::GetDeltaTime()) });
+			SetPosition({ GetPosition().x, (LONG)(GetPosition().y + 1500.0f * Timer::GetDeltaTime()) });
 		}
 		else
 		{
 			SetPosition(GetPosition().x, m_flyDestY);
 		}
-		if (m_type == CharacterType::GutSword)
+		switch(m_type)
 		{
+		case CharacterType::GutSword:
 			m_renderRect = { m_renderRect.left + 20, m_renderRect.top, m_renderRect.right + 20, m_renderRect.bottom };
+			break;
+		case CharacterType::Ring:
+			m_renderRect = { m_renderRect.left, m_renderRect.top + 10, m_renderRect.right, m_renderRect.bottom +10 };
+			break;
+		case CharacterType::Crossbow:
+			m_renderRect = { m_renderRect.left-10, m_renderRect.top, m_renderRect.right - 10, m_renderRect.bottom  };
+			break;
 		}
 		m_flyAni->SetIsVisible(true);
 		m_idleAni->SetIsVisible(false);
@@ -234,9 +265,7 @@ void Character::StateUpdate()
 
 	case CharacterState::Attack:
 		m_flyAni->SetIsVisible(false);
-		//m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(false);
-		//m_attackAni->SetIsVisible(false);
 		break;
 
 
@@ -260,23 +289,10 @@ void Character::SetDataToType()
 
 		m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-
 		m_runAni->SetImage(L"Image/Character/Normal/Normal_Run.png");
 		m_runAni->SetFrame(8, 1);
-
 		m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
 		m_attackAni->SetFrame(4, 1);
-		switch (m_dir)
-		{
-		case CharacterDir::Left:
-			m_atkCol->SetRect({ GetPosition().x - 32, GetPosition().y - 30, GetPosition().x,  GetPosition().y + 30 });
-			break;
-		case CharacterDir::Right:
-			m_atkCol->SetRect({ GetPosition().x, GetPosition().y - 30, GetPosition().x + 32,  GetPosition().y + 30 });
-			break;
-		default:
-			break;
-		}
 		break;
 	case CharacterType::GutSword:
 		m_renderRect = { m_renderPos.x - 50, m_renderPos.y - 40,
@@ -285,13 +301,19 @@ void Character::SetDataToType()
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
 
+		m_atkComp->SetAttackRange(GUTS_ATK_RANGE);
+		m_atkComp->SetAttackDamage(GUTS_ATK_DMG);
+		m_atkComp->SetAttackSpeed(GUTS_ATK_SPEED);
+
 		m_flyAni->SetImage(L"Image/Character/Swordman/GutsSword_Fly.png");
 		m_flyAni->SetFrame(14, 1);
 		m_idleAni->SetImage(L"Image/Character/Swordman/GutsSword_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-
 		m_runAni->SetImage(L"Image/Character/Swordman/GutsSword_Run.png");
 		m_runAni->SetFrame(12, 1);
+		m_attackAni->SetImage(L"Image/Character/Swordman/GutsSword_Attack.png");
+		m_attackAni->SetFrame(10, 1);
+		m_attackAni->SetScale(2.5f);
 		break;
 	case CharacterType::Shield:
 		m_renderRect = { m_renderPos.x - 28, m_renderPos.y - 45,
@@ -299,11 +321,19 @@ void Character::SetDataToType()
 
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
+
+		m_atkComp->SetAttackRange(SHIELD_ATK_RANGE);
+		m_atkComp->SetAttackDamage(SHIELD_ATK_DMG);
+		m_atkComp->SetAttackSpeed(SHIELD_ATK_SPEED);
+
+		m_flyAni->SetImage(L"Image/Character/Tanker/Shield_Fly.png");
+		m_flyAni->SetFrame(14, 1);
 		m_idleAni->SetImage(L"Image/Character/Tanker/Shield_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-
 		m_runAni->SetImage(L"Image/Character/Tanker/Shield_Run.png");
 		m_runAni->SetFrame(6, 1);
+		m_attackAni->SetImage(L"Image/Character/Tanker/Shield_Attack.png");
+		m_attackAni->SetFrame(3, 1);
 		break;
 	case CharacterType::Crossbow:
 		m_renderRect = { m_renderPos.x - 22, m_renderPos.y - 40,
@@ -311,11 +341,22 @@ void Character::SetDataToType()
 
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
+
+		m_atkComp->SetIsCloseRange(false);
+		m_atkComp->SetBulletSize(10);
+
+		m_atkComp->SetAttackRange(CROSSBOW_ATK_RANGE);
+		m_atkComp->SetAttackDamage(CROSSBOW_ATK_DMG);
+		m_atkComp->SetAttackSpeed(CROSSBOW_ATK_SPEED);
+
+		m_flyAni->SetImage(L"Image/Character/Shooter/Crossbow_Fly.png");
+		m_flyAni->SetFrame(14, 1);
 		m_idleAni->SetImage(L"Image/Character/Shooter/Crossbow_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-
 		m_runAni->SetImage(L"Image/Character/Shooter/Crossbow_Run.png");
 		m_runAni->SetFrame(6, 1);
+		m_attackAni->SetImage(L"Image/Character/Shooter/Crossbow_Attack.png");
+		m_attackAni->SetFrame(3, 1);
 		break;
 	case CharacterType::Ring:
 		m_renderRect = { m_renderPos.x - 30, m_renderPos.y - 60,
@@ -323,12 +364,15 @@ void Character::SetDataToType()
 
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
+		m_flyAni->SetImage(L"Image/Character/Mage/Ring_Fly.png");
+		m_flyAni->SetFrame(14, 1);
 		m_idleAni->SetImage(L"Image/Character/Mage/Ring_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-		m_idleAni->SetMotionSpeed(80.0f);
-
+		m_idleAni->SetMotionSpeed(0.08f);
 		m_runAni->SetImage(L"Image/Character/Mage/Ring_Run.png");
 		m_runAni->SetFrame(6, 1);
+		m_attackAni->SetImage(L"Image/Character/Mage/Ring_Attack.png");
+		m_attackAni->SetFrame(4, 1);
 		break;
 	}
 }
@@ -350,9 +394,19 @@ void Character::SetTilePos(POINT pos)
 	m_tilePos = pos;
 }
 
+void Character::SetStanbyPos(POINT pos)
+{
+	m_stanbyPos = pos;
+}
+
 POINT Character::GetTilePos()
 {
 	return m_tilePos;
+}
+
+POINT Character::GetStanbyPos()
+{
+	return m_stanbyPos;
 }
 
 
@@ -369,6 +423,16 @@ bool Character::GetIsRangeInMon()
 CharacterState Character::GetState()
 {
 	return m_state;
+}
+
+CharacterDir Character::GetDir()
+{
+	return m_dir;
+}
+
+CharacterType Character::GetCType()
+{
+	return m_type;
 }
 
 void Character::SetPath(deque<POINT> path)

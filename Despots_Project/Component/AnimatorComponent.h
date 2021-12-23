@@ -44,7 +44,7 @@ private:
 	int m_frameWidth = 0;
 	int m_frameHeight = 0;
 
-	float m_motionSpeed = 80.0f;
+	float m_motionSpeed = 0.08f;
 	float m_animationElapsed = 0.0f;
 
 	float m_scale = 1.0f;

@@ -19,7 +19,10 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void OnColision(ColTypes tag) override;
+	virtual void Render() override;
 
+
+	void SetIsAlive(bool isAlive);
 	void SetDataToType();
 
 	void SetCharType(CharacterType type);
@@ -39,4 +42,6 @@ private:
 	bool mb_aniHelp = false;
 
 	bool mb_isSelect = false;
+
+	bool mb_isAlive = true;
 };

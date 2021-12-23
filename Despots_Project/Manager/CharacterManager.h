@@ -17,6 +17,7 @@ public:
 	virtual void Update() override;
 
 	void BattleStart();
+	void BattleQuit();
 
 	void FindMonsterPath();
 

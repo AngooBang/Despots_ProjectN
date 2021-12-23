@@ -161,6 +161,21 @@ void PathFinderManager::SetInTileData(Tile* tile, int value)
     INTILE[y * 3 + 2][x * 3 + 1] = value;
 }
 
+void PathFinderManager::SetInTileDataL(int x, int y, int value)
+{
+    if (INTILE[y - 1][x - 1] != 5) INTILE[y - 1][x - 1] = value;
+    if (INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
+    if (INTILE[y - 1][x + 1] != 5) INTILE[y - 1][x + 1] = value;
+
+    if (INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
+    if (INTILE[y][x] != 5)     INTILE[y][x] = value;
+    if (INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
+
+    if (INTILE[y + 1][x - 1] != 5) INTILE[y + 1][x - 1] = value;
+    if (INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
+    if (INTILE[y + 1][x + 1] != 5) INTILE[y + 1][x + 1] = value;
+}
+
 void PathFinderManager::SetInTileDataM(Tile* tile, int value)
 {
     int x = tile->x;
@@ -213,7 +228,7 @@ bool PathFinderManager::IsObstacle(POINT pos)
 void PathFinderManager::SetInTileData(int x, int y, int value)
 {
     
-    if(INTILE[y][x] != 5) INTILE[y][x] = value;
+    if(INTILE[y][x] != 5)     INTILE[y][x] = value;
     if(INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
     if(INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
     if(INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
@@ -265,8 +280,8 @@ deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
 {
 
     //PathFinderManager::GetInstance()->SetInTileData(start.x, start.y, 0);
-    m_mapGraph[start.y][start.x] = 1;
-    m_mapGraph[end.y][end.x] = 3;
+    //m_mapGraph[start.y][start.x] = 1;
+    //m_mapGraph[end.y][end.x] = 3;
 
     // 차선책을 따로 보관을해서
 
@@ -275,7 +290,8 @@ deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
     deque<POINT> dq;
 
     // 도착점 차선책설정  (flood fill Algorithm)
-    end = PathFinderManager::GetInstance()->GetEndTile(end);
+    //if(INTILE[end.y][end.x] == 2 || INTILE[end.y][end.x] == 5)
+     end = PathFinderManager::GetInstance()->GetEndTile(end);
 
 
     dq = Astar({ start.x, start.y }, { end.x, end.y });

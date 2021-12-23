@@ -115,6 +115,7 @@ void Door::OnColision(ColTypes tag)
 		}
 		break;
 	case ColTypes::MouseClickDown:
+		if (GameManager::GetInstance()->GetGameState() == GameState::Battle) break;
 		m_state = DoorState::Click;
 		mb_chageState = true;
 		switch (m_dir)

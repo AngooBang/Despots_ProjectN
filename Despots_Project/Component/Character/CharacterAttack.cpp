@@ -9,18 +9,33 @@ CharacterAttack::CharacterAttack(Character* owner, INT32 order) noexcept
 	m_owner = owner;
 }
 
-void CharacterAttack::Init()
-{
-	m_attackElapsed = 0.0f;
-	m_attackSpeed = 1400.0f;
-	m_attackDamage = 10;
-}
-
 void CharacterAttack::Update()
 {
 	if (m_owner->GetState() != CharacterState::Attack) return;
 
-	// 컴포넌트화
+	if (mb_isCloseRange)
+	{
+		POINT ownerPos = m_owner->GetPosition();
+		int ownerWidth = m_owner->GetRect().right - m_owner->GetRect().left;
+		int ownerHeight = m_owner->GetRect().bottom - m_owner->GetRect().top;
+		switch (m_owner->GetDir())
+		{
+		case CharacterDir::Left:
+			m_atkCol->SetRect({ ownerPos.x - (ownerWidth / 2) + m_attackRange, ownerPos.y - (ownerHeight / 2), ownerPos.x,  ownerPos.y + (ownerHeight / 2) });
+			break;
+		case CharacterDir::Right:
+			m_atkCol->SetRect({ ownerPos.x , ownerPos.y - (ownerHeight / 2), ownerPos.x + (ownerWidth / 2) + m_attackRange,  ownerPos.y + (ownerHeight / 2) });
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		ShotColider();
+	}
+
+	// 애니메이션 처리
 	if (m_attackElapsed > m_attackSpeed)
 	{
 		m_atkAni->SetCurrFrame(0);
@@ -28,7 +43,6 @@ void CharacterAttack::Update()
 
 		m_idleAni->SetIsVisible(false);
 		m_atkAni->SetIsVisible(true);
-
 		m_atkCol->SetIsAlive(true);
 		m_attackElapsed = 0.0f;
 	}
@@ -37,10 +51,17 @@ void CharacterAttack::Update()
 	{
 		m_idleAni->SetIsVisible(true);
 		m_atkAni->SetIsVisible(false);
-
 		m_atkCol->SetIsAlive(false);
+		m_owner->SetState(CharacterState::Idle);
 		m_attackElapsed += Timer::GetDeltaTime();
 	}
+}
+
+void CharacterAttack::ShotColider()
+{
+	POINT ownerPos = m_owner->GetPosition();
+	m_atkCol->SetRect({ ownerPos.x - m_bulletSize / 2, ownerPos.y - m_bulletSize / 2, ownerPos.x + m_bulletSize / 2, ownerPos.y + m_bulletSize / 2 });
+
 }
 
 void CharacterAttack::SetIdleAni(AnimatorComponent* idleAni)
@@ -58,7 +79,37 @@ void CharacterAttack::SetAtkCol(ColiderComponent* col)
 	m_atkCol = col;
 }
 
+void CharacterAttack::SetAttackDamage(int damage)
+{
+	m_attackDamage = damage;
+}
+
+void CharacterAttack::SetAttackSpeed(float speed)
+{
+	m_attackSpeed = speed;
+}
+
+void CharacterAttack::SetAttackRange(int range)
+{
+	m_attackRange = range;
+}
+
+void CharacterAttack::SetIsCloseRange(bool closeRange)
+{
+	mb_isCloseRange = closeRange;
+}
+
+void CharacterAttack::SetBulletSize(int size)
+{
+	m_bulletSize = size;
+}
+
 int CharacterAttack::GetAtkDamage()
 {
 	return m_attackDamage;
+}
+
+int CharacterAttack::GetAtkRange()
+{
+	return m_attackRange;
 }

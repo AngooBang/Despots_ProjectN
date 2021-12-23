@@ -11,6 +11,7 @@
 
 void CharacterManager::Update()
 {
+	// addCharacter가 실행된만큼 Update에서 처리 (Update주기 차이때문)
 	for (int i = 0; i < m_addCount; ++i)
 	{
 		Tile* tile = GameManager::GetInstance()->GetNewCharTile();
@@ -48,9 +49,27 @@ void CharacterManager::Update()
 
 void CharacterManager::BattleStart()
 {
-	// 배틀 시작시 초기값 지정
+	// 배틀 시작시 있던 위치 기억시킴
+	for (auto iter : m_vecChar)
+	{
+		iter->SetStanbyPos(iter->GetTilePos());
+	}
 
+	// 최초 길찾기 실행.
 	FindMonsterPath();
+}
+
+void CharacterManager::BattleQuit()
+{
+	for (auto iter : m_vecChar)
+	{
+		iter->SetState(CharacterState::Idle);
+
+		POINT startPos = iter->GetTilePos();
+		POINT endPos = iter->GetStanbyPos();
+
+		iter->SetPath(PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos));
+	}
 }
 
 

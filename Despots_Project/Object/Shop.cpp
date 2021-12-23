@@ -1,9 +1,23 @@
 #include "Shop.h"
 #include "stdafx.h"
 #include "Object/Item.h"
+#include "Scene/Layer.h"
+
+void Shop::Update()
+{
+	if (!mb_isAlive && m_item1 != nullptr)
+	{
+		m_item1->SetIsAlive(false);
+		m_item2->SetIsAlive(false);
+		m_item3->SetIsAlive(false);
+		return;
+	}
+	GameObject::Update();
+}
 
 void Shop::Show()
 {
+	GetLayer()->RemoveObject(L"Item");
 	if (m_item1 != nullptr)
 	{
 		SAFE_RELEASE(m_item1);
@@ -65,10 +79,13 @@ void Shop::Show()
 	m_item2->Init();
 	m_item3->Init();
 
+	mb_isAlive = true;
+
 }
 
-void Shop::SetVisible(bool isVisible)
+void Shop::SetIsAlive(bool isAlive)
 {
-	mb_isVisible = isVisible;
+	mb_isAlive = isAlive;
 }
+
 

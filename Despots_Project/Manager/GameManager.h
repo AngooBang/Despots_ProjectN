@@ -8,6 +8,7 @@ enum class GameState { Stanby, Battle };
 class TileMap;
 class Tile;
 class MoveFrame;
+class Shop;
 class GameManager : public Singleton<GameManager>, IBehaviour
 {
 public:
@@ -25,7 +26,10 @@ public:
 
 	void BattleStart();
 
+	void BattleQuit();
+
 	void LoadStage();
+	void ShopVisibleOff();
 
 	Tile* GetNewCharTile();
 	Tile* GetNewMonTile();
@@ -38,6 +42,7 @@ public:
 	void SetCurrTileMap(TileMap* tileMap);
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
+	void SetShop(Shop* shop);
 
 private:
 	GameState m_gameState = GameState::Stanby;
@@ -46,6 +51,7 @@ private:
 
 	MoveFrame* m_moveFrame = nullptr;
 	CharacterType m_charType = CharacterType::None;
+	Shop* m_shop = nullptr;
 
 	int m_stageNum = 1;
 };

@@ -17,7 +17,7 @@ public:
 	void			SetPath(deque<POINT> path);
 	void			SetIsMove(bool isMove);
 private:
-	float					m_speed = 0.2f;
+	float					m_speed = 200.0f;
 
 	Character*				m_owner = nullptr;
 	deque<POINT>			m_path;

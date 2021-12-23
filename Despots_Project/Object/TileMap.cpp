@@ -153,6 +153,8 @@ void TileMap::SetMoveRoom(DoorDir dir)
 			GameManager::GetInstance()->AddStageNum(2);
 			break;
 		}
+		//문이 눌렸을 때
+		GameManager::GetInstance()->ShopVisibleOff();
 		CharacterManager::GetInstance()->VisibleOff();
 		
 	}
