@@ -1,19 +1,19 @@
+#include "MonsterAttack.h"
 #include "stdafx.h"
-#include "CharacterAttack.h"
 #include "Object/Character.h"
 #include "Object/Monster.h"
 #include "Component/AnimatorComponent.h"
 #include "Util/Timer.h"
 
-CharacterAttack::CharacterAttack(Character* owner, INT32 order) noexcept
+MonsterAttack::MonsterAttack(Monster* owner, INT32 order) noexcept
 	:Component(owner, order)
 {
 	m_owner = owner;
 }
 
-void CharacterAttack::Update()
+void MonsterAttack::Update()
 {
-	if (m_owner->GetState() != CharacterState::Attack) return;
+	if (m_owner->GetState() != MonsterState::Attack) return;
 
 	if (mb_isCloseRange)
 	{
@@ -22,10 +22,10 @@ void CharacterAttack::Update()
 		int ownerHeight = m_owner->GetRect().bottom - m_owner->GetRect().top;
 		switch (m_owner->GetDir())
 		{
-		case CharacterDir::Left:
+		case MonsterDir::Left:
 			m_atkCol->SetRect({ ownerPos.x - (ownerWidth / 2) + m_attackRange, ownerPos.y - (ownerHeight / 2), ownerPos.x,  ownerPos.y + (ownerHeight / 2) });
 			break;
-		case CharacterDir::Right:
+		case MonsterDir::Right:
 			m_atkCol->SetRect({ ownerPos.x , ownerPos.y - (ownerHeight / 2), ownerPos.x + (ownerWidth / 2) + m_attackRange,  ownerPos.y + (ownerHeight / 2) });
 			break;
 		default:
@@ -34,7 +34,7 @@ void CharacterAttack::Update()
 	}
 	else
 	{
-		if(m_atkCol->GetIsAlive() == false)
+		if (m_atkCol->GetIsAlive() == false)
 			SetShotData();
 		else
 			ShotColider();
@@ -56,15 +56,14 @@ void CharacterAttack::Update()
 	{
 		m_idleAni->SetIsVisible(true);
 		m_atkAni->SetIsVisible(false);
-		if(mb_isCloseRange)
+		if (mb_isCloseRange)
 			m_atkCol->SetIsAlive(false);
-		m_owner->SetState(CharacterState::Idle);
+		m_owner->SetState(MonsterState::Idle);
 		m_attackElapsed += Timer::GetDeltaTime();
 	}
-
 }
 
-void CharacterAttack::SetShotData()
+void MonsterAttack::SetShotData()
 {
 	m_atkCol->SetImgVisible(false);
 
@@ -82,7 +81,7 @@ void CharacterAttack::SetShotData()
 		targetPos.x - ownerPos.x);
 }
 
-void CharacterAttack::ShotColider()
+void MonsterAttack::ShotColider()
 {
 	m_atkCol->SetImgVisible(true);
 
@@ -98,57 +97,57 @@ void CharacterAttack::ShotColider()
 		m_atkCol->SetIsAlive(false);
 }
 
-void CharacterAttack::SetIdleAni(AnimatorComponent* idleAni)
+void MonsterAttack::SetIdleAni(AnimatorComponent* idleAni)
 {
 	m_idleAni = idleAni;
 }
 
-void CharacterAttack::SetAtkAni(AnimatorComponent* atkAni)
+void MonsterAttack::SetAtkAni(AnimatorComponent* atkAni)
 {
 	m_atkAni = atkAni;
 }
 
-void CharacterAttack::SetAtkCol(ColiderComponent* col)
+void MonsterAttack::SetAtkCol(ColiderComponent* col)
 {
 	m_atkCol = col;
 }
 
-void CharacterAttack::SetAttackDamage(int damage)
+void MonsterAttack::SetAttackDamage(int damage)
 {
 	m_attackDamage = damage;
 }
 
-void CharacterAttack::SetAttackSpeed(float speed)
+void MonsterAttack::SetAttackSpeed(float speed)
 {
 	m_attackSpeed = speed;
 }
 
-void CharacterAttack::SetAttackRange(int range)
+void MonsterAttack::SetAttackRange(int range)
 {
 	m_attackRange = range;
 }
 
-void CharacterAttack::SetIsCloseRange(bool closeRange)
+void MonsterAttack::SetIsCloseRange(bool closeRange)
 {
 	mb_isCloseRange = closeRange;
 }
 
-void CharacterAttack::SetBulletSize(int size)
+void MonsterAttack::SetBulletSize(int size)
 {
 	m_bulletSize = size;
 }
 
-void CharacterAttack::SetBulletSpeed(float bulletSpeed)
+void MonsterAttack::SetBulletSpeed(float bulletSpeed)
 {
 	m_bulletSpeed = bulletSpeed;
 }
 
-int CharacterAttack::GetAtkDamage()
+int MonsterAttack::GetAtkDamage()
 {
 	return m_attackDamage;
 }
 
-int CharacterAttack::GetAtkRange()
+int MonsterAttack::GetAtkRange()
 {
 	return m_attackRange;
 }

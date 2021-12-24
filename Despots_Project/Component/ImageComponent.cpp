@@ -5,6 +5,7 @@
 void ImageComponent::Render()
 {
 	if (!mb_isVisible) return;
+	if (m_img == nullptr) return;
 	m_img->Render(m_rect, mb_isCam);
 }
 

@@ -4,6 +4,7 @@
 #include "Manager/PathFinderManager.h"
 #include "Manager/CharacterManager.h"
 #include "Object/Character.h"
+#include "Object/Monster.h"
 #include "Object/TileMap.h"
 #include "Util/Timer.h"
 
@@ -34,6 +35,16 @@ void CharacterMovement::Update()
 		mb_isMove = true;
 		m_owner->SetState(CharacterState::Run);
 		Move();
+
+		// 타겟이 움직였다면 길찾기 다시
+		if (m_owner->GetTarget() != nullptr)
+		{
+			if (m_owner->GetTarget()->GetState() == MonsterState::Run && GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			{
+				CharacterManager::GetInstance()->FindNewPath(m_owner);
+			}
+		}
+
 		// 원거리캐릭들은 사거리가 되면 멈춤
 		if (m_owner->GetCType() == CharacterType::Crossbow || m_owner->GetCType() == CharacterType::Ring)
 		{
@@ -71,10 +82,6 @@ void CharacterMovement::Update()
 void CharacterMovement::Move()
 {
 	POINT pos = m_path.back();
-	//cout << m_path.size() << '\n';
-	//int y = m_path.top().first;
-	//int x = m_path.top().second;
-
 
 	POINT tileMapPos = GameManager::GetInstance()->GetCurrTileMap()->GetPosition();
 
@@ -128,4 +135,9 @@ void CharacterMovement::SetPath(deque<POINT> path)
 void CharacterMovement::SetIsMove(bool isMove)
 {
 	mb_isMove = isMove;
+}
+
+bool CharacterMovement::GetIsMove()
+{
+	return mb_isMove;
 }

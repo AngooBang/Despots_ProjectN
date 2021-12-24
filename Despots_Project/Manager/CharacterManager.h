@@ -19,6 +19,8 @@ public:
 	void BattleStart();
 	void BattleQuit();
 
+	void AddCharacter();
+
 	void FindMonsterPath();
 
 	void FindNewPath(Character* character);
@@ -26,14 +28,16 @@ public:
 	void FlyCharacter();
 	void VisibleOff();
 
-	void AddCharacter();
 
 	void SelectCharacter(Tile* tile);
 
 	void GetMovePath(Tile* endTile);
 
+
 	void SetScene(Scene* scene);
 	void SetLayer(Layer* layer);
+
+	vector<Character*> GetVecChar();
 
 private:
 	std::vector<Character*> m_vecChar;

@@ -108,6 +108,7 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Run.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
 
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Tanker/Tanker_Icon.png");
@@ -125,6 +126,8 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Run.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Mage/Ring_Bullet.png");
 
 
 
@@ -138,6 +141,8 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Burrow.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Run.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Attack.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Death.png");
 }
 

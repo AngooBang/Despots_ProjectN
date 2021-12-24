@@ -26,6 +26,9 @@
     <Filter Include="Component\Character">
       <UniqueIdentifier>{cf7c61de-4ee5-41dd-973b-0338e43065c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Monster">
+      <UniqueIdentifier>{7f0fa924-9a2a-4f3d-b03f-22738897db48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicGameFramework.h">
@@ -190,6 +193,12 @@
     <ClInclude Include="Component\Character\CharacterAttack.h">
       <Filter>Component\Character</Filter>
     </ClInclude>
+    <ClInclude Include="Component\Monster\MonsterMovement.h">
+      <Filter>Component\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Monster\MonsterAttack.h">
+      <Filter>Component\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -340,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="Component\Character\CharacterAttack.cpp">
       <Filter>Component\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Monster\MonsterMovement.cpp">
+      <Filter>Component\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Monster\MonsterAttack.cpp">
+      <Filter>Component\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

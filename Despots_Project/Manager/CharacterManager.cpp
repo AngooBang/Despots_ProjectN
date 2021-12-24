@@ -131,10 +131,10 @@ void CharacterManager::FindNewPath(Character* character)
 		//	if (abs(startPos.y - endPos.y) > 2)
 		//	{
 		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
-		if (currDeq.empty())
-		{
-			return;
-		}
+		//if (currDeq.empty())
+		//{
+		//	return;
+		//}
 
 		if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
 		{
@@ -233,6 +233,11 @@ void CharacterManager::SetScene(Scene* scene)
 void CharacterManager::SetLayer(Layer* layer)
 {
 	_layer = layer;
+}
+
+vector<Character*> CharacterManager::GetVecChar()
+{
+	return m_vecChar;
 }
 
 

@@ -4,7 +4,10 @@
 #include "Component/AnimatorComponent.h"
 #include "Component/ColiderComponent.h"
 #include "Component/Character/CharacterAttack.h"
+#include "Component/Monster/MonsterMovement.h"
+#include "Component/Monster/MonsterAttack.h"
 #include "Manager/CameraManager.h"
+#include "Manager/GameManager.h"
 
 Monster::Monster(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
 	:GameObject(scene, layer, tag)
@@ -24,10 +27,22 @@ void Monster::Init()
 	m_idleAni = new AnimatorComponent(this, 2);
 	m_idleAni->SetImage(L"Image/Monster/Dalek_Idle.png");
 	m_idleAni->SetFrame(6, 1);
-	m_idleAni->SetRect(GetRect());
-	m_idleAni->SetIsVisible(false);
 	m_idleAni->SetIsLoop(true);
 	m_idleAni->SetScale(1.5f);
+
+	m_runAni = new AnimatorComponent(this, 2);
+	m_runAni->SetImage(L"Image/Monster/Dalek_Run.png");
+	m_runAni->SetFrame(6, 1);
+	m_runAni->SetMotionSpeed(0.05f);
+	m_runAni->SetIsLoop(true);
+	m_runAni->SetScale(1.5f);
+
+	m_attackAni = new AnimatorComponent(this, 2);
+	m_attackAni->SetImage(L"Image/Monster/Dalek_Attack.png");
+	m_attackAni->SetFrame(4, 1);
+	m_attackAni->SetIsLoop(false);
+	m_attackAni->SetMotionSpeed(0.1f);
+	m_attackAni->SetScale(1.5f);
 
 	m_deathAni = new AnimatorComponent(this, 2);
 	m_deathAni->SetImage(L"Image/Monster/Dalek_Death.png");
@@ -38,16 +53,29 @@ void Monster::Init()
 	m_deathAni->SetScale(1.5f);
 
 	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Monster, L"Monster");
+	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::MAtkRange, L"MAtkRange");
+	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::MAtk, L"MAtk");
 
+	m_moveComp = new MonsterMovement(this, 1);
+	m_atkComp = new MonsterAttack(this, 1);
 
+	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
+	m_atkComp->SetIdleAni(m_idleAni);
+	m_atkComp->SetAtkAni(m_attackAni);
+	m_atkComp->SetAtkCol(m_atkCol);
+	m_atkComp->SetAttackRange(DALEK_ATK_RANGE);
+	m_atkComp->SetAttackDamage(DALEK_ATK_DMG);
+	m_atkComp->SetAttackSpeed(DALEK_ATK_SPEED);
 
-
+	m_atkCol->SetIsAlive(false);
+	m_atkCol->SetMAtkComp(m_atkComp);
 
 	m_state = MonsterState::Burrow;
 	m_type = MonsterType::Dalek;
 
 	m_renderRect = GetRect();
 	GameObject::Init();
+	m_atkCol->SetImgVisible(false);
 }
 
 void Monster::Update()
@@ -57,49 +85,79 @@ void Monster::Update()
 		m_colider->SetIsAlive(false);
 		return;
 	}
+	mb_rangeInChar = false;
 	GameObject::Update();
 	SetDataToType();
-	StateUpdate();
-
-	if (m_deathAni->GetEndAni() && m_state == MonsterState::Dead)
-	{
-		mb_isAlive = false;
-	}
-
 	if (m_hp <= 0)
 	{
 		m_state = MonsterState::Dead;
 	}
-
-
+	StateUpdate();
+	if (m_deathAni->GetEndAni() && m_state == MonsterState::Dead)
+	{
+		mb_isAlive = false;
+	}
 
 	switch (m_dir)
 	{
 	case MonsterDir::Right:
 		// 오른쪽 봄
 		m_idleAni->SetHorizontalReverse(false);
+		m_runAni->SetHorizontalReverse(false);
+		m_attackAni->SetHorizontalReverse(false);
 		m_deathAni->SetHorizontalReverse(false);
 		break;
 	case MonsterDir::Left:
 		// 왼쪽 봄
 		m_idleAni->SetHorizontalReverse(true);
+		m_runAni->SetHorizontalReverse(true);
+		m_attackAni->SetHorizontalReverse(true);
 		m_deathAni->SetHorizontalReverse(true);
 		break;
 	}
 	m_burrowImg->SetRect(m_renderRect);
 	m_idleAni->SetRect(m_renderRect);
+	m_runAni->SetRect(m_renderRect);
+	m_attackAni->SetRect(m_renderRect);
 	m_deathAni->SetRect(m_renderRect);
 
 	m_colider->SetRect(GetRect());
+	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
+	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	{
+		m_atkRangeCol->SetIsAlive(true);
+	}
+	else
+	{
+		m_atkRangeCol->SetIsAlive(false);
+	}
+
 }
 
 void Monster::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 {
+	switch (col1->GetType())
+	{
+	case ColTypes::MAtkRange:
+		// 사거리 콜라이더에 들어오지 않았을때 false로 해주는 작업도 필요함.
+		if (col2->GetType() == ColTypes::Character)
+		{
+			mb_rangeInChar = true;
+			if (GetRect().left <= col2->GetRect().left)
+				m_dir = MonsterDir::Right;
+			else
+				m_dir = MonsterDir::Left;
+		}
+		break;
+	}
 	switch (col2->GetType())
 	{
 	case ColTypes::CAtk:
-		m_hp -= col2->GetCAtkComp()->GetAtkDamage();
-		col2->SetIsAlive(false);
+		if (col1->GetType() == ColTypes::Monster)
+		{
+			m_hp -= col2->GetCAtkComp()->GetAtkDamage();
+			col2->SetIsAlive(false);
+		}
 		break;
 	}
 }
@@ -118,10 +176,28 @@ void Monster::StateUpdate()
 	{
 	case MonsterState::Burrow:
 		m_burrowImg->SetIsVisible(true);
+		m_idleAni->SetIsVisible(false);
+		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
 		break;
 	case MonsterState::Idle:
 		m_burrowImg->SetIsVisible(false);
 		m_idleAni->SetIsVisible(true);
+		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
+		break;
+	case MonsterState::Run:
+		m_burrowImg->SetIsVisible(false);
+		m_idleAni->SetIsVisible(false);
+		m_runAni->SetIsVisible(true);
+		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
+		break;
+	case MonsterState::Attack:
+		m_burrowImg->SetIsVisible(false);
+		m_runAni->SetIsVisible(false);
 		m_deathAni->SetIsVisible(false);
 		break;
 	case MonsterState::Dead:
@@ -149,11 +225,25 @@ void Monster::SetDataToType()
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 		GetPosition().x + 22, GetPosition().y + 22 });
 
+		m_atkComp->SetIsCloseRange(false);
+		m_atkComp->SetBulletSize(20);
+		m_atkComp->SetBulletSpeed(500.0f);
+
+		m_atkComp->SetAttackRange(CROSSBOW_ATK_RANGE);
+		m_atkComp->SetAttackDamage(CROSSBOW_ATK_DMG);
+		m_atkComp->SetAttackSpeed(CROSSBOW_ATK_SPEED);
+
 		m_idleAni->SetImage(L"Image/Monster/Dalek_Idle.png");
 		m_idleAni->SetFrame(6, 1);
-
+		m_runAni->SetImage(L"Image/Monster/Dalek_Run.png");
+		m_runAni->SetFrame(6, 1);
+		m_attackAni->SetImage(L"Image/Monster/Dalek_Attack.png");
+		m_attackAni->SetFrame(4, 1);
 		m_deathAni->SetImage(L"Image/Monster/Dalek_Death.png");
 		m_deathAni->SetFrame(8, 1);
+		m_atkCol->SetImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
+		m_atkCol->SetImgVisible(true);
+
 		break;
 	}
 }
@@ -161,6 +251,26 @@ void Monster::SetDataToType()
 POINT Monster::GetTilePos()
 {
 	return m_tilePos;
+}
+
+MonsterType Monster::GetMType()
+{
+	return m_type;
+}
+
+MonsterState Monster::GetState()
+{
+	return m_state;
+}
+
+MonsterDir Monster::GetDir()
+{
+	return m_dir;
+}
+
+Character* Monster::GetTarget()
+{
+	return m_target;
 }
 
 bool Monster::GetIsSelected()
@@ -171,6 +281,22 @@ bool Monster::GetIsSelected()
 bool Monster::GetIsAlive()
 {
 	return mb_isAlive;
+}
+
+bool Monster::GetRangeInChar()
+{
+	return mb_rangeInChar;
+}
+
+bool Monster::GetIsMove()
+{
+	if (this == nullptr) return false;
+	return m_moveComp->GetIsMove();
+}
+
+void Monster::SetTarget(Character* target)
+{
+	m_target = target;
 }
 
 void Monster::SetState(MonsterState state)
@@ -186,4 +312,14 @@ void Monster::SetIsSelected(bool isSelected)
 void Monster::SetTilePos(POINT pos)
 {
 	m_tilePos = pos;
+}
+
+void Monster::SetPath(deque<POINT> path)
+{
+	m_moveComp->SetPath(path);
+}
+
+void Monster::SetDir(MonsterDir dir)
+{
+	m_dir = dir;
 }

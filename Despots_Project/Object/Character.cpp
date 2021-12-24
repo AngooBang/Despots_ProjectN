@@ -52,16 +52,15 @@ void Character::Init()
 	m_selectImg->SetImage(L"Image/Character/Selected.png");
 	m_selectImg->SetIsVisible(false);
 
-	m_colider = new ColiderComponent(this, 1, GetRect(), ColTypes::Character, L"Character");
-
-
-	m_atkComp = new CharacterAttack(this, 1);
+	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Character, L"Character");
 	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::CAtkRange, L"CAtkRange");
+	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
+
 	
 	m_moveComp = new CharacterMovement(this, 1);
+	m_atkComp = new CharacterAttack(this, 1);
 
 
-	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
 	
 	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
 	m_atkComp->SetIdleAni(m_idleAni);
@@ -80,31 +79,33 @@ void Character::Init()
 	m_renderRect = GetRect();
 
 	GameObject::Init();
-	
+
+	m_atkCol->SetImgVisible(false);
 }
 
 void Character::Update()
 {
+	if (!mb_isAlive)
+	{
+		m_colider->SetIsAlive(false);
+		return;
+	}
 	mb_rangeInMon = false;
 	GameObject::Update();
 
 	SetDataToType();
 	StateUpdate();
 
-
-
+	// 마우스로 선택시 선택프레임출력
 	if (mb_isSelected)
 		m_selectImg->SetIsVisible(true);
 	else  
 		m_selectImg->SetIsVisible(false);
-
+	// Fly상태일때 애니메이션이 끝났다면 Idle로
 	if (m_flyAni->GetEndAni() && m_state == CharacterState::Fly)
 	{
 		m_state = CharacterState::Idle;
 	}
-
-
-
 
 	switch (m_dir)
 	{
@@ -182,9 +183,7 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 				m_dir = CharacterDir::Right;
 			else
 				m_dir = CharacterDir::Left;
-
 		}
-
 		break;
 
 	}
@@ -193,6 +192,7 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 
 void Character::Render()
 {
+	if (!mb_isAlive) return;
 	if (!mb_isVisible) return;
 	//ID2D1SolidColorBrush* brush;
 	//ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
@@ -343,7 +343,8 @@ void Character::SetDataToType()
 			GetPosition().x + 22, GetPosition().y + 22 });
 
 		m_atkComp->SetIsCloseRange(false);
-		m_atkComp->SetBulletSize(10);
+		m_atkComp->SetBulletSize(20);
+		m_atkComp->SetBulletSpeed(800.0f);
 
 		m_atkComp->SetAttackRange(CROSSBOW_ATK_RANGE);
 		m_atkComp->SetAttackDamage(CROSSBOW_ATK_DMG);
@@ -357,10 +358,20 @@ void Character::SetDataToType()
 		m_runAni->SetFrame(6, 1);
 		m_attackAni->SetImage(L"Image/Character/Shooter/Crossbow_Attack.png");
 		m_attackAni->SetFrame(3, 1);
+		m_atkCol->SetImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
+		m_atkCol->SetImgVisible(true);
 		break;
 	case CharacterType::Ring:
 		m_renderRect = { m_renderPos.x - 30, m_renderPos.y - 60,
 			m_renderPos.x + 30, m_renderPos.y + 22 };
+
+		m_atkComp->SetIsCloseRange(false);
+		m_atkComp->SetBulletSize(30);
+		m_atkComp->SetBulletSpeed(400.0f);
+
+		m_atkComp->SetAttackRange(RING_ATK_RANGE);
+		m_atkComp->SetAttackDamage(RING_ATK_DMG);
+		m_atkComp->SetAttackSpeed(RING_ATK_SPEED);
 
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
@@ -373,6 +384,8 @@ void Character::SetDataToType()
 		m_runAni->SetFrame(6, 1);
 		m_attackAni->SetImage(L"Image/Character/Mage/Ring_Attack.png");
 		m_attackAni->SetFrame(4, 1);
+		m_atkCol->SetImage(L"Image/Character/Mage/Ring_Bullet.png");
+		m_atkCol->SetImgVisible(true);
 		break;
 	}
 }
@@ -420,6 +433,17 @@ bool Character::GetIsRangeInMon()
 	return mb_rangeInMon;
 }
 
+bool Character::GetIsAlive()
+{
+	return mb_isAlive;
+}
+
+bool Character::GetIsMove()
+{
+	if (m_target == nullptr) return false;
+	return m_moveComp->GetIsMove();
+}
+
 CharacterState Character::GetState()
 {
 	return m_state;
@@ -433,6 +457,11 @@ CharacterDir Character::GetDir()
 CharacterType Character::GetCType()
 {
 	return m_type;
+}
+
+Monster* Character::GetTarget()
+{
+	return m_target;
 }
 
 void Character::SetPath(deque<POINT> path)

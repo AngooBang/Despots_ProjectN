@@ -4,12 +4,12 @@
 
 using namespace std;
 
-class Character;
-class CharacterMovement : public Component
+class Monster;
+class MonsterMovement : public Component
 {
 public:
-	CharacterMovement(Character* owner, INT32 order = 100) noexcept;
-	virtual ~CharacterMovement() noexcept = default;
+	MonsterMovement(Monster* owner, INT32 order = 100) noexcept;
+	virtual ~MonsterMovement() noexcept = default;
 
 	virtual void	Update() override;
 
@@ -17,12 +17,11 @@ public:
 	void			SetPath(deque<POINT> path);
 	void			SetIsMove(bool isMove);
 
-
 	bool			GetIsMove();
 private:
 	float					m_speed = 200.0f;
 
-	Character*				m_owner = nullptr;
+	Monster* m_owner = nullptr;
 	deque<POINT>			m_path;
 
 	bool					mb_isMove = false;

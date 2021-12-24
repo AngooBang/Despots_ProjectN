@@ -19,6 +19,11 @@ public:
 	void AddMonster();
 
 	void BattleStart();
+	void BattleQuit();
+
+	void FindCharacterPath();
+
+	void FindNewPath(Monster* monster);
 
 	void SetScene(Scene* scene);
 	void SetLayer(Layer* layer);
@@ -26,10 +31,11 @@ public:
 	vector<Monster*> GetVecMon();
 
 private:
-	std::vector<Monster*> m_vecMon;
+	vector<Monster*> m_vecMon;
+	vector<Monster*>::iterator removeIter;
 
 	int	m_addCount = 0;
-
+	int m_removeCount = 0;
 	Scene* _scene = nullptr;
 	Layer* _layer = nullptr;
 

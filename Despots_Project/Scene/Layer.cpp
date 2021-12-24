@@ -85,7 +85,7 @@ void Layer::AddObject(GameObject* obj)
 
 void Layer::RemoveObject(const wstring& tag)
 {
-	if (tag == L"Item")
+	if (tag == L"Item") // Item 태그를 가진 오브젝트 전부 제거
 	{
 		for (auto iter = _objects.begin(); iter != _objects.end();)
 		{

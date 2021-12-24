@@ -153,6 +153,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Component\ImageComponent.h" />
+    <ClInclude Include="Component\Monster\MonsterAttack.h" />
+    <ClInclude Include="Component\Monster\MonsterMovement.h" />
     <ClInclude Include="Component\RectComponent.h" />
     <ClInclude Include="Component\TextComponent.h" />
     <ClInclude Include="framework.h" />
@@ -217,6 +219,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Component\ImageComponent.cpp" />
+    <ClCompile Include="Component\Monster\MonsterAttack.cpp" />
+    <ClCompile Include="Component\Monster\MonsterMovement.cpp" />
     <ClCompile Include="Component\RectComponent.cpp" />
     <ClCompile Include="Component\TextComponent.cpp" />
     <ClCompile Include="Game.cpp" />

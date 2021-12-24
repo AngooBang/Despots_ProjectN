@@ -4,17 +4,17 @@
 
 using namespace std;
 
-class Character;
+class Monster;
 class AnimatorComponent;
 class ColiderComponent;
-class CharacterAttack : public Component
+class MonsterAttack : public Component
 {
 public:
-	CharacterAttack(Character* owner, INT32 order = 100) noexcept;
-	virtual ~CharacterAttack() noexcept = default;
+	MonsterAttack(Monster* owner, INT32 order = 100) noexcept;
+	virtual ~MonsterAttack() noexcept = default;
 
 	virtual void	Update() override;
-	
+
 	void SetShotData();
 	void ShotColider();
 
@@ -34,11 +34,11 @@ public:
 	int GetAtkDamage();
 	int GetAtkRange();
 private:
-	AnimatorComponent*		m_idleAni = nullptr;
-	AnimatorComponent*		m_atkAni = nullptr;
-	ColiderComponent*		m_atkCol = nullptr;
+	AnimatorComponent* m_idleAni = nullptr;
+	AnimatorComponent* m_atkAni = nullptr;
+	ColiderComponent* m_atkCol = nullptr;
 
-	Character*				m_owner = nullptr;
+	Monster* m_owner = nullptr;
 
 	float					m_attackElapsed = 0.0f;
 	float					m_attackSpeed = 1.4f;

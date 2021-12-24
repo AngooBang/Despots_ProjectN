@@ -144,10 +144,22 @@ void PathFinderManager::ClearMap()
     {
         for (int x = 0; x < MAP_SIZE_X; ++x)
         {
-            if (m_mapGraph[y][x] != 2 && m_mapGraph[y][x] != 5)
+            if (m_mapGraph[y][x] != 2 /*&& m_mapGraph[y][x] != 5*/)
                 m_mapGraph[y][x] = 0;
         }
     }
+}
+
+
+void PathFinderManager::SetInTileData(int x, int y, int value)
+{
+
+    if (INTILE[y][x] != 5)     INTILE[y][x] = value;
+    if (INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
+    if (INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
+    if (INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
+    if (INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
+
 }
 
 void PathFinderManager::SetInTileData(Tile* tile, int value)
@@ -161,19 +173,14 @@ void PathFinderManager::SetInTileData(Tile* tile, int value)
     INTILE[y * 3 + 2][x * 3 + 1] = value;
 }
 
-void PathFinderManager::SetInTileDataL(int x, int y, int value)
+
+void PathFinderManager::SetInTileDataM(int x, int y, int value)
 {
-    if (INTILE[y - 1][x - 1] != 5) INTILE[y - 1][x - 1] = value;
-    if (INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
-    if (INTILE[y - 1][x + 1] != 5) INTILE[y - 1][x + 1] = value;
-
-    if (INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
-    if (INTILE[y][x] != 5)     INTILE[y][x] = value;
-    if (INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
-
-    if (INTILE[y + 1][x - 1] != 5) INTILE[y + 1][x - 1] = value;
-    if (INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
-    if (INTILE[y + 1][x + 1] != 5) INTILE[y + 1][x + 1] = value;
+    INTILE[y - 2][x] = value;
+    INTILE[y - 1][x - 1] = value;         INTILE[y -  1][x] = value;       INTILE[y - 1][x + 1] = value;
+    INTILE[y][x - 2] = value; INTILE[y][x - 1] = value;     INTILE[y][x] = value;   INTILE[y][x + 1] = value; INTILE[y][x + 2] = value;
+    INTILE[y + 1][x - 1] = value;     INTILE[y + 1][x] = value;   INTILE[y + 1][x + 1] = value;
+    INTILE[y + 2][x] = value;
 }
 
 void PathFinderManager::SetInTileDataM(Tile* tile, int value)
@@ -217,24 +224,13 @@ POINT PathFinderManager::GetEndTile(POINT pos)
 
 bool PathFinderManager::IsObstacle(POINT pos)
 {
-    if (m_mapGraph[pos.y][pos.x] == 2)
+    if (m_mapGraph[pos.y][pos.x] == 2 || m_mapGraph[pos.y][pos.x] == 5)
         return true;
     else
         return false;
 }
 
 
-
-void PathFinderManager::SetInTileData(int x, int y, int value)
-{
-    
-    if(INTILE[y][x] != 5)     INTILE[y][x] = value;
-    if(INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
-    if(INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
-    if(INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
-    if(INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
-
-}
 
 deque<POINT> PathFinderManager::PathFind()
 {

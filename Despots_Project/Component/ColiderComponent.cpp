@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Manager/ImageManagerD2.h"
 #include "Manager/ColiderManager.h"
+#include "Component/ImageComponent.h"
 
 ColiderComponent::ColiderComponent(GameObject* owner, INT32 order, RECT rect, ColTypes type, const wstring& tag)
 	:Component(owner, order)
@@ -12,13 +13,23 @@ ColiderComponent::ColiderComponent(GameObject* owner, INT32 order, RECT rect, Co
 	m_tag = tag;
 }
 
+void ColiderComponent::Init()
+{
+	m_img = new ImageComponent(_owner, 2);
+	m_img->SetIsCam(false);
+}
+
 void ColiderComponent::Update()
 {
 	// 필요할 때마다 자기자신을 넣어주며 콜라이더매니저에게 충돌여부 확인 요청
-	if (!mb_isAlive) return;
+	if (!mb_isAlive)
+	{
+		return;
+	}
 
 	ColiderManager::GetInstance()->CheckToMouse(this);
 	ColiderManager::GetInstance()->CheckToColider(this);
+	m_img->SetRect(m_colRect);
 }
 
 void ColiderComponent::Render()
@@ -42,6 +53,16 @@ wstring ColiderComponent::GetTag()
 	return m_tag;
 }
 
+void ColiderComponent::SetImgVisible(bool imgVisible)
+{
+	m_img->SetIsVisible(imgVisible);
+}
+
+void ColiderComponent::SetImage(const wchar_t* path)
+{
+	m_img->SetImage(path);
+}
+
 void ColiderComponent::SetIsAlive(bool isAlive)
 {
 	mb_isAlive = isAlive;
@@ -55,6 +76,11 @@ void ColiderComponent::SetRect(RECT rect)
 void ColiderComponent::SetCAtkComp(CharacterAttack* cAtkComp)
 {
 	m_cAtkComp = cAtkComp;
+}
+
+void ColiderComponent::SetMAtkComp(MonsterAttack* mAtkComp)
+{
+	m_mAtkComp = mAtkComp;
 }
 
 RECT ColiderComponent::GetRect()

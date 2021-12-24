@@ -14,16 +14,21 @@ enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 #define NORMAL_ATK_SPEED 2.0f
 
 #define GUTS_ATK_RANGE 20
-#define GUTS_ATK_DMG 30
-#define GUTS_ATK_SPEED 4.5f
+#define GUTS_ATK_DMG 40
+#define GUTS_ATK_SPEED 5.0f
 
 #define SHIELD_ATK_RANGE 5
 #define SHIELD_ATK_DMG 15
 #define SHIELD_ATK_SPEED 3.0f
 
-#define CROSSBOW_ATK_RANGE 300
+#define CROSSBOW_ATK_RANGE 200
 #define CROSSBOW_ATK_DMG 20
-#define CROSSBOW_ATK_SPEED 4.0f
+#define CROSSBOW_ATK_SPEED 2.5f
+
+#define RING_ATK_RANGE 300
+#define RING_ATK_DMG 40
+#define RING_ATK_SPEED 5.0f
+
 using namespace std;
 
 class ImageComponent;
@@ -56,9 +61,12 @@ public:
 
 	bool GetIsSelected();
 	bool GetIsRangeInMon();
+	bool GetIsAlive();
+	bool GetIsMove();
 	CharacterState GetState();
 	CharacterDir GetDir();
 	CharacterType GetCType();
+	Monster* GetTarget();
 
 
 	void SetState(CharacterState state);
@@ -103,4 +111,5 @@ private:
 	bool				mb_isSelected = false;
 	bool				mb_isVisible = true;
 	bool				mb_rangeInMon = false;
+	bool				mb_isAlive = true;
 };

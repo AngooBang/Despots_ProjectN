@@ -8,12 +8,21 @@ enum class MonsterDir { Left, Right };
 
 enum class MonsterType { Dalek, None };//타입정하고 몬스터만들기~
 
+
+#define DALEK_ATK_DMG 20
+#define DALEK_ATK_SPEED 4.0f
+#define DALEK_ATK_RANGE 200
+
+
+
 using namespace std;
 
 class ImageComponent;
 class AnimatorComponent;
-class CharacterMovement;
+class MonsterMovement;
+class MonsterAttack;
 class ColiderComponent;
+class Character;
 class Monster : public GameObject
 {
 public:
@@ -32,25 +41,35 @@ public:
 	// 상태세터만들기
 
 	POINT GetTilePos();
+	MonsterType GetMType();
+	MonsterState GetState();
+	MonsterDir GetDir();
+	Character* GetTarget();
 
 	bool GetIsSelected();
 	bool GetIsAlive();
+	bool GetRangeInChar();
+	bool GetIsMove();
 
-
+	void SetTarget(Character* target);
 	void SetState(MonsterState state);
 	void SetIsSelected(bool isSelected);
 	void SetTilePos(POINT pos);
-	//void SetPath(stack<pair<int, int>> path);
-	//void SetDir(MonsterDir dir);
+
+	void SetPath(deque<POINT> path);
+	void SetDir(MonsterDir dir);
 
 
 private:
 	AnimatorComponent*	m_idleAni = nullptr;
 	AnimatorComponent*	m_runAni = nullptr;
+	AnimatorComponent*	m_attackAni = nullptr;
 	AnimatorComponent*	m_deathAni = nullptr;
 
 	ImageComponent*		m_burrowImg = nullptr;
 	ColiderComponent*	m_colider = nullptr;
+	ColiderComponent*	m_atkRangeCol = nullptr;
+	ColiderComponent*	m_atkCol = nullptr;
 
 	MonsterState		m_state = MonsterState::End;
 
@@ -58,13 +77,16 @@ private:
 	RECT				m_renderRect = {};
 
 
-	CharacterMovement*	m_move = nullptr;
+	MonsterMovement*	m_moveComp = nullptr;
+	MonsterAttack*		m_atkComp = nullptr;
 
+	Character*			m_target = nullptr;
 	
 	MonsterType			m_type = MonsterType::None;
 	MonsterDir			m_dir = MonsterDir::Left;
 	bool				mb_isSelected = false;
 	bool				mb_isAlive = true;
+	bool				mb_rangeInChar = false;
 
 	int					m_hp = 10;
 };
