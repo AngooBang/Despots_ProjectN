@@ -3,6 +3,7 @@
 #include "Object/Character.h"
 #include "Object/Monster.h"
 #include "Component/AnimatorComponent.h"
+#include "Manager/CharacterManager.h"
 #include "Util/Timer.h"
 
 CharacterAttack::CharacterAttack(Character* owner, INT32 order) noexcept
@@ -23,10 +24,16 @@ void CharacterAttack::Update()
 		switch (m_owner->GetDir())
 		{
 		case CharacterDir::Left:
-			m_atkCol->SetRect({ ownerPos.x - (ownerWidth / 2) + m_attackRange, ownerPos.y - (ownerHeight / 2), ownerPos.x,  ownerPos.y + (ownerHeight / 2) });
+			m_atkCol->SetRect({ ownerPos.x - ((ownerWidth / 2) + m_attackRange),
+				ownerPos.y - ((ownerHeight / 2) + m_attackRange),
+				ownerPos.x,
+				ownerPos.y + (ownerHeight / 2) + m_attackRange });
 			break;
 		case CharacterDir::Right:
-			m_atkCol->SetRect({ ownerPos.x , ownerPos.y - (ownerHeight / 2), ownerPos.x + (ownerWidth / 2) + m_attackRange,  ownerPos.y + (ownerHeight / 2) });
+			m_atkCol->SetRect({ ownerPos.x ,
+				ownerPos.y - ((ownerHeight) + m_attackRange),
+				ownerPos.x + ((ownerWidth / 2) + m_attackRange),
+				ownerPos.y + (ownerHeight / 2) + m_attackRange });
 			break;
 		default:
 			break;
@@ -58,7 +65,11 @@ void CharacterAttack::Update()
 		m_atkAni->SetIsVisible(false);
 		if(mb_isCloseRange)
 			m_atkCol->SetIsAlive(false);
-		m_owner->SetState(CharacterState::Idle);
+		 //공격애니가 끝나고 타겟이 죽었다면 새로운 타겟 과 경로 지정
+		if (m_owner->GetTarget()->GetState() == MonsterState::Dead)
+			CharacterManager::GetInstance()->FindNewPath(m_owner, true, true);
+		else
+			m_owner->SetState(CharacterState::Idle);
 		m_attackElapsed += Timer::GetDeltaTime();
 	}
 

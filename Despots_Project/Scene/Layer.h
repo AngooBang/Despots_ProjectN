@@ -26,6 +26,8 @@ public:
 
 	void				AddObject(GameObject* obj);
 	void				RemoveObject(const std::wstring& tag);
+	void				RemoveObject(GameObject* obj);
+
 private:
 	Scene*							_scene;
 	INT32							_zOrder;

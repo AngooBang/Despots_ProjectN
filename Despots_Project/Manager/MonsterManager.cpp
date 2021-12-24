@@ -10,11 +10,11 @@
 
 void MonsterManager::Update()
 {
-	if (m_removeCount > 0)
-	{
-		SAFE_RELEASE((*removeIter));
-		m_vecMon.erase(removeIter);
-	}
+	//if (m_removeCount > 0)
+	//{
+	//	SAFE_RELEASE((*removeIter));
+	//	m_vecMon.erase(removeIter);
+	//}
 	for (int i = 0; i < m_addCount; ++i)
 	{
 		Tile* tile = GameManager::GetInstance()->GetNewMonTile();
@@ -36,14 +36,20 @@ void MonsterManager::Update()
 
 
 	m_removeCount = 0;
-	for (auto iter = m_vecMon.begin(); iter != m_vecMon.end(); ++iter)
+	for (auto iter = m_vecMon.begin(); iter != m_vecMon.end();)
 	{
 		if ((*iter)->GetIsAlive() == false)
 		{
-			removeIter = iter;
-			m_removeCount++;
-			//SAFE_RELEASE((*iter));
-			//m_vecMon.erase(iter);
+			//removeIter = iter;
+			//m_removeCount++;
+			PathFinderManager::GetInstance()->SetInTileDataM((*iter)->GetTilePos().x, (*iter)->GetTilePos().y, 0);
+			_layer->RemoveObject((*iter));
+			SAFE_RELEASE((*iter));
+			iter = m_vecMon.erase(iter);
+		}
+		else
+		{
+			++iter;
 		}
 	}
 

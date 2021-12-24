@@ -6,6 +6,8 @@
 #include "Component/Character/CharacterAttack.h"
 #include "Util/Timer.h"
 #include "Manager/GameManager.h"
+#include "Manager/CharacterManager.h"
+#include "Object/Monster.h"
 
 Character::Character(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
 	:GameObject(scene, layer, tag)
@@ -57,7 +59,7 @@ void Character::Init()
 	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
 
 	
-	m_moveComp = new CharacterMovement(this, 1);
+	m_moveComp = new CharacterMovement(this, 2);
 	m_atkComp = new CharacterAttack(this, 1);
 
 
@@ -90,6 +92,7 @@ void Character::Update()
 		m_colider->SetIsAlive(false);
 		return;
 	}
+
 	mb_rangeInMon = false;
 	GameObject::Update();
 
@@ -176,9 +179,13 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 	{
 	case ColTypes::CAtkRange:
 		// 사거리 콜라이더에 들어오지 않았을때 false로 해주는 작업도 필요함.
-		if (col2->GetType() == ColTypes::Monster)
+		if (col2->GetType() == ColTypes::Monster && col2->GetIsAlive())
 		{
 			mb_rangeInMon = true;
+			// 길찾기가 완료가 되서 자리를 잡았을 때
+			if(m_moveComp->GetIsMove() == false)
+				m_state = CharacterState::Attack;
+
 			if (GetRect().left <= col2->GetRect().left)
 				m_dir = CharacterDir::Right;
 			else

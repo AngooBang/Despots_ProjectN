@@ -38,9 +38,13 @@ void CharacterManager::Update()
 
 		break;
 	case GameState::Battle:
-		if (m_pathFindElapsed > 500.0f)
+		if (m_pathFindElapsed > 1.0f)
 		{
-			//FindMonsterPath();
+			for (auto iter : m_vecChar)
+			{
+				if(iter->GetState() != CharacterState::Run)
+					iter->SetState(CharacterState::Run);
+			}
 			m_pathFindElapsed = 0.0f;
 		}
 		break;
@@ -63,12 +67,13 @@ void CharacterManager::BattleQuit()
 {
 	for (auto iter : m_vecChar)
 	{
-		iter->SetState(CharacterState::Idle);
 
 		POINT startPos = iter->GetTilePos();
 		POINT endPos = iter->GetStanbyPos();
 
-		iter->SetPath(PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos));
+		iter->SetPath(PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos, true, true));
+		iter->SetState(CharacterState::Run);
+		iter->SetTarget(nullptr);
 	}
 }
 
@@ -109,10 +114,11 @@ void CharacterManager::FindMonsterPath()
 
 		}
 		iter->SetPath(tempDeq);
+		iter->SetState(CharacterState::Run);
 	}
 }
 
-void CharacterManager::FindNewPath(Character* character)
+void CharacterManager::FindNewPath(Character* character, bool sFloodFill , bool eFloodFill)
 {
 	vector<Monster*> vecMon = MonsterManager::GetInstance()->GetVecMon();
 	deque<POINT> tempDeq;
@@ -121,32 +127,23 @@ void CharacterManager::FindNewPath(Character* character)
 	for (auto moniter : vecMon)
 	{
 		if (moniter->GetIsAlive() == false) continue;
+		if (moniter->GetState() == MonsterState::Dead) continue;
 		POINT endPos = moniter->GetTilePos();
 
 
 
 		deque<POINT> currDeq;
-		//if (abs(startPos.x - endPos.x) > 2)
-		//{
-		//	if (abs(startPos.y - endPos.y) > 2)
-		//	{
-		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
-		//if (currDeq.empty())
-		//{
-		//	return;
-		//}
+		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos, sFloodFill, eFloodFill);
 
 		if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
 		{
 			tempDeq = currDeq;
 			character->SetTarget(moniter);
 		}
-		//	}
-		//}
-
 	}
 
 	character->SetPath(tempDeq);
+	character->SetState(CharacterState::Run);
 }
 
 void CharacterManager::FlyCharacter()
@@ -222,6 +219,7 @@ void CharacterManager::GetMovePath(Tile* endTile)
 
 	//선택 캐릭터의 상태를 Move로 변화 및 path 지정
 	selectedChar->SetPath(path);
+	selectedChar->SetState(CharacterState::Run);
 
 }
 

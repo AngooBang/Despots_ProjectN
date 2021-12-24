@@ -55,7 +55,7 @@ public:
     
 
     deque<POINT> PathFind();
-    deque<POINT> PathFindPoint(POINT start, POINT end);
+    deque<POINT> PathFindPoint(POINT start, POINT end, bool sFloodFill = false, bool eFloodFill = true);
 
 	int m_mapGraph[MAP_SIZE_Y][MAP_SIZE_X] = { 0 };
 private:

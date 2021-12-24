@@ -23,7 +23,7 @@ public:
 
 	void FindMonsterPath();
 
-	void FindNewPath(Character* character);
+	void FindNewPath(Character* character, bool sFloodFill = false, bool eFloodFill = true);
 
 	void FlyCharacter();
 	void VisibleOff();

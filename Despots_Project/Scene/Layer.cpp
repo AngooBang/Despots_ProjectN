@@ -108,3 +108,14 @@ void Layer::RemoveObject(const wstring& tag)
 
 
 }
+
+void Layer::RemoveObject(GameObject* obj)
+{
+	for (auto iter = _objects.begin(); iter != _objects.end();)
+	{
+		if ((*iter) == obj)
+			iter = _objects.erase(iter);
+		else
+			++iter;
+	}
+}

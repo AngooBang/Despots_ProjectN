@@ -22,6 +22,8 @@ public:
 private:
 	float					m_speed = 200.0f;
 
+	float					m_pathFindElapsed = 0.0f;
+
 	Character*				m_owner = nullptr;
 	deque<POINT>			m_path;
 

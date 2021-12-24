@@ -18,64 +18,140 @@ CharacterMovement::CharacterMovement(Character* owner, INT32 order) noexcept
 
 void CharacterMovement::Update()
 {
+	if (m_owner->GetState() != CharacterState::Run) return;
 
-	if (m_path.empty() == false)
+	m_pathFindElapsed += Timer::GetDeltaTime();
+
+
+	if (mb_isMove == false)
 	{
-		if (mb_isMove == false)
-		{
-			//이동전 초기값 지정구간
-			PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
-		}
-		// 도착점이 장애물이 되었을때
-		if (PathFinderManager::GetInstance()->IsObstacle(m_path.front()))
-		{
-			CharacterManager::GetInstance()->FindNewPath(m_owner);
-		}
+		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
+	}
 
-		mb_isMove = true;
-		m_owner->SetState(CharacterState::Run);
-		Move();
 
-		// 타겟이 움직였다면 길찾기 다시
-		if (m_owner->GetTarget() != nullptr)
+	mb_isMove = true;
+
+	// 사거리에 들어오면
+	if (m_owner->GetIsRangeInMon())
+	{
+		// 서있는 자리를 체크해서 장애물이라면
+		if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()))
 		{
-			if (m_owner->GetTarget()->GetState() == MonsterState::Run && GameManager::GetInstance()->GetGameState() == GameState::Battle)
-			{
-				CharacterManager::GetInstance()->FindNewPath(m_owner);
-			}
+			// 경로를 재탐색 (시작점, 도착점 전부 FloodFill적용)
+			CharacterManager::GetInstance()->FindNewPath(m_owner, true, true);
+			m_pathFindElapsed = 0.0f;
 		}
-
-		// 원거리캐릭들은 사거리가 되면 멈춤
-		if (m_owner->GetCType() == CharacterType::Crossbow || m_owner->GetCType() == CharacterType::Ring)
+		else
 		{
-			if (m_owner->GetIsRangeInMon() && GameManager::GetInstance()->GetGameState() == GameState::Battle)
-			{
-				m_path.clear();
-			}
+			//m_path.clear();
+			mb_isMove = false;
+			//PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
+
+			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+				m_owner->SetState(CharacterState::Attack);
+			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+				m_owner->SetState(CharacterState::Idle);
 		}
 	}
 	else
 	{
-
-		if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()) && mb_isMove)
+		// 사거리에 적이 없는데
+		// 검사를 일정시간마다.
+		if (m_pathFindElapsed > 1.0f)
 		{
-			CharacterManager::GetInstance()->FindNewPath(m_owner);
-			return;
-		}
-		mb_isMove = false;
-		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
-		if (m_owner->GetIsRangeInMon())
-		{
-			m_owner->SetState(CharacterState::Attack);
-		}
-		else
-		{
-			if (GameManager::GetInstance()->GetGameState() == GameState::Battle && m_owner->GetState() == CharacterState::Idle)
+			if ( GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			{
 				CharacterManager::GetInstance()->FindNewPath(m_owner);
-			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby && m_owner->GetState() == CharacterState::Run)
-				m_owner->SetState(CharacterState::Idle);
+			}
+			m_pathFindElapsed = 0.0f;
 		}
 	}
+	if (m_path.empty() == false && mb_isMove)
+	{
+		Move();
+	}
+	else
+	{
+		mb_isMove = false;
+		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
+		if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			m_owner->SetState(CharacterState::Attack);
+		else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			m_owner->SetState(CharacterState::Idle);
+	}
+	//if (m_path.empty() == false)
+	//{
+	//	if (mb_isMove == false)
+	//	{
+	//		//이동전 초기값 지정구간
+	//		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
+	//	}
+	//	// 도착점이 장애물이 되었을때
+	//	if (m_owner->GetCType() == CharacterType::Normal || m_owner->GetCType() == CharacterType::GutSword || m_owner->GetCType() == CharacterType::Shield)
+	//	{
+	//		if (PathFinderManager::GetInstance()->IsObstacle(m_path.front()))
+	//		{
+	//			m_path.clear();
+	//			cout << "도착지점이 장애물일때 길찾기 실행" << '\n';
+	//			CharacterManager::GetInstance()->FindNewPath(m_owner);
+	//		}
+	//	}
+
+	//	mb_isMove = true;
+	//	m_owner->SetState(CharacterState::Run);
+	//	Move();
+
+	//	// 타겟이 움직였다면 길찾기 다시
+	//	if (m_pathFindElapsed > 1.0f)
+	//	{
+	//		if (m_owner->GetTarget() != nullptr)
+	//		{
+	//			if (/*m_owner->GetTarget()->GetState() == MonsterState::Run && */GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	//			{
+	//				m_path.clear();
+	//				//cout << "타겟의 상태가 Run 이고 전투중일때 길찾기 실행" << '\n';
+	//				CharacterManager::GetInstance()->FindNewPath(m_owner);
+	//			}
+	//		}
+	//		m_pathFindElapsed = 0.0f;
+	//	}
+
+	//	// 원거리캐릭들은 사거리가 되면 멈춤
+	//	if (m_owner->GetCType() == CharacterType::Crossbow || m_owner->GetCType() == CharacterType::Ring)
+	//	{
+	//		if (m_owner->GetIsRangeInMon() && GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	//		{
+	//			m_path.clear();
+	//		}
+	//	}
+	//}
+	//else
+	//{	
+	//	mb_isMove = false;
+	//	PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
+	//	if (m_owner->GetIsRangeInMon())
+	//	{
+	//		m_owner->SetState(CharacterState::Attack);			
+	//	}
+	//	else /*if(m_owner->GetState() != CharacterState::Attack)*/
+	//	{
+	//		if (GameManager::GetInstance()->GetGameState() == GameState::Battle/* && m_owner->GetState() == CharacterState::Idle*/)
+	//		{
+	//			m_path.clear();
+	//			cout << "전투중에 사거리내에 적이없고 Idle상태가 됐을때 새로운 패스 찾기 실행" << '\n';
+	//			CharacterManager::GetInstance()->FindNewPath(m_owner);
+	//		}
+	//		else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby && m_owner->GetState() == CharacterState::Run)
+	//			m_owner->SetState(CharacterState::Idle);
+	//	}
+	//	if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()) && mb_isMove)
+	//	{
+	//		m_path.clear();
+	//		cout << "내 자리가 장애물일때 새로운 패스 찾기 실행" << '\n';
+	//		CharacterManager::GetInstance()->FindNewPath(m_owner);
+	//		return;
+	//	}
+	//}
 }
 
 

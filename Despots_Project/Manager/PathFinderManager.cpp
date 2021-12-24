@@ -224,7 +224,7 @@ POINT PathFinderManager::GetEndTile(POINT pos)
 
 bool PathFinderManager::IsObstacle(POINT pos)
 {
-    if (m_mapGraph[pos.y][pos.x] == 2 || m_mapGraph[pos.y][pos.x] == 5)
+    if (m_mapGraph[pos.y][pos.x] == 2)
         return true;
     else
         return false;
@@ -272,7 +272,7 @@ deque<POINT> PathFinderManager::PathFind()
     return st;
 }
 
-deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
+deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end, bool sFloodFill, bool eFloodFill)
 {
 
     //PathFinderManager::GetInstance()->SetInTileData(start.x, start.y, 0);
@@ -286,8 +286,13 @@ deque<POINT> PathFinderManager::PathFindPoint(POINT start, POINT end)
     deque<POINT> dq;
 
     // 도착점 차선책설정  (flood fill Algorithm)
-    //if(INTILE[end.y][end.x] == 2 || INTILE[end.y][end.x] == 5)
-     end = PathFinderManager::GetInstance()->GetEndTile(end);
+    //start = PathFinderManager::GetInstance()->GetEndTile(start);
+
+    if(sFloodFill)
+        start = PathFinderManager::GetInstance()->GetEndTile(start);
+
+    if(eFloodFill)
+        end = PathFinderManager::GetInstance()->GetEndTile(end);
 
 
     dq = Astar({ start.x, start.y }, { end.x, end.y });

@@ -9,13 +9,13 @@ enum class CharacterDir { Left, Right };
 enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
 
-#define NORMAL_ATK_RANGE 10
+#define NORMAL_ATK_RANGE -5
 #define NORMAL_ATK_DMG 5
 #define NORMAL_ATK_SPEED 2.0f
 
 #define GUTS_ATK_RANGE 20
 #define GUTS_ATK_DMG 40
-#define GUTS_ATK_SPEED 5.0f
+#define GUTS_ATK_SPEED 3.0f
 
 #define SHIELD_ATK_RANGE 5
 #define SHIELD_ATK_DMG 15
