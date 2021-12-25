@@ -15,7 +15,7 @@ int ImageComponent::GetWidth()
 }
 
 int ImageComponent::GetHeight()
-{
+{ 
 	return m_img->GetHeight();
 }
 

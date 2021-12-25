@@ -14,7 +14,38 @@ CharacterAttack::CharacterAttack(Character* owner, INT32 order) noexcept
 
 void CharacterAttack::Update()
 {
-	if (m_owner->GetState() != CharacterState::Attack) return;
+	if (m_owner->GetState() == CharacterState::Attack)
+	{
+		// 애니메이션 처리
+		if (m_attackElapsed > m_attackSpeed)
+		{
+			m_atkAni->SetCurrFrame(0);
+			m_atkAni->SetEndAni(false);
+
+			m_idleAni->SetIsVisible(false);
+			m_atkAni->SetIsVisible(true);
+			m_atkCol->SetIsAlive(true);
+			m_attackElapsed = 0.0f;
+		}
+
+		if (m_atkAni->GetEndAni())
+		{
+			m_idleAni->SetIsVisible(true);
+			m_atkAni->SetIsVisible(false);
+			if (mb_isCloseRange)
+				m_atkCol->SetIsAlive(false);
+			//공격애니가 끝나고 타겟이 죽었다면 새로운 타겟 과 경로 지정
+			if (m_owner->GetTarget() != nullptr)
+			{
+				if (m_owner->GetTarget()->GetState() == MonsterState::Dead)
+					CharacterManager::GetInstance()->FindNewPath(m_owner, true, true);
+			}
+			else
+				m_owner->SetState(CharacterState::Idle);
+			m_attackElapsed += Timer::GetDeltaTime();
+		}
+	}
+
 
 	if (mb_isCloseRange)
 	{
@@ -31,7 +62,7 @@ void CharacterAttack::Update()
 			break;
 		case CharacterDir::Right:
 			m_atkCol->SetRect({ ownerPos.x ,
-				ownerPos.y - ((ownerHeight) + m_attackRange),
+				ownerPos.y - ((ownerHeight)+m_attackRange),
 				ownerPos.x + ((ownerWidth / 2) + m_attackRange),
 				ownerPos.y + (ownerHeight / 2) + m_attackRange });
 			break;
@@ -41,42 +72,16 @@ void CharacterAttack::Update()
 	}
 	else
 	{
-		if(m_atkCol->GetIsAlive() == false)
+		if (m_atkCol->GetIsAlive() == false)
 			SetShotData();
 		else
 			ShotColider();
 	}
-
-	// 애니메이션 처리
-	if (m_attackElapsed > m_attackSpeed)
-	{
-		m_atkAni->SetCurrFrame(0);
-		m_atkAni->SetEndAni(false);
-
-		m_idleAni->SetIsVisible(false);
-		m_atkAni->SetIsVisible(true);
-		m_atkCol->SetIsAlive(true);
-		m_attackElapsed = 0.0f;
-	}
-
-	if (m_atkAni->GetEndAni())
-	{
-		m_idleAni->SetIsVisible(true);
-		m_atkAni->SetIsVisible(false);
-		if(mb_isCloseRange)
-			m_atkCol->SetIsAlive(false);
-		 //공격애니가 끝나고 타겟이 죽었다면 새로운 타겟 과 경로 지정
-		if (m_owner->GetTarget()->GetState() == MonsterState::Dead)
-			CharacterManager::GetInstance()->FindNewPath(m_owner, true, true);
-		else
-			m_owner->SetState(CharacterState::Idle);
-		m_attackElapsed += Timer::GetDeltaTime();
-	}
-
 }
 
 void CharacterAttack::SetShotData()
 {
+	if (m_owner->GetTarget() == nullptr) return;
 	m_atkCol->SetImgVisible(false);
 
 	POINT ownerPos = m_owner->GetPosition();
@@ -95,6 +100,7 @@ void CharacterAttack::SetShotData()
 
 void CharacterAttack::ShotColider()
 {
+	if (m_owner->GetTarget() == nullptr) return;
 	m_atkCol->SetImgVisible(true);
 
 	m_bulletPos.x += cos(m_bulletAngle) * m_bulletSpeed * Timer::GetDeltaTime();

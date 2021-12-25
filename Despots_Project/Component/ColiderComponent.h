@@ -33,6 +33,7 @@ public:
 	ColTypes GetType();
 	RECT GetRect();
 	CharacterAttack* GetCAtkComp();
+	MonsterAttack* GetMAtkComp();
 	bool GetIsAlive();
 
 	GameObject* GetOwner();

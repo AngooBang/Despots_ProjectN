@@ -3,6 +3,7 @@
 #include "Object/Character.h"
 #include "Object/Monster.h"
 #include "Component/AnimatorComponent.h"
+#include "Manager/MonsterManager.h"
 #include "Util/Timer.h"
 
 MonsterAttack::MonsterAttack(Monster* owner, INT32 order) noexcept
@@ -13,7 +14,37 @@ MonsterAttack::MonsterAttack(Monster* owner, INT32 order) noexcept
 
 void MonsterAttack::Update()
 {
-	if (m_owner->GetState() != MonsterState::Attack) return;
+	if (m_owner->GetState() == MonsterState::Attack)
+	{
+		// 애니메이션 처리
+		if (m_attackElapsed > m_attackSpeed)
+		{
+			m_atkAni->SetCurrFrame(0);
+			m_atkAni->SetEndAni(false);
+
+			m_idleAni->SetIsVisible(false);
+			m_atkAni->SetIsVisible(true);
+			m_atkCol->SetIsAlive(true);
+			m_attackElapsed = 0.0f;
+		}
+
+		if (m_atkAni->GetEndAni())
+		{
+			m_idleAni->SetIsVisible(true);
+			m_atkAni->SetIsVisible(false);
+			if (mb_isCloseRange)
+				m_atkCol->SetIsAlive(false);
+			//공격애니가 끝나고 타겟이 죽었다면 새로운 타겟 과 경로 지정
+			if (m_owner->GetTarget() != nullptr)
+			{
+				if (m_owner->GetTarget()->GetState() == CharacterState::Dead)
+					MonsterManager::GetInstance()->FindNewPath(m_owner, true, true);
+			}
+			else
+				m_owner->SetState(MonsterState::Idle);
+			m_attackElapsed += Timer::GetDeltaTime();
+		}
+	}
 
 	if (mb_isCloseRange)
 	{
@@ -23,10 +54,16 @@ void MonsterAttack::Update()
 		switch (m_owner->GetDir())
 		{
 		case MonsterDir::Left:
-			m_atkCol->SetRect({ ownerPos.x - (ownerWidth / 2) + m_attackRange, ownerPos.y - (ownerHeight / 2), ownerPos.x,  ownerPos.y + (ownerHeight / 2) });
+			m_atkCol->SetRect({ ownerPos.x - ((ownerWidth / 2) + m_attackRange),
+				ownerPos.y - ((ownerHeight / 2) + m_attackRange),
+				ownerPos.x,
+				ownerPos.y + (ownerHeight / 2) + m_attackRange });
 			break;
 		case MonsterDir::Right:
-			m_atkCol->SetRect({ ownerPos.x , ownerPos.y - (ownerHeight / 2), ownerPos.x + (ownerWidth / 2) + m_attackRange,  ownerPos.y + (ownerHeight / 2) });
+			m_atkCol->SetRect({ ownerPos.x ,
+				ownerPos.y - ((ownerHeight)+m_attackRange),
+				ownerPos.x + ((ownerWidth / 2) + m_attackRange),
+				ownerPos.y + (ownerHeight / 2) + m_attackRange });
 			break;
 		default:
 			break;
@@ -39,32 +76,11 @@ void MonsterAttack::Update()
 		else
 			ShotColider();
 	}
-
-	// 애니메이션 처리
-	if (m_attackElapsed > m_attackSpeed)
-	{
-		m_atkAni->SetCurrFrame(0);
-		m_atkAni->SetEndAni(false);
-
-		m_idleAni->SetIsVisible(false);
-		m_atkAni->SetIsVisible(true);
-		m_atkCol->SetIsAlive(true);
-		m_attackElapsed = 0.0f;
-	}
-
-	if (m_atkAni->GetEndAni())
-	{
-		m_idleAni->SetIsVisible(true);
-		m_atkAni->SetIsVisible(false);
-		if (mb_isCloseRange)
-			m_atkCol->SetIsAlive(false);
-		m_owner->SetState(MonsterState::Idle);
-		m_attackElapsed += Timer::GetDeltaTime();
-	}
 }
 
 void MonsterAttack::SetShotData()
 {
+	if (m_owner->GetTarget() == nullptr) return;
 	m_atkCol->SetImgVisible(false);
 
 	POINT ownerPos = m_owner->GetPosition();
@@ -72,9 +88,9 @@ void MonsterAttack::SetShotData()
 	m_bulletPos = ownerPos;
 
 	m_atkCol->SetRect({ m_bulletPos.x - m_bulletSize / 2,
-		m_bulletPos.y - m_bulletSize / 2,
+		m_bulletPos.y - m_bulletSize / 8,
 		m_bulletPos.x + m_bulletSize / 2,
-		m_bulletPos.y + m_bulletSize / 2 });
+		m_bulletPos.y + m_bulletSize / 8 });
 
 	m_bulletAngle = atan2f(
 		-(targetPos.y - ownerPos.y),
@@ -83,15 +99,16 @@ void MonsterAttack::SetShotData()
 
 void MonsterAttack::ShotColider()
 {
+	if (m_owner->GetTarget() == nullptr) return;
 	m_atkCol->SetImgVisible(true);
 
 	m_bulletPos.x += cos(m_bulletAngle) * m_bulletSpeed * Timer::GetDeltaTime();
 	m_bulletPos.y -= sin(m_bulletAngle) * m_bulletSpeed * Timer::GetDeltaTime();
 
 	m_atkCol->SetRect({ m_bulletPos.x - m_bulletSize / 2,
-		m_bulletPos.y - m_bulletSize / 2,
+		m_bulletPos.y - m_bulletSize / 8,
 		m_bulletPos.x + m_bulletSize / 2,
-		m_bulletPos.y + m_bulletSize / 2 });
+		m_bulletPos.y + m_bulletSize / 8 });
 
 	if (m_bulletPos.x >= WIN_SIZE_X || m_bulletPos.x <= 0 || m_bulletPos.y >= WIN_SIZE_Y || m_bulletPos.y <= 0)
 		m_atkCol->SetIsAlive(false);

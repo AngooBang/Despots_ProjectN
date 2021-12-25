@@ -23,7 +23,7 @@ public:
 
 	void FindCharacterPath();
 
-	void FindNewPath(Monster* monster);
+	void FindNewPath(Monster* monster, bool sFloodFill = false, bool eFloodFill = true);
 
 	void SetScene(Scene* scene);
 	void SetLayer(Layer* layer);
@@ -32,10 +32,12 @@ public:
 
 private:
 	vector<Monster*> m_vecMon;
-	vector<Monster*>::iterator removeIter;
+	vector<Monster*>::iterator m_vecMonIter;
+
+	float m_pathFindElapsed = 0.0f;
+	int m_pfCount = 0;
 
 	int	m_addCount = 0;
-	int m_removeCount = 0;
 	Scene* _scene = nullptr;
 	Layer* _layer = nullptr;
 

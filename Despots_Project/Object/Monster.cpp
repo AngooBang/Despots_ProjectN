@@ -8,6 +8,7 @@
 #include "Component/Monster/MonsterAttack.h"
 #include "Manager/CameraManager.h"
 #include "Manager/GameManager.h"
+#include "Object/HpBar.h"
 
 Monster::Monster(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
 	:GameObject(scene, layer, tag)
@@ -52,6 +53,11 @@ void Monster::Init()
 	m_deathAni->SetIsLoop(false);
 	m_deathAni->SetScale(1.5f);
 
+	m_hpBar = new HpBar(GetScene(), GetLayer(), L"CHpBar");
+	m_hpBar->SetOwner(this);
+	m_hpBar->Init();
+	m_hpBar->SetFillImg(L"Image/Character/HpBar_Enemy.png");
+
 	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Monster, L"Monster");
 	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::MAtkRange, L"MAtkRange");
 	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::MAtk, L"MAtk");
@@ -73,6 +79,14 @@ void Monster::Init()
 	m_state = MonsterState::Burrow;
 	m_type = MonsterType::Dalek;
 
+	switch (m_type)
+	{
+	case MonsterType::Dalek:
+		m_hp = DALEK_HP;
+		break;
+	}
+	m_hpBar->SetMaxHp(m_hp);
+
 	m_renderRect = GetRect();
 	GameObject::Init();
 	m_atkCol->SetImgVisible(false);
@@ -86,6 +100,9 @@ void Monster::Update()
 		return;
 	}
 	mb_rangeInChar = false;
+	if (m_hp < 0)
+		m_hp = 0;
+	m_hpBar->SetNowHp(m_hp);
 	GameObject::Update();
 	SetDataToType();
 	if (m_hp <= 0)
@@ -241,7 +258,7 @@ void Monster::SetDataToType()
 		m_attackAni->SetFrame(4, 1);
 		m_deathAni->SetImage(L"Image/Monster/Dalek_Death.png");
 		m_deathAni->SetFrame(8, 1);
-		m_atkCol->SetImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
+		m_atkCol->SetImage(L"Image/Monster/Dalek_Bullet.png");
 		m_atkCol->SetImgVisible(true);
 
 		break;

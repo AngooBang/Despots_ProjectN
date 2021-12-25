@@ -16,58 +16,66 @@ MonsterMovement::MonsterMovement(Monster* owner, INT32 order) noexcept
 
 void MonsterMovement::Update()
 {
-	if (m_path.empty() == false)
+	if (m_owner->GetState() != MonsterState::Run) return;
+
+	m_pathFindElapsed += Timer::GetDeltaTime();
+
+
+	if (mb_isMove == false)
 	{
-		if (mb_isMove == false)
-		{
-			//이동전 초기값 지정구간
-			PathFinderManager::GetInstance()->SetInTileDataM(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
-		}
-		// 도착점이 장애물이 되었을때
-		if (PathFinderManager::GetInstance()->IsObstacle(m_path.front()))
-		{
-			MonsterManager::GetInstance()->FindNewPath(m_owner);
-		}
+		PathFinderManager::GetInstance()->SetInTileDataM(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 0);
+	}
 
-		mb_isMove = true;
-		m_owner->SetState(MonsterState::Run);
-		Move();
 
-		// 타겟이 움직였다면 길찾기 다시
-		if (m_owner->GetTarget()->GetIsMove() && GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	mb_isMove = true;
+
+	// 사거리에 들어오면
+	if (m_owner->GetRangeInChar())
+	{
+		// 서있는 자리를 체크해서 장애물이라면
+		if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()))
 		{
-			MonsterManager::GetInstance()->FindNewPath(m_owner);
+			// 경로를 재탐색 (시작점, 도착점 전부 FloodFill적용)
+			MonsterManager::GetInstance()->FindNewPath(m_owner, true, true);
+			m_pathFindElapsed = 0.0f;
 		}
-
-		// 원거리캐릭들은 사거리가 되면 멈춤
-		if (m_owner->GetMType() == MonsterType::Dalek)
+		else
 		{
-			if (m_owner->GetRangeInChar() && GameManager::GetInstance()->GetGameState() == GameState::Battle)
-			{
-				m_path.clear();
-			}
+			//m_path.clear();
+			mb_isMove = false;
+			//PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
+
+			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+				m_owner->SetState(MonsterState::Attack);
+			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+				m_owner->SetState(MonsterState::Idle);
 		}
 	}
 	else
 	{
-		if (PathFinderManager::GetInstance()->IsObstacle(m_owner->GetTilePos()) && mb_isMove)
+		// 사거리에 적이 없는데
+		// 검사를 일정시간마다.
+		if (m_pathFindElapsed > 1.0f)
 		{
-			MonsterManager::GetInstance()->FindNewPath(m_owner);
-			return;
+			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+			{
+				MonsterManager::GetInstance()->FindNewPath(m_owner);
+			}
+			m_pathFindElapsed = 0.0f;
 		}
+	}
+	if (m_path.empty() == false && mb_isMove)
+	{
+		Move();
+	}
+	else
+	{
 		mb_isMove = false;
 		PathFinderManager::GetInstance()->SetInTileDataM(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 5);
-		if (m_owner->GetRangeInChar())
-		{
+		if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 			m_owner->SetState(MonsterState::Attack);
-		}
-		else
-		{
-			if (GameManager::GetInstance()->GetGameState() == GameState::Battle && m_owner->GetState() == MonsterState::Idle)
-				MonsterManager::GetInstance()->FindNewPath(m_owner);
-			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby && m_owner->GetState() == MonsterState::Run)
-				m_owner->SetState(MonsterState::Idle);
-		}
+		else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			m_owner->SetState(MonsterState::Idle);
 	}
 }
 

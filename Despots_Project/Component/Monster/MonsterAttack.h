@@ -42,7 +42,7 @@ private:
 
 	float					m_attackElapsed = 0.0f;
 	float					m_attackSpeed = 1.4f;
-	int						m_attackDamage = 10;
+	int						m_attackDamage = 0;
 	int						m_attackRange = 10;
 
 	POINT					m_bulletPos = {};

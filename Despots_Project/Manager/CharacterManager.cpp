@@ -8,6 +8,7 @@
 #include "Object/Monster.h"
 #include "Object/Tile.h"
 #include "Util/Timer.h"
+#include "Scene/Layer.h"
 
 void CharacterManager::Update()
 {
@@ -31,6 +32,23 @@ void CharacterManager::Update()
 	}
 	m_addCount = 0;
 
+	for (auto iter = m_vecChar.begin(); iter != m_vecChar.end();)
+	{
+		if ((*iter)->GetIsAlive() == false)
+		{
+			//removeIter = iter;
+			//m_removeCount++;
+			PathFinderManager::GetInstance()->SetInTileData((*iter)->GetTilePos().x, (*iter)->GetTilePos().y, 0);
+			_layer->RemoveObject((*iter));
+			SAFE_RELEASE((*iter));
+			iter = m_vecChar.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+
 	m_pathFindElapsed += Timer::GetDeltaTime();
 	switch (GameManager::GetInstance()->GetGameState())
 	{
@@ -46,6 +64,10 @@ void CharacterManager::Update()
 					iter->SetState(CharacterState::Run);
 			}
 			m_pathFindElapsed = 0.0f;
+			if (m_pfCount <= m_vecChar.size())
+			{
+				FindMonsterPath();
+			}
 		}
 		break;
 	}
@@ -58,9 +80,7 @@ void CharacterManager::BattleStart()
 	{
 		iter->SetStanbyPos(iter->GetTilePos());
 	}
-
-	// 최초 길찾기 실행.
-	FindMonsterPath();
+	m_vecCharIter = m_vecChar.begin();
 }
 
 void CharacterManager::BattleQuit()
@@ -82,11 +102,11 @@ void CharacterManager::FindMonsterPath()
 {
 	// 캐릭터를 하나하나 작업해서 path를 넣어줌(가장 가까운 몬스터 기준으로..)
 	vector<Monster*> vecMon = MonsterManager::GetInstance()->GetVecMon();
-	for(auto iter : m_vecChar)
+	while(m_vecCharIter != m_vecChar.end())
 	{
 		deque<POINT> tempDeq;
 
-		POINT startPos = iter->GetTilePos();
+		POINT startPos = (*m_vecCharIter)->GetTilePos();
 		for (auto moniter : vecMon)
 		{
 			POINT endPos = moniter->GetTilePos();
@@ -107,14 +127,15 @@ void CharacterManager::FindMonsterPath()
 			if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
 			{
 				tempDeq = currDeq;
-				iter->SetTarget(moniter);
+				(*m_vecCharIter)->SetTarget(moniter);
 			}
-			//	}
-			//}
 
 		}
-		iter->SetPath(tempDeq);
-		iter->SetState(CharacterState::Run);
+		++m_pfCount;
+		(*m_vecCharIter)->SetPath(tempDeq);
+		(*m_vecCharIter)->SetState(CharacterState::Run);
+		++m_vecCharIter;
+		if (m_pfCount % 5 == 0) break;
 	}
 }
 

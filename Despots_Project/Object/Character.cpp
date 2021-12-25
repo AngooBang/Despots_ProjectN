@@ -4,10 +4,12 @@
 #include "Component/ImageComponent.h"
 #include "Component/Character/CharacterMovement.h"
 #include "Component/Character/CharacterAttack.h"
+#include "Component/Monster/MonsterAttack.h"
 #include "Util/Timer.h"
 #include "Manager/GameManager.h"
 #include "Manager/CharacterManager.h"
 #include "Object/Monster.h"
+#include "Object/HpBar.h"
 
 Character::Character(Scene* scene, Layer* layer, const std::wstring& tag, POINT pos)
 	:GameObject(scene, layer, tag)
@@ -20,6 +22,7 @@ void Character::Init()
 	SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
 	m_flyDestY = GetPosition().y;
+	m_hp = NORMAL_HP;
 
 	m_flyAni = new AnimatorComponent(this, 2);
 	m_flyAni->SetImage(L"Image/Character/Normal/Normal_Fly.png");
@@ -54,6 +57,12 @@ void Character::Init()
 	m_selectImg->SetImage(L"Image/Character/Selected.png");
 	m_selectImg->SetIsVisible(false);
 
+	m_hpBar = new HpBar(GetScene(), GetLayer(), L"CHpBar");
+	m_hpBar->SetMaxHp(m_hp);
+	m_hpBar->SetOwner(this);
+	m_hpBar->Init();
+	m_hpBar->SetFillImg(L"Image/Character/HpBar_Ally.png");
+
 	m_colider = new ColiderComponent(this, 2, GetRect(), ColTypes::Character, L"Character");
 	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::CAtkRange, L"CAtkRange");
 	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::CAtk, L"CAtk");
@@ -61,6 +70,7 @@ void Character::Init()
 	
 	m_moveComp = new CharacterMovement(this, 2);
 	m_atkComp = new CharacterAttack(this, 1);
+
 
 
 	
@@ -82,6 +92,13 @@ void Character::Init()
 
 	GameObject::Init();
 
+	m_deathAni = new AnimatorComponent(this, 3);
+	m_deathAni->SetImage(L"Image/Character/Normal/Normal_Dead.png");
+	m_deathAni->SetFrame(10, 1);
+	m_deathAni->SetIsLoop(false);
+	m_deathAni->SetMotionSpeed(0.06f);
+	m_deathAni->SetScale(1.4f);
+
 	m_atkCol->SetImgVisible(false);
 }
 
@@ -94,10 +111,20 @@ void Character::Update()
 	}
 
 	mb_rangeInMon = false;
+	if (m_hp < 0)
+		m_hp = 0;
+	m_hpBar->SetNowHp(m_hp);
 	GameObject::Update();
-
 	SetDataToType();
+	if (m_hp <= 0)
+	{
+		m_state = CharacterState::Dead;
+	}
 	StateUpdate();
+	if (m_deathAni->GetEndAni() && m_state == CharacterState::Dead)
+	{
+		mb_isAlive = false;
+	}
 
 	// 마우스로 선택시 선택프레임출력
 	if (mb_isSelected)
@@ -118,6 +145,7 @@ void Character::Update()
 		m_idleAni->SetHorizontalReverse(false);
 		m_runAni->SetHorizontalReverse(false);
 		m_attackAni->SetHorizontalReverse(false);
+		m_deathAni->SetHorizontalReverse(false);
 		break;
 	case CharacterDir::Left:
 		// 왼쪽 봄
@@ -125,6 +153,7 @@ void Character::Update()
 		m_idleAni->SetHorizontalReverse(true);
 		m_runAni->SetHorizontalReverse(true);
 		m_attackAni->SetHorizontalReverse(true);
+		m_deathAni->SetHorizontalReverse(true);
 		break;
 	}
 
@@ -142,6 +171,7 @@ void Character::Update()
 	{
 		m_attackAni->SetRect(m_renderRect);
 	}
+	m_deathAni->SetRect(m_renderRect);
 
 	m_colider->SetRect(GetRect());
 	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
@@ -164,7 +194,7 @@ void Character::OnColision(ColTypes tag)
 		if (GameManager::GetInstance()->GetCharType() != CharacterType::None)
 		{
 			m_type = GameManager::GetInstance()->GetCharType();
-
+			mb_isClassChanged = true;
 			GameManager::GetInstance()->SetCharType(CharacterType::None);
 		}
 		break;
@@ -192,7 +222,16 @@ void Character::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 				m_dir = CharacterDir::Left;
 		}
 		break;
-
+	}
+	switch (col2->GetType())
+	{
+	case ColTypes::MAtk:
+		if (col1->GetType() == ColTypes::Character)
+		{
+			m_hp -= col2->GetMAtkComp()->GetAtkDamage();
+			col2->SetIsAlive(false);
+		}
+		break;
 	}
 
 }
@@ -253,6 +292,7 @@ void Character::StateUpdate()
 		m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(false);
 		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
 		break;
 
 
@@ -261,6 +301,7 @@ void Character::StateUpdate()
 		m_idleAni->SetIsVisible(true);
 		m_runAni->SetIsVisible(false);
 		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
 		break;
 
 	case CharacterState::Run:
@@ -268,13 +309,26 @@ void Character::StateUpdate()
 		m_idleAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(true);
 		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
 		break;
 
 	case CharacterState::Attack:
 		m_flyAni->SetIsVisible(false);
 		m_runAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(false);
 		break;
 
+	case CharacterState::Dead:
+		if (m_deathAni->GetIsVisible() == false)
+		{
+			m_deathAni->SetCurrFrame(0);
+			m_deathAni->SetEndAni(false);
+		}
+		m_idleAni->SetIsVisible(false);
+		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
+		m_deathAni->SetIsVisible(true);
+		break;
 
 	default:
 		break;
@@ -294,12 +348,19 @@ void Character::SetDataToType()
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
 
-		m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
-		m_idleAni->SetFrame(6, 1);
-		m_runAni->SetImage(L"Image/Character/Normal/Normal_Run.png");
-		m_runAni->SetFrame(8, 1);
-		m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
-		m_attackAni->SetFrame(4, 1);
+		if (mb_isClassChanged)
+		{
+			m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
+			m_idleAni->SetFrame(6, 1);
+			m_runAni->SetImage(L"Image/Character/Normal/Normal_Run.png");
+			m_runAni->SetFrame(8, 1);
+			m_attackAni->SetImage(L"Image/Character/Normal/Normal_Attack.png");
+			m_attackAni->SetFrame(4, 1);
+
+			m_hp = NORMAL_HP;
+			m_hpBar->SetMaxHp(m_hp);
+			mb_isClassChanged = false;
+		}
 		break;
 	case CharacterType::GutSword:
 		m_renderRect = { m_renderPos.x - 50, m_renderPos.y - 40,
@@ -312,15 +373,22 @@ void Character::SetDataToType()
 		m_atkComp->SetAttackDamage(GUTS_ATK_DMG);
 		m_atkComp->SetAttackSpeed(GUTS_ATK_SPEED);
 
-		m_flyAni->SetImage(L"Image/Character/Swordman/GutsSword_Fly.png");
-		m_flyAni->SetFrame(14, 1);
-		m_idleAni->SetImage(L"Image/Character/Swordman/GutsSword_Idle.png");
-		m_idleAni->SetFrame(6, 1);
-		m_runAni->SetImage(L"Image/Character/Swordman/GutsSword_Run.png");
-		m_runAni->SetFrame(12, 1);
-		m_attackAni->SetImage(L"Image/Character/Swordman/GutsSword_Attack.png");
-		m_attackAni->SetFrame(10, 1);
-		m_attackAni->SetScale(2.5f);
+		if (mb_isClassChanged)
+		{
+			m_flyAni->SetImage(L"Image/Character/Swordman/GutsSword_Fly.png");
+			m_flyAni->SetFrame(14, 1);
+			m_idleAni->SetImage(L"Image/Character/Swordman/GutsSword_Idle.png");
+			m_idleAni->SetFrame(6, 1);
+			m_runAni->SetImage(L"Image/Character/Swordman/GutsSword_Run.png");
+			m_runAni->SetFrame(12, 1);
+			m_attackAni->SetImage(L"Image/Character/Swordman/GutsSword_Attack.png");
+			m_attackAni->SetFrame(10, 1);
+			m_attackAni->SetScale(2.5f);
+
+			m_hp = GUTS_HP;
+			m_hpBar->SetMaxHp(m_hp);
+			mb_isClassChanged = false;
+		}
 		break;
 	case CharacterType::Shield:
 		m_renderRect = { m_renderPos.x - 28, m_renderPos.y - 45,
@@ -333,14 +401,21 @@ void Character::SetDataToType()
 		m_atkComp->SetAttackDamage(SHIELD_ATK_DMG);
 		m_atkComp->SetAttackSpeed(SHIELD_ATK_SPEED);
 
-		m_flyAni->SetImage(L"Image/Character/Tanker/Shield_Fly.png");
-		m_flyAni->SetFrame(14, 1);
-		m_idleAni->SetImage(L"Image/Character/Tanker/Shield_Idle.png");
-		m_idleAni->SetFrame(6, 1);
-		m_runAni->SetImage(L"Image/Character/Tanker/Shield_Run.png");
-		m_runAni->SetFrame(6, 1);
-		m_attackAni->SetImage(L"Image/Character/Tanker/Shield_Attack.png");
-		m_attackAni->SetFrame(3, 1);
+		if (mb_isClassChanged)
+		{
+			m_flyAni->SetImage(L"Image/Character/Tanker/Shield_Fly.png");
+			m_flyAni->SetFrame(14, 1);
+			m_idleAni->SetImage(L"Image/Character/Tanker/Shield_Idle.png");
+			m_idleAni->SetFrame(6, 1);
+			m_runAni->SetImage(L"Image/Character/Tanker/Shield_Run.png");
+			m_runAni->SetFrame(6, 1);
+			m_attackAni->SetImage(L"Image/Character/Tanker/Shield_Attack.png");
+			m_attackAni->SetFrame(3, 1);
+
+			m_hp = SHIELD_HP;
+			m_hpBar->SetMaxHp(m_hp);
+			mb_isClassChanged = false;
+		}
 		break;
 	case CharacterType::Crossbow:
 		m_renderRect = { m_renderPos.x - 22, m_renderPos.y - 40,
@@ -357,16 +432,23 @@ void Character::SetDataToType()
 		m_atkComp->SetAttackDamage(CROSSBOW_ATK_DMG);
 		m_atkComp->SetAttackSpeed(CROSSBOW_ATK_SPEED);
 
-		m_flyAni->SetImage(L"Image/Character/Shooter/Crossbow_Fly.png");
-		m_flyAni->SetFrame(14, 1);
-		m_idleAni->SetImage(L"Image/Character/Shooter/Crossbow_Idle.png");
-		m_idleAni->SetFrame(6, 1);
-		m_runAni->SetImage(L"Image/Character/Shooter/Crossbow_Run.png");
-		m_runAni->SetFrame(6, 1);
-		m_attackAni->SetImage(L"Image/Character/Shooter/Crossbow_Attack.png");
-		m_attackAni->SetFrame(3, 1);
-		m_atkCol->SetImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
-		m_atkCol->SetImgVisible(true);
+		if (mb_isClassChanged)
+		{
+			m_flyAni->SetImage(L"Image/Character/Shooter/Crossbow_Fly.png");
+			m_flyAni->SetFrame(14, 1);
+			m_idleAni->SetImage(L"Image/Character/Shooter/Crossbow_Idle.png");
+			m_idleAni->SetFrame(6, 1);
+			m_runAni->SetImage(L"Image/Character/Shooter/Crossbow_Run.png");
+			m_runAni->SetFrame(6, 1);
+			m_attackAni->SetImage(L"Image/Character/Shooter/Crossbow_Attack.png");
+			m_attackAni->SetFrame(3, 1);
+			m_atkCol->SetImage(L"Image/Character/Shooter/Crossbow_Bullet.png");
+			m_atkCol->SetImgVisible(true);
+
+			m_hp = CROSSBOW_HP;
+			m_hpBar->SetMaxHp(m_hp);
+			mb_isClassChanged = false;
+		}
 		break;
 	case CharacterType::Ring:
 		m_renderRect = { m_renderPos.x - 30, m_renderPos.y - 60,
@@ -382,17 +464,25 @@ void Character::SetDataToType()
 
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 			GetPosition().x + 22, GetPosition().y + 22 });
-		m_flyAni->SetImage(L"Image/Character/Mage/Ring_Fly.png");
-		m_flyAni->SetFrame(14, 1);
-		m_idleAni->SetImage(L"Image/Character/Mage/Ring_Idle.png");
-		m_idleAni->SetFrame(6, 1);
-		m_idleAni->SetMotionSpeed(0.08f);
-		m_runAni->SetImage(L"Image/Character/Mage/Ring_Run.png");
-		m_runAni->SetFrame(6, 1);
-		m_attackAni->SetImage(L"Image/Character/Mage/Ring_Attack.png");
-		m_attackAni->SetFrame(4, 1);
-		m_atkCol->SetImage(L"Image/Character/Mage/Ring_Bullet.png");
-		m_atkCol->SetImgVisible(true);
+
+		if (mb_isClassChanged)
+		{
+			m_flyAni->SetImage(L"Image/Character/Mage/Ring_Fly.png");
+			m_flyAni->SetFrame(14, 1);
+			m_idleAni->SetImage(L"Image/Character/Mage/Ring_Idle.png");
+			m_idleAni->SetFrame(6, 1);
+			m_idleAni->SetMotionSpeed(0.08f);
+			m_runAni->SetImage(L"Image/Character/Mage/Ring_Run.png");
+			m_runAni->SetFrame(6, 1);
+			m_attackAni->SetImage(L"Image/Character/Mage/Ring_Attack.png");
+			m_attackAni->SetFrame(4, 1);
+			m_atkCol->SetImage(L"Image/Character/Mage/Ring_Bullet.png");
+			m_atkCol->SetImgVisible(true);
+
+			m_hp = RING_HP;
+			m_hpBar->SetMaxHp(m_hp);
+			mb_isClassChanged = false;
+		}
 		break;
 	}
 }
@@ -469,6 +559,11 @@ CharacterType Character::GetCType()
 Monster* Character::GetTarget()
 {
 	return m_target;
+}
+
+POINT Character::GetRenderRect()
+{
+	return m_renderPos;
 }
 
 void Character::SetPath(deque<POINT> path)

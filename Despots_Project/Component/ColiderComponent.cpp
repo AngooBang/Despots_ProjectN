@@ -93,6 +93,11 @@ CharacterAttack* ColiderComponent::GetCAtkComp()
 	return m_cAtkComp;
 }
 
+MonsterAttack* ColiderComponent::GetMAtkComp()
+{
+	return m_mAtkComp;
+}
+
 bool ColiderComponent::GetIsAlive()
 {
 	return mb_isAlive;

@@ -266,7 +266,7 @@ deque<POINT> PathFinderManager::PathFind()
     SetInTileData(startX, startX, 0);
     //SetInTileData(endX, endY, 2);
 
-    PrintMap();
+    //PrintMap();
     ClearMap();
 
     return st;

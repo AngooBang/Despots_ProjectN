@@ -21,7 +21,10 @@ public:
 private:
 	float					m_speed = 200.0f;
 
-	Monster* m_owner = nullptr;
+	float					m_pathFindElapsed = 0.0f;
+
+	Monster*				m_owner = nullptr;
+
 	deque<POINT>			m_path;
 
 	bool					mb_isMove = false;

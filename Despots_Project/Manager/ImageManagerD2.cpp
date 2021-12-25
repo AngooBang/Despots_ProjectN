@@ -81,6 +81,9 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/InterFace/SelectBox.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Selected.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/HpBar_Empty.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/HpBar_Ally.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/HpBar_Enemy.png");
 
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Icon.png");
@@ -90,6 +93,8 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Idle.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Run.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Attack.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Normal/Normal_Dead.png");
 
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/Character/Swordman/Swordman_Icon.png");
@@ -144,6 +149,13 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Run.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Attack.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Death.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Bullet.png");
+
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/UI.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/Minimap_test.png");
+
+
 }
 
 int ImageManagerD2::AddImage(const wchar_t* path, D2D1_RECT_F rect)

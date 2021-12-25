@@ -199,6 +199,12 @@
     <ClInclude Include="Component\Monster\MonsterAttack.h">
       <Filter>Component\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Object\HpBar.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\UI.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -355,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="Component\Monster\MonsterAttack.cpp">
       <Filter>Component\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\HpBar.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\UI.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

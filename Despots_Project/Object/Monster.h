@@ -13,6 +13,8 @@ enum class MonsterType { Dalek, None };//타입정하고 몬스터만들기~
 #define DALEK_ATK_SPEED 4.0f
 #define DALEK_ATK_RANGE 200
 
+#define DALEK_HP 200
+
 
 
 using namespace std;
@@ -23,6 +25,7 @@ class MonsterMovement;
 class MonsterAttack;
 class ColiderComponent;
 class Character;
+class HpBar;
 class Monster : public GameObject
 {
 public:
@@ -71,6 +74,8 @@ private:
 	ColiderComponent*	m_atkRangeCol = nullptr;
 	ColiderComponent*	m_atkCol = nullptr;
 
+	HpBar*				m_hpBar = nullptr;
+
 	MonsterState		m_state = MonsterState::End;
 
 	POINT				m_tilePos = {};
@@ -88,5 +93,5 @@ private:
 	bool				mb_isAlive = true;
 	bool				mb_rangeInChar = false;
 
-	int					m_hp = 10;
+	int					m_hp = 0;
 };

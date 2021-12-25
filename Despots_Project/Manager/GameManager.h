@@ -17,16 +17,17 @@ public:
 	virtual void Update() override;
 
 	void CheckMonsterLeft();
+	void CheckCharacterLeft();
 	
 	void AddStageNum(int num);
 
 	POINT DistPosToTilePos(POINT pos);
 
-	void CharacterMove(Tile* endTile);
-
 	void BattleStart();
 
 	void BattleQuit();
+
+	void GameOver();
 
 	void LoadStage();
 	void ShopVisibleOff();

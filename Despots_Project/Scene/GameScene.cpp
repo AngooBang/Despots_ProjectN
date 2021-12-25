@@ -5,6 +5,7 @@
 #include "Object/MoveFrame.h"
 #include "Object/FightButton.h"
 #include "Object/Shop.h"
+#include "Object/UI.h"
 #include "Util/Input.h"
 #include "Scene/Layer.h"
 #include "Manager/CameraManager.h"
@@ -34,7 +35,8 @@ void GameScene::Init()
 	//SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
 
 	FightButton* fightBtn = new FightButton(this, m_uiLayer, L"FightButton");
-	
+	UI* ui = new UI(this, m_uiLayer, L"UI");
+
 	CharacterManager::GetInstance()->SetScene(this);
 	CharacterManager::GetInstance()->SetLayer(m_objectLayer);
 

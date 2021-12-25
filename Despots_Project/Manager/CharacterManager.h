@@ -40,9 +40,10 @@ public:
 	vector<Character*> GetVecChar();
 
 private:
-	std::vector<Character*> m_vecChar;
+	vector<Character*> m_vecChar;
+	vector<Character*>::iterator m_vecCharIter;
 	int	m_addCount = 0;
-
+	int m_pfCount = 0;
 	float	m_pathFindElapsed = 0.0f;
 	Scene* _scene = nullptr;
 	Layer* _layer = nullptr;

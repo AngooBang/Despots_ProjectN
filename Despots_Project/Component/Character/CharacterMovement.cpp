@@ -177,12 +177,8 @@ void CharacterMovement::Move()
 
 	if (destPoint.x - 2 <= charPos.x && charPos.x <= destPoint.x + 2 && destPoint.y - 2 <= charPos.y && charPos.y <= destPoint.y + 2)
 	{
-	//if(destPoint.x == charPos.x && destPoint.y == charPos.y)
-	//{
 		m_owner->SetTilePos({ pos.x, pos.y });
 		m_path.pop_back();
-
-
 		return;
 	}
 
@@ -197,9 +193,6 @@ void CharacterMovement::Move()
 
 	_owner->SetPosition(charPos);
 
-	//POINT tilePos = GameManager::GetInstance()->DistPosToTilePos(charPos);
-
-	//PathFinderManager::GetInstance()->SetInTileData(tilePos.x, tilePos.y, 0);
 	
 }
 

@@ -3,6 +3,7 @@
 #include "Util/Input.h"
 #include "Manager/CharacterManager.h"
 #include "Manager/MonsterManager.h"
+#include "Manager/SceneManager.h"
 #include "Object/TileMap.h"
 #include "Object/Tile.h"
 #include "Object/MoveFrame.h"
@@ -37,8 +38,11 @@ void GameManager::Update()
 	}
 
 	// 전투상태일때 남은몬스터 확인 후 없다면 다시 스탠바이로~
-	if(m_gameState == GameState::Battle)
+	if (m_gameState == GameState::Battle)
+	{
 		CheckMonsterLeft();
+		CheckCharacterLeft();
+	}
 }
 
 void GameManager::CheckMonsterLeft()
@@ -55,6 +59,25 @@ void GameManager::CheckMonsterLeft()
 	if (!isMonsterLeft)
 	{
 		BattleQuit();
+		// 캐릭터가 전멸시 GameOver를 띄우고 타이틀씬으로 돌아가는명령 필요
+	}
+	return;
+}
+
+void GameManager::CheckCharacterLeft()
+{
+	vector<Character*> tempChar = CharacterManager::GetInstance()->GetVecChar();
+
+	bool isCharacterLeft = false;
+	for (auto iter : tempChar)
+	{
+		if (iter->GetIsAlive())
+			isCharacterLeft = true;
+	}
+
+	if (!isCharacterLeft)
+	{
+		GameOver();
 		// 캐릭터가 전멸시 GameOver를 띄우고 타이틀씬으로 돌아가는명령 필요
 	}
 	return;
@@ -123,11 +146,6 @@ GameState GameManager::GetGameState()
 	return m_gameState;
 }
 
-
-void GameManager::CharacterMove(Tile* endTile)
-{
-}
-
 void GameManager::BattleStart()
 {
 	m_gameState = GameState::Battle;
@@ -142,6 +160,13 @@ void GameManager::BattleQuit()
 	m_gameState = GameState::Stanby;
 	CharacterManager::GetInstance()->BattleQuit();
 	m_shop->Show();
+}
+
+void GameManager::GameOver()
+{
+	m_gameState = GameState::Stanby;
+	SceneManager::GetInstance()->SetNextScene(L"Title");
+	SceneManager::GetInstance()->ChangeScene();
 }
 
 void GameManager::LoadStage()

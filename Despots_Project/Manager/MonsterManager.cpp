@@ -6,6 +6,7 @@
 #include "Object/Tile.h"
 #include "Object/Monster.h"
 #include "Object/Character.h"
+#include "Util/Timer.h"
 #include "Scene/Layer.h"
 
 void MonsterManager::Update()
@@ -35,7 +36,6 @@ void MonsterManager::Update()
 	m_addCount = 0;
 
 
-	m_removeCount = 0;
 	for (auto iter = m_vecMon.begin(); iter != m_vecMon.end();)
 	{
 		if ((*iter)->GetIsAlive() == false)
@@ -53,6 +53,29 @@ void MonsterManager::Update()
 		}
 	}
 
+	m_pathFindElapsed += Timer::GetDeltaTime();
+	switch (GameManager::GetInstance()->GetGameState())
+	{
+	case GameState::Stanby:
+
+		break;
+	case GameState::Battle:
+		if (m_pathFindElapsed > 1.0f)
+		{
+			for (auto iter : m_vecMon)
+			{
+				if (iter->GetState() != MonsterState::Run)
+					iter->SetState(MonsterState::Run);
+			}
+			m_pathFindElapsed = 0.0f;
+			if (m_pfCount <= m_vecMon.size())
+			{
+				FindCharacterPath();
+			}
+		}
+		break;
+	}
+
 }
 
 void MonsterManager::AddMonster()
@@ -66,23 +89,23 @@ void MonsterManager::BattleStart()
 	{
 		iter->SetState(MonsterState::Idle);
 	}
-	//최초 길찾기 실행.
-	FindCharacterPath();
+	m_vecMonIter = m_vecMon.begin();
 }
 
 void MonsterManager::BattleQuit()
 {
 	// 게임오버 메시지 => 타이틀씬전환
+
 }
 
 void MonsterManager::FindCharacterPath()
 {
 	vector<Character*> vecChar = CharacterManager::GetInstance()->GetVecChar();
-	for (auto iter : m_vecMon)
+	while (m_vecMonIter != m_vecMon.end())
 	{
 		deque<POINT> tempDeq;
 
-		POINT startPos = iter->GetTilePos();
+		POINT startPos = (*m_vecMonIter)->GetTilePos();
 		for (auto chariter : vecChar)
 		{
 			POINT endPos = chariter->GetTilePos();
@@ -90,8 +113,6 @@ void MonsterManager::FindCharacterPath()
 
 			PathFinderManager::GetInstance()->SetInTileDataM(startPos.x, startPos.y, 0);
 
-			PathFinderManager::GetInstance()->ClearMap();
-			PathFinderManager::GetInstance()->PrintMap();
 			currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
 
 			PathFinderManager::GetInstance()->SetInTileDataM(startPos.x, startPos.y, 5);
@@ -102,14 +123,19 @@ void MonsterManager::FindCharacterPath()
 			if (tempDeq.size() > currDeq.size() || tempDeq.size() == 0)
 			{
 				tempDeq = currDeq;
-				iter->SetTarget(chariter);
+				(*m_vecMonIter)->SetTarget(chariter);
 			}
 		}
-		iter->SetPath(tempDeq);
+
+		++m_pfCount;
+		(*m_vecMonIter)->SetPath(tempDeq);
+		(*m_vecMonIter)->SetState(MonsterState::Run);
+		++m_vecMonIter;
+		if (m_pfCount % 5 == 0) break;
 	}
 }
 
-void MonsterManager::FindNewPath(Monster* monster)
+void MonsterManager::FindNewPath(Monster* monster, bool sFloodFill, bool eFloodFill)
 {
 	vector<Character*> vecChar = CharacterManager::GetInstance()->GetVecChar();
 	deque<POINT> tempDeq;
@@ -121,7 +147,7 @@ void MonsterManager::FindNewPath(Monster* monster)
 		POINT endPos = chariter->GetTilePos();
 		deque<POINT> currDeq;
 
-		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos);
+		currDeq = PathFinderManager::GetInstance()->PathFindPoint(startPos, endPos, sFloodFill, eFloodFill);
 
 		if (currDeq.empty())
 		{

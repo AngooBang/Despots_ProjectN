@@ -1,5 +1,6 @@
 #include "SelectBox.h"
 #include "Component/ImageComponent.h"
+#include "Manager/GameManager.h"
 #include "Util/Input.h"
 
 void SelectBox::Init()
@@ -48,6 +49,15 @@ void SelectBox::Update()
 			}
 		}
 		m_img->SetRect(*temprc);
+	}
+
+	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
+	{
+		m_img->SetIsVisible(false);
+	}
+	else
+	{
+		m_img->SetIsVisible(true);
 	}
 
 }

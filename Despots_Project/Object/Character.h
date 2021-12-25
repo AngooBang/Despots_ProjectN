@@ -2,29 +2,33 @@
 #include "GameObject.h"
 #include <queue>
 
-enum class CharacterState { Idle, Run, Attack, Hit, Fly, End };
+enum class CharacterState { Idle, Run, Attack, Hit, Fly, Dead, End };
 
 enum class CharacterDir { Left, Right };
 
 enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
-
+#define NORMAL_HP 80
 #define NORMAL_ATK_RANGE -5
 #define NORMAL_ATK_DMG 5
 #define NORMAL_ATK_SPEED 2.0f
 
+#define GUTS_HP 200
 #define GUTS_ATK_RANGE 20
 #define GUTS_ATK_DMG 40
 #define GUTS_ATK_SPEED 3.0f
 
+#define SHIELD_HP 400
 #define SHIELD_ATK_RANGE 5
 #define SHIELD_ATK_DMG 15
 #define SHIELD_ATK_SPEED 3.0f
 
+#define CROSSBOW_HP 150
 #define CROSSBOW_ATK_RANGE 200
 #define CROSSBOW_ATK_DMG 20
 #define CROSSBOW_ATK_SPEED 2.5f
 
+#define RING_HP 60
 #define RING_ATK_RANGE 300
 #define RING_ATK_DMG 40
 #define RING_ATK_SPEED 5.0f
@@ -37,6 +41,7 @@ class CharacterMovement;
 class CharacterAttack;
 class ColiderComponent;
 class Monster;
+class HpBar;
 class Character : public GameObject
 {
 public:
@@ -67,6 +72,7 @@ public:
 	CharacterDir GetDir();
 	CharacterType GetCType();
 	Monster* GetTarget();
+	POINT GetRenderRect();
 
 
 	void SetState(CharacterState state);
@@ -83,6 +89,7 @@ private:
 	AnimatorComponent*	m_idleAni = nullptr;
 	AnimatorComponent*	m_runAni = nullptr;
 	AnimatorComponent*	m_attackAni = nullptr;
+	AnimatorComponent*	m_deathAni = nullptr;
 
 	ImageComponent*		m_selectImg = nullptr;
 	ColiderComponent*	m_colider = nullptr;
@@ -92,7 +99,9 @@ private:
 	CharacterState		m_state = CharacterState::End;
 
 	Monster*			m_target = nullptr;
+	HpBar*				 m_hpBar = nullptr;
 	
+
 	POINT m_tilePos = {};
 
 	POINT m_stanbyPos = {};
@@ -112,4 +121,7 @@ private:
 	bool				mb_isVisible = true;
 	bool				mb_rangeInMon = false;
 	bool				mb_isAlive = true;
+
+	bool				mb_isClassChanged = false;
+	int					m_hp = 0;
 };
