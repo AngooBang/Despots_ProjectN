@@ -21,6 +21,8 @@ public:
 
 	void AddCharacter();
 
+	void AddDefaultChar();
+
 	void FindMonsterPath();
 
 	void FindNewPath(Character* character, bool sFloodFill = false, bool eFloodFill = true);

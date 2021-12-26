@@ -77,12 +77,20 @@ void Monster::Init()
 	m_atkCol->SetMAtkComp(m_atkComp);
 
 	m_state = MonsterState::Burrow;
-	m_type = MonsterType::Dalek;
 
 	switch (m_type)
 	{
 	case MonsterType::Dalek:
 		m_hp = DALEK_HP;
+		break;
+	case MonsterType::Necro:
+		m_hp = NECRO_HP;
+		break;
+	case MonsterType::Octopus:
+		m_hp = OCTO_HP;
+		break;
+	case MonsterType::Boss:
+		m_hp = BOSS_HP;
 		break;
 	}
 	m_hpBar->SetMaxHp(m_hp);
@@ -225,6 +233,8 @@ void Monster::StateUpdate()
 		}
 		m_burrowImg->SetIsVisible(false);
 		m_idleAni->SetIsVisible(false);
+		m_runAni->SetIsVisible(false);
+		m_attackAni->SetIsVisible(false);
 		m_deathAni->SetIsVisible(true);
 		break;
 	}
@@ -237,8 +247,8 @@ void Monster::SetDataToType()
 	switch (m_type)
 	{
 	case MonsterType::Dalek:
-		m_renderRect = { renderPos.x - 22, renderPos.y - 40,
-		renderPos.x + 22, renderPos.y + 22 };
+		m_renderRect = { renderPos.x - 22, renderPos.y - 30,
+		renderPos.x + 22, renderPos.y + 30 };
 		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
 		GetPosition().x + 22, GetPosition().y + 22 });
 
@@ -246,22 +256,117 @@ void Monster::SetDataToType()
 		m_atkComp->SetBulletSize(20);
 		m_atkComp->SetBulletSpeed(500.0f);
 
-		m_atkComp->SetAttackRange(CROSSBOW_ATK_RANGE);
-		m_atkComp->SetAttackDamage(CROSSBOW_ATK_DMG);
-		m_atkComp->SetAttackSpeed(CROSSBOW_ATK_SPEED);
+		m_atkComp->SetAttackRange(DALEK_ATK_RANGE);
+		m_atkComp->SetAttackDamage(DALEK_ATK_DMG);
+		m_atkComp->SetAttackSpeed(DALEK_ATK_SPEED);
 
 		m_idleAni->SetImage(L"Image/Monster/Dalek_Idle.png");
 		m_idleAni->SetFrame(6, 1);
+		m_idleAni->SetScale(7.0f);
 		m_runAni->SetImage(L"Image/Monster/Dalek_Run.png");
 		m_runAni->SetFrame(6, 1);
+		m_runAni->SetScale(7.0f);
 		m_attackAni->SetImage(L"Image/Monster/Dalek_Attack.png");
-		m_attackAni->SetFrame(4, 1);
+		m_attackAni->SetFrame(9, 1);
+		m_attackAni->SetScale(7.0f);
 		m_deathAni->SetImage(L"Image/Monster/Dalek_Death.png");
 		m_deathAni->SetFrame(8, 1);
+		m_deathAni->SetScale(7.0f);
 		m_atkCol->SetImage(L"Image/Monster/Dalek_Bullet.png");
 		m_atkCol->SetImgVisible(true);
 
+		m_hpBar->SetDistance(15);
 		break;
+	case MonsterType::Necro:
+		m_renderRect = { renderPos.x - 30, renderPos.y - 30,
+		renderPos.x + 30, renderPos.y + 40 };
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+		GetPosition().x + 22, GetPosition().y + 22 });
+
+		m_atkComp->SetIsCloseRange(true);
+
+		m_atkComp->SetAttackRange(NECRO_ATK_RANGE);
+		m_atkComp->SetAttackDamage(NECRO_ATK_DMG);
+		m_atkComp->SetAttackSpeed(NECRO_ATK_SPEED);
+
+		m_idleAni->SetImage(L"Image/Monster/Necro/Necro_Idle.png");
+		m_idleAni->SetFrame(6, 1);
+		m_idleAni->SetScale(4.0f);
+		m_runAni->SetImage(L"Image/Monster/Necro/Necro_Run.png");
+		m_runAni->SetFrame(15, 1);
+		m_runAni->SetScale(4.0f);
+		m_attackAni->SetImage(L"Image/Monster/Necro/Necro_Attack.png");
+		m_attackAni->SetFrame(16, 1);
+		m_attackAni->SetScale(4.0f);
+		m_deathAni->SetImage(L"Image/Monster/Necro/Necro_Death.png");
+		m_deathAni->SetFrame(14, 1);
+		m_deathAni->SetScale(4.0f);
+
+		m_hpBar->SetDistance(25);
+		m_hpBar->SetWidth(30);
+		m_hpBar->SetHeight(6);
+		break;
+	case MonsterType::Octopus:
+		m_renderRect = { renderPos.x - 30, renderPos.y - 30,
+		renderPos.x + 30, renderPos.y + 40 };
+		SetRect({ GetPosition().x - 22, GetPosition().y - 40,
+		GetPosition().x + 22, GetPosition().y + 22 });
+
+		m_atkComp->SetIsCloseRange(true);
+
+		m_atkComp->SetAttackRange(OCTO_ATK_RANGE);
+		m_atkComp->SetAttackDamage(OCTO_ATK_DMG);
+		m_atkComp->SetAttackSpeed(OCTO_ATK_SPEED);
+
+		m_idleAni->SetImage(L"Image/Monster/Octopus/Octopus_Idle.png");
+		m_idleAni->SetFrame(10, 1);
+		m_idleAni->SetScale(4.0f);
+		m_runAni->SetImage(L"Image/Monster/Octopus/Octopus_Run.png");
+		m_runAni->SetFrame(14, 1);
+		m_runAni->SetScale(4.0f);
+		m_attackAni->SetImage(L"Image/Monster/Octopus/Octopus_Attack.png");
+		m_attackAni->SetFrame(12, 1);
+		m_attackAni->SetScale(4.0f);
+		m_deathAni->SetImage(L"Image/Monster/Octopus/Octopus_Death.png");
+		m_deathAni->SetFrame(18, 1);
+		m_deathAni->SetScale(4.0f);
+
+		m_hpBar->SetDistance(25);
+		m_hpBar->SetWidth(30);
+		m_hpBar->SetHeight(6);
+		break;
+	case MonsterType::Boss:
+			m_renderRect = { renderPos.x - 30, renderPos.y - 30,
+			renderPos.x + 30, renderPos.y + 40 };
+			SetRect({ GetPosition().x - 60, GetPosition().y - 80,
+			GetPosition().x + 60, GetPosition().y + 60 });
+
+			m_atkComp->SetIsCloseRange(true);
+
+			m_atkComp->SetAttackRange(BOSS_ATK_RANGE);
+			m_atkComp->SetAttackDamage(BOSS_ATK_DMG);
+			m_atkComp->SetAttackSpeed(BOSS_ATK_SPEED);
+
+			m_dir == MonsterDir::Left ? m_dir = MonsterDir::Right : m_dir = MonsterDir::Left;
+
+			m_idleAni->SetImage(L"Image/Monster/Boss/Boss_Idle.png");
+			m_idleAni->SetFrame(10, 1);
+			m_idleAni->SetScale(3.0f);
+			m_runAni->SetImage(L"Image/Monster/Boss/Boss_Run.png");
+			m_runAni->SetFrame(11, 1);
+			m_runAni->SetScale(3.0f);
+			m_attackAni->SetImage(L"Image/Monster/Boss/Boss_Attack.png");
+			m_attackAni->SetFrame(11, 1);
+			m_attackAni->SetScale(4.0f);
+			m_deathAni->SetImage(L"Image/Monster/Boss/Boss_Death.png");
+			m_deathAni->SetFrame(10, 1);
+			m_deathAni->SetScale(5.0f);
+			m_deathAni->SetMotionSpeed(0.09f);
+
+			m_hpBar->SetDistance(20);
+			m_hpBar->SetWidth(100);
+			m_hpBar->SetHeight(10);
+			break;
 	}
 }
 
@@ -309,6 +414,11 @@ bool Monster::GetIsMove()
 {
 	if (this == nullptr) return false;
 	return m_moveComp->GetIsMove();
+}
+
+void Monster::SetType(MonsterType type)
+{
+	m_type = type;
 }
 
 void Monster::SetTarget(Character* target)

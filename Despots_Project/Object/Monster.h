@@ -6,16 +6,28 @@ enum class MonsterState { Burrow, Idle, Run, Attack, Hit, Dead, End };
 
 enum class MonsterDir { Left, Right };
 
-enum class MonsterType { Dalek, None };//타입정하고 몬스터만들기~
+enum class MonsterType { Dalek, Necro, Octopus, Boss, None };//타입정하고 몬스터만들기~
 
 
 #define DALEK_ATK_DMG 20
 #define DALEK_ATK_SPEED 4.0f
 #define DALEK_ATK_RANGE 200
-
 #define DALEK_HP 200
 
+#define NECRO_ATK_DMG 40
+#define NECRO_ATK_SPEED 4.0f
+#define NECRO_ATK_RANGE 0
+#define NECRO_HP 350
 
+#define OCTO_ATK_DMG 70
+#define OCTO_ATK_SPEED 3.0f
+#define OCTO_ATK_RANGE 20
+#define OCTO_HP 400
+
+#define BOSS_ATK_DMG 150
+#define BOSS_ATK_SPEED 2.5f
+#define BOSS_ATK_RANGE 30
+#define BOSS_HP 1000
 
 using namespace std;
 
@@ -54,6 +66,7 @@ public:
 	bool GetRangeInChar();
 	bool GetIsMove();
 
+	void SetType(MonsterType type);
 	void SetTarget(Character* target);
 	void SetState(MonsterState state);
 	void SetIsSelected(bool isSelected);

@@ -18,10 +18,10 @@ void HpBar::Update()
 	POINT ownerPos = m_owner->GetPosition();
 	int ownerHeight = m_owner->GetRect().bottom - m_owner->GetRect().top;
 
-	SetRect({ ownerPos.x - HPBAR_WIDTH / 2,
-		ownerPos.y - (ownerHeight / 2) - 10 - HPBAR_HEIGHT,
-		ownerPos.x + HPBAR_WIDTH / 2,
-		ownerPos.y - (ownerHeight / 2) - 10 });
+	SetRect({ ownerPos.x - m_width / 2,
+		ownerPos.y - (ownerHeight / 2) - m_dist - m_height,
+		ownerPos.x + m_width / 2,
+		ownerPos.y - (ownerHeight / 2) - m_dist });
 
 	m_emptyImg->SetRect(GetRect());
 
@@ -30,7 +30,7 @@ void HpBar::Update()
 	{
 		hpWidth = 1.0f;
 	}
-	m_fillImg->SetRect({ GetRect().left, GetRect().top, GetRect().left + (INT)((FLOAT)HPBAR_WIDTH * hpWidth), GetRect().bottom });
+	m_fillImg->SetRect({ GetRect().left, GetRect().top, GetRect().left + (INT)((FLOAT)m_width * hpWidth), GetRect().bottom });
 }
 
 
@@ -42,6 +42,21 @@ void HpBar::SetFillImg(const wchar_t* path)
 void HpBar::SetOwner(GameObject* owner)
 {
 	m_owner = owner;
+}
+
+void HpBar::SetWidth(int width)
+{
+	m_width = width;
+}
+
+void HpBar::SetHeight(int height)
+{
+	m_height = height;
+}
+
+void HpBar::SetDistance(int dist)
+{
+	m_dist = dist;
 }
 
 void HpBar::SetMaxHp(int max)

@@ -47,15 +47,16 @@ void GameScene::Init()
 	GameManager::GetInstance()->SetUI(m_ui);
 	GameManager::GetInstance()->SetShop(m_shop);
 	GameManager::GetInstance()->LoadStage();
-
 	Scene::Init();
+
+	mb_gameStart = false;
 }
 
 void GameScene::Update()
 {
-	GameManager::GetInstance()->Update();
-	CharacterManager::GetInstance()->Update();
 	MonsterManager::GetInstance()->Update();
+	CharacterManager::GetInstance()->Update();
+	GameManager::GetInstance()->Update();
 	Scene::Update();
 
 	if (Input::GetButton(VK_LEFT))
@@ -80,6 +81,12 @@ void GameScene::Update()
 
 	if (Input::GetButtonDown('P'))
 		PathFinderManager::GetInstance()->PrintMap();
+
+	if (mb_gameStart == false)
+	{
+		CharacterManager::GetInstance()->AddDefaultChar();
+		mb_gameStart = true;
+	}
 
 }
 

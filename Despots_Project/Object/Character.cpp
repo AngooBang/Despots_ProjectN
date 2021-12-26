@@ -30,6 +30,7 @@ void Character::Init()
 	m_flyAni->SetIsLoop(false);
 	m_flyAni->SetMotionSpeed(0.09f);
 	m_flyAni->SetScale(2.0f);
+	m_flyAni->SetIsVisible(false);
 
 	m_idleAni = new AnimatorComponent(this, 2);
 	m_idleAni->SetImage(L"Image/Character/Normal/Normal_Idle.png");
@@ -495,6 +496,11 @@ void Character::SetState(CharacterState state)
 	m_state = state;
 }
 
+void Character::SetType(CharacterType type)
+{
+	m_type = type;
+}
+
 void Character::SetIsSelected(bool isSelected)
 {
 	mb_isSelected = isSelected;
@@ -580,4 +586,9 @@ void Character::SetDir(CharacterDir dir)
 void Character::SetTarget(Monster* target)
 {
 	m_target = target;
+}
+
+void Character::SetIsClassChanged(bool isClassChanged)
+{
+	mb_isClassChanged = isClassChanged;
 }

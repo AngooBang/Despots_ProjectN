@@ -25,4 +25,6 @@ private:
 
 	Shop* m_shop = nullptr;
 	UI* m_ui = nullptr;
+
+	bool mb_gameStart = false;
 };

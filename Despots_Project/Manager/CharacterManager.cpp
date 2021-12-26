@@ -6,6 +6,7 @@
 #include "Manager/GameManager.h"
 #include "Object/Character.h"
 #include "Object/Monster.h"
+#include "Object/TileMap.h"
 #include "Object/Tile.h"
 #include "Util/Timer.h"
 #include "Scene/Layer.h"
@@ -189,6 +190,56 @@ void CharacterManager::VisibleOff()
 void CharacterManager::AddCharacter()
 {
 	++m_addCount;
+}
+
+void CharacterManager::AddDefaultChar()
+{
+	for (int i = 1; i <= 4; ++i)
+	{
+		Tile* tile = nullptr;
+		switch (i)
+		{
+		case 1:
+			tile = GameManager::GetInstance()->GetCurrTileMap()->GetTileInfo()[4][7];
+			break;
+		case 2:
+			tile = GameManager::GetInstance()->GetCurrTileMap()->GetTileInfo()[5][6];
+			break;
+		case 3:
+			tile = GameManager::GetInstance()->GetCurrTileMap()->GetTileInfo()[3][1];
+			break;
+		case 4:
+			tile = GameManager::GetInstance()->GetCurrTileMap()->GetTileInfo()[6][1];
+			break;
+		}
+		POINT charPos = { (tile->GetRect().left + tile->GetRect().right) / 2,
+			(tile->GetRect().top + tile->GetRect().bottom) / 2 };
+
+
+		PathFinderManager::GetInstance()->SetInTileData(tile, 2);
+		Character* newChar = new Character(_scene, _layer, L"Character", charPos);
+		newChar->Init();
+		newChar->SetTilePos({ tile->x * 3 + 1, tile->y * 3 + 1 });
+
+		switch (i)
+		{
+		case 1:
+			newChar->SetType(CharacterType::Shield);
+			break;
+		case 2:
+			newChar->SetType(CharacterType::GutSword);
+			break;
+		case 3:
+			newChar->SetType(CharacterType::Crossbow);
+			break;
+		case 4:
+			newChar->SetType(CharacterType::Normal);
+			break;
+		}
+		newChar->SetIsClassChanged(true);
+		m_vecChar.push_back(newChar);
+	}
+	FlyCharacter();
 }
 
 void CharacterManager::SelectCharacter(Tile* tile)

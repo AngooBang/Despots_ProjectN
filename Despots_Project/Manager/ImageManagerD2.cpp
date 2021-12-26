@@ -151,6 +151,20 @@ void ImageManagerD2::AddImageList()
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Death.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Dalek_Bullet.png");
 
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Necro/Necro_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Necro/Necro_Run.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Necro/Necro_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Necro/Necro_Death.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Octopus/Octopus_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Octopus/Octopus_Run.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Octopus/Octopus_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Octopus/Octopus_Death.png");
+
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Boss/Boss_Idle.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Boss/Boss_Run.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Boss/Boss_Attack.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/Monster/Boss/Boss_Death.png");
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/UI/UI.png");
     ImageManagerD2::GetInstance()->AddImage(L"Image/UI/mini_01.png");

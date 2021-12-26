@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-#define HPBAR_WIDTH 20
-#define HPBAR_HEIGHT 5
 class ImageComponent;
 class HpBar : public GameObject
 {
@@ -14,6 +12,10 @@ public:
 
 	void SetFillImg(const wchar_t* path);
 	void SetOwner(GameObject* owner);
+
+	void SetWidth(int width);
+	void SetHeight(int height);
+	void SetDistance(int dist);
 	void SetMaxHp(int max);
 	void SetNowHp(int now);
 
@@ -22,6 +24,11 @@ private:
 
 	ImageComponent* m_emptyImg = nullptr;
 	ImageComponent* m_fillImg = nullptr;
+
+	int m_width = 25;
+	int m_height = 5;
+
+	int m_dist = 10;
 
 	int m_maxHp = 0;
 	int m_nowHp = 0;

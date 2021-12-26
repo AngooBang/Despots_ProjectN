@@ -27,6 +27,21 @@ void MonsterManager::Update()
 		PathFinderManager::GetInstance()->SetInTileDataM(tile, 5);
 
 		Monster* newMonster = new Monster(_scene, _layer, L"Monster", monPos);
+		switch (GameManager::GetInstance()->GetStageNum())
+		{
+		case 1:
+			newMonster->SetType(MonsterType::Dalek);
+			break;
+		case 2:
+			newMonster->SetType(MonsterType::Necro);
+			break;
+		case 3:
+			newMonster->SetType(MonsterType::Octopus);
+			break;
+		case 4:
+			newMonster->SetType(MonsterType::Boss);
+			break;
+		}
 		newMonster->Init();
 		newMonster->SetTilePos({ tile->x * 3 + 1, tile->y * 3 + 1 });
 

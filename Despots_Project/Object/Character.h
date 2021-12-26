@@ -15,11 +15,11 @@ enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
 #define GUTS_HP 200
 #define GUTS_ATK_RANGE 20
-#define GUTS_ATK_DMG 40
-#define GUTS_ATK_SPEED 3.0f
+#define GUTS_ATK_DMG 50
+#define GUTS_ATK_SPEED 2.0f
 
 #define SHIELD_HP 400
-#define SHIELD_ATK_RANGE 5
+#define SHIELD_ATK_RANGE 0
 #define SHIELD_ATK_DMG 15
 #define SHIELD_ATK_SPEED 3.0f
 
@@ -76,12 +76,14 @@ public:
 
 
 	void SetState(CharacterState state);
+	void SetType(CharacterType type);
 	void SetIsSelected(bool isSelected);
 	void SetTilePos(POINT pos);
 	void SetStanbyPos(POINT pos);
 	void SetPath(deque<POINT> path);
 	void SetDir(CharacterDir dir);
 	void SetTarget(Monster* target);
+	void SetIsClassChanged(bool isClassChanged);
 
 
 private:
