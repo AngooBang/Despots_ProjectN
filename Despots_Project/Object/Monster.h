@@ -11,7 +11,7 @@ enum class MonsterType { Dalek, Necro, Octopus, Boss, None };//타입정하고 몬스터
 
 #define DALEK_ATK_DMG 20
 #define DALEK_ATK_SPEED 4.0f
-#define DALEK_ATK_RANGE 200
+#define DALEK_ATK_RANGE 400
 #define DALEK_HP 200
 
 #define NECRO_ATK_DMG 40
@@ -25,9 +25,9 @@ enum class MonsterType { Dalek, Necro, Octopus, Boss, None };//타입정하고 몬스터
 #define OCTO_HP 400
 
 #define BOSS_ATK_DMG 150
-#define BOSS_ATK_SPEED 2.5f
+#define BOSS_ATK_SPEED 1.5f
 #define BOSS_ATK_RANGE 30
-#define BOSS_HP 1000
+#define BOSS_HP 1500
 
 using namespace std;
 

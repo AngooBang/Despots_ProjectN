@@ -81,6 +81,7 @@ void CharacterManager::BattleStart()
 	{
 		iter->SetStanbyPos(iter->GetTilePos());
 	}
+	m_pfCount = 0;
 	m_vecCharIter = m_vecChar.begin();
 }
 

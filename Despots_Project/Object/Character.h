@@ -29,7 +29,7 @@ enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 #define CROSSBOW_ATK_SPEED 2.5f
 
 #define RING_HP 60
-#define RING_ATK_RANGE 300
+#define RING_ATK_RANGE 400
 #define RING_ATK_DMG 40
 #define RING_ATK_SPEED 5.0f
 

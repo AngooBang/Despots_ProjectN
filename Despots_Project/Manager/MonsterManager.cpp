@@ -104,6 +104,7 @@ void MonsterManager::BattleStart()
 	{
 		iter->SetState(MonsterState::Idle);
 	}
+	m_pfCount = 0;
 	m_vecMonIter = m_vecMon.begin();
 }
 

@@ -336,37 +336,37 @@ void Monster::SetDataToType()
 		m_hpBar->SetHeight(6);
 		break;
 	case MonsterType::Boss:
-			m_renderRect = { renderPos.x - 30, renderPos.y - 30,
-			renderPos.x + 30, renderPos.y + 40 };
-			SetRect({ GetPosition().x - 60, GetPosition().y - 80,
-			GetPosition().x + 60, GetPosition().y + 60 });
+		m_renderRect = { renderPos.x - 30, renderPos.y - 30,
+		renderPos.x + 30, renderPos.y + 40 };
+		SetRect({ GetPosition().x - 60, GetPosition().y - 80,
+		GetPosition().x + 60, GetPosition().y + 60 });
 
-			m_atkComp->SetIsCloseRange(true);
+		m_atkComp->SetIsCloseRange(true);
 
-			m_atkComp->SetAttackRange(BOSS_ATK_RANGE);
-			m_atkComp->SetAttackDamage(BOSS_ATK_DMG);
-			m_atkComp->SetAttackSpeed(BOSS_ATK_SPEED);
+		m_atkComp->SetAttackRange(BOSS_ATK_RANGE);
+		m_atkComp->SetAttackDamage(BOSS_ATK_DMG);
+		m_atkComp->SetAttackSpeed(BOSS_ATK_SPEED);
 
-			m_dir == MonsterDir::Left ? m_dir = MonsterDir::Right : m_dir = MonsterDir::Left;
+		m_dir == MonsterDir::Left ? m_dir = MonsterDir::Right : m_dir = MonsterDir::Left;
 
-			m_idleAni->SetImage(L"Image/Monster/Boss/Boss_Idle.png");
-			m_idleAni->SetFrame(10, 1);
-			m_idleAni->SetScale(3.0f);
-			m_runAni->SetImage(L"Image/Monster/Boss/Boss_Run.png");
-			m_runAni->SetFrame(11, 1);
-			m_runAni->SetScale(3.0f);
-			m_attackAni->SetImage(L"Image/Monster/Boss/Boss_Attack.png");
-			m_attackAni->SetFrame(11, 1);
-			m_attackAni->SetScale(4.0f);
-			m_deathAni->SetImage(L"Image/Monster/Boss/Boss_Death.png");
-			m_deathAni->SetFrame(10, 1);
-			m_deathAni->SetScale(5.0f);
-			m_deathAni->SetMotionSpeed(0.09f);
+		m_idleAni->SetImage(L"Image/Monster/Boss/Boss_Idle.png");
+		m_idleAni->SetFrame(10, 1);
+		m_idleAni->SetScale(3.0f);
+		m_runAni->SetImage(L"Image/Monster/Boss/Boss_Run.png");
+		m_runAni->SetFrame(11, 1);
+		m_runAni->SetScale(3.0f);
+		m_attackAni->SetImage(L"Image/Monster/Boss/Boss_Attack.png");
+		m_attackAni->SetFrame(11, 1);
+		m_attackAni->SetScale(4.5f);
+		m_deathAni->SetImage(L"Image/Monster/Boss/Boss_Death.png");
+		m_deathAni->SetFrame(10, 1);
+		m_deathAni->SetScale(5.0f);
+		m_deathAni->SetMotionSpeed(0.09f);
 
-			m_hpBar->SetDistance(20);
-			m_hpBar->SetWidth(100);
-			m_hpBar->SetHeight(10);
-			break;
+		m_hpBar->SetDistance(20);
+		m_hpBar->SetWidth(100);
+		m_hpBar->SetHeight(10);
+		break;
 	}
 }
 
