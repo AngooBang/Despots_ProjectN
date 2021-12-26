@@ -51,7 +51,7 @@ void Item::Update()
 	else
 	{
 		m_elapsed += Timer::GetDeltaTime();
-		if (m_elapsed >= 100.0f)
+		if (m_elapsed >= 0.1f)
 		{
 			m_itemImg->SetRect({ m_itemImg->GetRect().left, m_itemImg->GetRect().top + m_aniY, m_itemImg->GetRect().right, m_itemImg->GetRect().bottom + m_aniY });
 

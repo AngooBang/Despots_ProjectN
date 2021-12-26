@@ -35,12 +35,12 @@ void ColiderComponent::Update()
 void ColiderComponent::Render()
 {
 	if (!mb_isAlive) return;
-	ID2D1SolidColorBrush* brush;
-	ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
-	
-	D2D1_RECT_F rect = { (FLOAT)m_colRect.left, (FLOAT)m_colRect.top, (FLOAT)m_colRect.right, (FLOAT)m_colRect.bottom };
-	
-	ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);
+	//ID2D1SolidColorBrush* brush;
+	//ImageManagerD2::GetInstance()->GetRenderTarget()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::DarkGray), &brush);
+	//
+	//D2D1_RECT_F rect = { (FLOAT)m_colRect.left, (FLOAT)m_colRect.top, (FLOAT)m_colRect.right, (FLOAT)m_colRect.bottom };
+	//
+	//ImageManagerD2::GetInstance()->GetRenderTarget()->DrawRectangle(rect, brush);
 }
 
 ColTypes ColiderComponent::GetType()

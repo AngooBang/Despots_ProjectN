@@ -122,23 +122,45 @@ void Monster::Update()
 	{
 		mb_isAlive = false;
 	}
-
-	switch (m_dir)
+	if (m_type == MonsterType::Boss)
 	{
-	case MonsterDir::Right:
-		// ¿À¸¥ÂÊ º½
-		m_idleAni->SetHorizontalReverse(false);
-		m_runAni->SetHorizontalReverse(false);
-		m_attackAni->SetHorizontalReverse(false);
-		m_deathAni->SetHorizontalReverse(false);
-		break;
-	case MonsterDir::Left:
-		// ¿ÞÂÊ º½
-		m_idleAni->SetHorizontalReverse(true);
-		m_runAni->SetHorizontalReverse(true);
-		m_attackAni->SetHorizontalReverse(true);
-		m_deathAni->SetHorizontalReverse(true);
-		break;
+		switch (m_dir)
+		{
+		case MonsterDir::Right:
+			// ¿À¸¥ÂÊ º½
+			m_idleAni->SetHorizontalReverse(true);
+			m_runAni->SetHorizontalReverse(true);
+			m_attackAni->SetHorizontalReverse(true);
+			m_deathAni->SetHorizontalReverse(true);
+			break;
+		case MonsterDir::Left:
+			// ¿ÞÂÊ º½
+			m_idleAni->SetHorizontalReverse(false);
+			m_runAni->SetHorizontalReverse(false);
+			m_attackAni->SetHorizontalReverse(false);
+			m_deathAni->SetHorizontalReverse(false);
+			break;
+		}
+	}
+	else
+	{
+		switch (m_dir)
+		{
+		case MonsterDir::Right:
+			// ¿À¸¥ÂÊ º½
+			m_idleAni->SetHorizontalReverse(false);
+			m_runAni->SetHorizontalReverse(false);
+			m_attackAni->SetHorizontalReverse(false);
+			m_deathAni->SetHorizontalReverse(false);
+			break;
+		case MonsterDir::Left:
+			// ¿ÞÂÊ º½
+			m_idleAni->SetHorizontalReverse(true);
+			m_runAni->SetHorizontalReverse(true);
+			m_attackAni->SetHorizontalReverse(true);
+			m_deathAni->SetHorizontalReverse(true);
+			break;
+		}
 	}
 	m_burrowImg->SetRect(m_renderRect);
 	m_idleAni->SetRect(m_renderRect);
@@ -347,7 +369,6 @@ void Monster::SetDataToType()
 		m_atkComp->SetAttackDamage(BOSS_ATK_DMG);
 		m_atkComp->SetAttackSpeed(BOSS_ATK_SPEED);
 
-		m_dir == MonsterDir::Left ? m_dir = MonsterDir::Right : m_dir = MonsterDir::Left;
 
 		m_idleAni->SetImage(L"Image/Monster/Boss/Boss_Idle.png");
 		m_idleAni->SetFrame(10, 1);
