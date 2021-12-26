@@ -9,6 +9,7 @@
 #include "Object/MoveFrame.h"
 #include "Object/Monster.h"
 #include "Object/Shop.h"
+#include "Object/UI.h"
 
 void GameManager::Update()
 {
@@ -179,24 +180,28 @@ void GameManager::LoadStage()
 		{
 			MonsterManager::GetInstance()->AddMonster();
 		}
+		m_ui->SetMinimapImg(L"Image/UI/mini_01.png");
 		break;
 	case 2:
 		for (int i = 0; i < 2; ++i)
 		{
 			MonsterManager::GetInstance()->AddMonster();
 		}
+		m_ui->SetMinimapImg(L"Image/UI/mini_02.png");
 		break;
 	case 3:
 		for (int i = 0; i < 3; ++i)
 		{
 			MonsterManager::GetInstance()->AddMonster();
 		}
+		m_ui->SetMinimapImg(L"Image/UI/mini_03.png");
 		break;
 	case 4:
 		for (int i = 0; i < 1; ++i)
 		{
 			MonsterManager::GetInstance()->AddMonster();
 		}
+		m_ui->SetMinimapImg(L"Image/UI/mini_04.png");
 		break;
 	}
 
@@ -228,6 +233,11 @@ void GameManager::SetCharType(CharacterType type)
 void GameManager::SetShop(Shop* shop)
 {
 	m_shop = shop;
+}
+
+void GameManager::SetUI(UI* ui)
+{
+	m_ui = ui;
 }
 
 void GameManager::AddStageNum(int num)

@@ -383,6 +383,7 @@ void Character::SetDataToType()
 			m_runAni->SetFrame(12, 1);
 			m_attackAni->SetImage(L"Image/Character/Swordman/GutsSword_Attack.png");
 			m_attackAni->SetFrame(10, 1);
+			m_attackAni->SetMotionSpeed(0.06f);
 			m_attackAni->SetScale(2.5f);
 
 			m_hp = GUTS_HP;

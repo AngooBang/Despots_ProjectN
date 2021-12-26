@@ -35,7 +35,8 @@ void GameScene::Init()
 	//SelectBox* selectBox = new SelectBox(this, m_uiLayer, L"SelectBox");
 
 	FightButton* fightBtn = new FightButton(this, m_uiLayer, L"FightButton");
-	UI* ui = new UI(this, m_uiLayer, L"UI");
+	m_ui = new UI(this, m_uiLayer, L"UI");
+	m_ui->Init();
 
 	CharacterManager::GetInstance()->SetScene(this);
 	CharacterManager::GetInstance()->SetLayer(m_objectLayer);
@@ -43,6 +44,7 @@ void GameScene::Init()
 	MonsterManager::GetInstance()->SetScene(this);
 	MonsterManager::GetInstance()->SetLayer(m_objectLayer);
 
+	GameManager::GetInstance()->SetUI(m_ui);
 	GameManager::GetInstance()->SetShop(m_shop);
 	GameManager::GetInstance()->LoadStage();
 

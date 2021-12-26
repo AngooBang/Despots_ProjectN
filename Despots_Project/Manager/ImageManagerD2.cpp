@@ -153,7 +153,10 @@ void ImageManagerD2::AddImageList()
 
 
     ImageManagerD2::GetInstance()->AddImage(L"Image/UI/UI.png");
-    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/Minimap_test.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/mini_01.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/mini_02.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/mini_03.png");
+    ImageManagerD2::GetInstance()->AddImage(L"Image/UI/mini_04.png");
 
 
 }

@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class Shop;
+class UI;
 class GameScene : public Scene
 {
 public:
@@ -23,4 +24,5 @@ private:
 	Layer* m_uiLayer = nullptr;
 
 	Shop* m_shop = nullptr;
+	UI* m_ui = nullptr;
 };

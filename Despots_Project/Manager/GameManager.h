@@ -9,6 +9,7 @@ class TileMap;
 class Tile;
 class MoveFrame;
 class Shop;
+class UI;
 class GameManager : public Singleton<GameManager>, IBehaviour
 {
 public:
@@ -44,6 +45,7 @@ public:
 	void SetMoveFrame(MoveFrame* moveFrame);
 	void SetCharType(CharacterType type);
 	void SetShop(Shop* shop);
+	void SetUI(UI* ui);
 
 private:
 	GameState m_gameState = GameState::Stanby;
@@ -53,6 +55,7 @@ private:
 	MoveFrame* m_moveFrame = nullptr;
 	CharacterType m_charType = CharacterType::None;
 	Shop* m_shop = nullptr;
+	UI* m_ui = nullptr;
 
 	int m_stageNum = 1;
 };
