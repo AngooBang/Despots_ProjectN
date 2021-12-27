@@ -3,7 +3,7 @@
 #include "IBehaviour.h"
 #include "Object/Character.h"
 
-enum class GameState { Stanby, Battle };
+enum class GameState { Stanby, Battle, EndBattle };
 
 class TileMap;
 class Tile;

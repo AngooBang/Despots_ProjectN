@@ -224,7 +224,7 @@ POINT PathFinderManager::GetEndTile(POINT pos)
 
 bool PathFinderManager::IsObstacle(POINT pos)
 {
-    if (m_mapGraph[pos.y][pos.x] == 2)
+    if (m_mapGraph[pos.y][pos.x] == 2 || m_mapGraph[pos.y][pos.x] == 5)
         return true;
     else
         return false;

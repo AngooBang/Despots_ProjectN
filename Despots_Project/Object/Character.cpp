@@ -256,9 +256,15 @@ void Character::FlySavePos()
 void Character::StateUpdate()
 {
 	if (m_state == CharacterState::End)
+	{
 		mb_isVisible = false;
+		m_hpBar->SetIsVisible(false);
+	}
 	else
+	{
 		mb_isVisible = true;
+		m_hpBar->SetIsVisible(true);
+	}
 	switch (m_state)
 	{
 	case CharacterState::Fly:

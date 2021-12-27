@@ -158,7 +158,7 @@ void GameManager::BattleStart()
 void GameManager::BattleQuit()
 {
 	// 전투가 끝난후 스탠바이로 넘어가는 함수 구현 필요 (캐릭터의위치를 기존의 위치로 이동, 상태를 Idle로, 상점을 띄워줌, 코인을 추가함 등..)
-	m_gameState = GameState::Stanby;
+	m_gameState = GameState::EndBattle;
 	CharacterManager::GetInstance()->BattleQuit();
 	m_shop->Show();
 }
@@ -204,7 +204,7 @@ void GameManager::LoadStage()
 		m_ui->SetMinimapImg(L"Image/UI/mini_04.png");
 		break;
 	}
-
+	m_gameState = GameState::Stanby;
 	// 캐릭터 이동(fly 애니메이션 출력)
 	CharacterManager::GetInstance()->FlyCharacter();
 }

@@ -62,7 +62,7 @@ void Monster::Init()
 	m_atkRangeCol = new ColiderComponent(this, 1, GetRect(), ColTypes::MAtkRange, L"MAtkRange");
 	m_atkCol = new ColiderComponent(this, 1, {}, ColTypes::MAtk, L"MAtk");
 
-	m_moveComp = new MonsterMovement(this, 1);
+	m_moveComp = new MonsterMovement(this, 2);
 	m_atkComp = new MonsterAttack(this, 1);
 
 	// 생성해준뒤 넣어줘야함 이런건 전부 (컴포넌트가 컴포넌트를 가지는(?))
@@ -179,6 +179,12 @@ void Monster::Update()
 		m_atkRangeCol->SetIsAlive(false);
 	}
 
+	if (m_atkCol->GetIsAlive() == false)
+	{
+		m_atkCol->SetImgVisible(false);
+	}
+
+
 }
 
 void Monster::OnColision(ColiderComponent* col1, ColiderComponent* col2)
@@ -190,6 +196,10 @@ void Monster::OnColision(ColiderComponent* col1, ColiderComponent* col2)
 		if (col2->GetType() == ColTypes::Character)
 		{
 			mb_rangeInChar = true;
+			// 길찾기가 완료가 되서 자리를 잡았을 때
+
+			if (m_moveComp->GetIsMove() == false)
+				m_state = MonsterState::Attack;
 			if (GetRect().left <= col2->GetRect().left)
 				m_dir = MonsterDir::Right;
 			else

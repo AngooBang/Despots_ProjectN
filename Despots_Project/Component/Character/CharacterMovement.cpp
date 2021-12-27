@@ -49,7 +49,7 @@ void CharacterMovement::Update()
 
 			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 				m_owner->SetState(CharacterState::Attack);
-			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			else 
 				m_owner->SetState(CharacterState::Idle);
 		}
 	}
@@ -76,7 +76,7 @@ void CharacterMovement::Update()
 		PathFinderManager::GetInstance()->SetInTileData(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 2);
 		if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 			m_owner->SetState(CharacterState::Attack);
-		else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+		else 
 			m_owner->SetState(CharacterState::Idle);
 	}
 	//if (m_path.empty() == false)

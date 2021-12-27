@@ -18,6 +18,7 @@ public:
 	void SetDistance(int dist);
 	void SetMaxHp(int max);
 	void SetNowHp(int now);
+	void SetIsVisible(bool isVisible);
 
 private:
 	GameObject* m_owner = nullptr;
@@ -32,6 +33,8 @@ private:
 
 	int m_maxHp = 0;
 	int m_nowHp = 0;
+
+	bool mb_isVisible = true;
 
 
 };

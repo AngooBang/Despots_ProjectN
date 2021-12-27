@@ -47,7 +47,7 @@ void MonsterMovement::Update()
 
 			if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 				m_owner->SetState(MonsterState::Attack);
-			else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+			else 
 				m_owner->SetState(MonsterState::Idle);
 		}
 	}
@@ -74,7 +74,7 @@ void MonsterMovement::Update()
 		PathFinderManager::GetInstance()->SetInTileDataM(m_owner->GetTilePos().x, m_owner->GetTilePos().y, 5);
 		if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 			m_owner->SetState(MonsterState::Attack);
-		else if (GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+		else 
 			m_owner->SetState(MonsterState::Idle);
 	}
 }

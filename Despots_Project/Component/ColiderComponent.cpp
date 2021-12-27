@@ -24,8 +24,10 @@ void ColiderComponent::Update()
 	// 필요할 때마다 자기자신을 넣어주며 콜라이더매니저에게 충돌여부 확인 요청
 	if (!mb_isAlive)
 	{
+		m_img->SetIsVisible(false);
 		return;
 	}
+	m_img->SetIsVisible(true);
 
 	ColiderManager::GetInstance()->CheckToMouse(this);
 	ColiderManager::GetInstance()->CheckToColider(this);

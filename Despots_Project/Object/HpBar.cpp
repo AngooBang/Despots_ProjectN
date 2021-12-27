@@ -31,6 +31,18 @@ void HpBar::Update()
 		hpWidth = 1.0f;
 	}
 	m_fillImg->SetRect({ GetRect().left, GetRect().top, GetRect().left + (INT)((FLOAT)m_width * hpWidth), GetRect().bottom });
+
+	if (mb_isVisible)
+	{
+		m_emptyImg->SetIsVisible(true);
+		m_fillImg->SetIsVisible(true);
+	}
+	else
+	{
+		m_emptyImg->SetIsVisible(false);
+		m_fillImg->SetIsVisible(false);
+
+	}
 }
 
 
@@ -67,4 +79,9 @@ void HpBar::SetMaxHp(int max)
 void HpBar::SetNowHp(int now)
 {
 	m_nowHp = now;
+}
+
+void HpBar::SetIsVisible(bool isVisible)
+{
+	mb_isVisible = isVisible;
 }
