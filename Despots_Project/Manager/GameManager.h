@@ -17,6 +17,8 @@ public:
 
 	virtual void Update() override;
 
+	void CheckTileSelect();
+
 	void CheckMonsterLeft();
 	void CheckCharacterLeft();
 	

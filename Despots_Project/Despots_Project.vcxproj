@@ -147,7 +147,6 @@
     <ClInclude Include="Component\ButtonComponent.h" />
     <ClInclude Include="Component\Character\CharacterAttack.h" />
     <ClInclude Include="Component\Character\CharacterMovement.h" />
-    <ClInclude Include="Component\CircleComponent.h" />
     <ClInclude Include="Component\ColiderComponent.h" />
     <ClInclude Include="Component\Component.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -155,7 +154,6 @@
     <ClInclude Include="Component\ImageComponent.h" />
     <ClInclude Include="Component\Monster\MonsterAttack.h" />
     <ClInclude Include="Component\Monster\MonsterMovement.h" />
-    <ClInclude Include="Component\RectComponent.h" />
     <ClInclude Include="Component\TextComponent.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
@@ -215,7 +213,6 @@
     <ClCompile Include="Component\ButtonComponent.cpp" />
     <ClCompile Include="Component\Character\CharacterAttack.cpp" />
     <ClCompile Include="Component\Character\CharacterMovement.cpp" />
-    <ClCompile Include="Component\CircleComponent.cpp" />
     <ClCompile Include="Component\ColiderComponent.cpp" />
     <ClCompile Include="Component\Component.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -223,7 +220,6 @@
     <ClCompile Include="Component\ImageComponent.cpp" />
     <ClCompile Include="Component\Monster\MonsterAttack.cpp" />
     <ClCompile Include="Component\Monster\MonsterMovement.cpp" />
-    <ClCompile Include="Component\RectComponent.cpp" />
     <ClCompile Include="Component\TextComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Manager\CameraManager.cpp" />

@@ -85,12 +85,6 @@
     <ClInclude Include="Scene\Layer.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Component\RectComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\CircleComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Object\Obstacle.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -247,12 +241,6 @@
     </ClCompile>
     <ClCompile Include="Scene\Layer.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\RectComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\CircleComponent.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Object\Obstacle.cpp">
       <Filter>Object</Filter>

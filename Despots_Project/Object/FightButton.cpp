@@ -32,7 +32,8 @@ void FightButton::Init()
 
 void FightButton::Update()
 {
-	GameObject::Update();
+	if(GameManager::GetInstance()->GetGameState() == GameState::Stanby)
+		GameObject::Update();
 	switch (m_buttonComp->GetButtonState())
 	{
 	case eButtonState::Idle:
