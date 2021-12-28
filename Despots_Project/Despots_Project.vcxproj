@@ -180,7 +180,6 @@
     <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\Monster.h" />
     <ClInclude Include="Object\MoveFrame.h" />
-    <ClInclude Include="Object\Obstacle.h" />
     <ClInclude Include="Object\SelectBox.h" />
     <ClInclude Include="Object\Shop.h" />
     <ClInclude Include="Object\StartButton.h" />
@@ -244,7 +243,6 @@
     <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\Monster.cpp" />
     <ClCompile Include="Object\MoveFrame.cpp" />
-    <ClCompile Include="Object\Obstacle.cpp" />
     <ClCompile Include="Object\SelectBox.cpp" />
     <ClCompile Include="Object\Shop.cpp" />
     <ClCompile Include="Object\StartButton.cpp" />
