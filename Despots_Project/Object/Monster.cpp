@@ -122,54 +122,10 @@ void Monster::Update()
 	{
 		mb_isAlive = false;
 	}
-	if (m_type == MonsterType::Boss)
-	{
-		switch (m_dir)
-		{
-		case MonsterDir::Right:
-			// ¿À¸¥ÂÊ º½
-			m_idleAni->SetHorizontalReverse(true);
-			m_runAni->SetHorizontalReverse(true);
-			m_attackAni->SetHorizontalReverse(true);
-			m_deathAni->SetHorizontalReverse(true);
-			break;
-		case MonsterDir::Left:
-			// ¿ÞÂÊ º½
-			m_idleAni->SetHorizontalReverse(false);
-			m_runAni->SetHorizontalReverse(false);
-			m_attackAni->SetHorizontalReverse(false);
-			m_deathAni->SetHorizontalReverse(false);
-			break;
-		}
-	}
-	else
-	{
-		switch (m_dir)
-		{
-		case MonsterDir::Right:
-			// ¿À¸¥ÂÊ º½
-			m_idleAni->SetHorizontalReverse(false);
-			m_runAni->SetHorizontalReverse(false);
-			m_attackAni->SetHorizontalReverse(false);
-			m_deathAni->SetHorizontalReverse(false);
-			break;
-		case MonsterDir::Left:
-			// ¿ÞÂÊ º½
-			m_idleAni->SetHorizontalReverse(true);
-			m_runAni->SetHorizontalReverse(true);
-			m_attackAni->SetHorizontalReverse(true);
-			m_deathAni->SetHorizontalReverse(true);
-			break;
-		}
-	}
-	m_burrowImg->SetRect(m_renderRect);
-	m_idleAni->SetRect(m_renderRect);
-	m_runAni->SetRect(m_renderRect);
-	m_attackAni->SetRect(m_renderRect);
-	m_deathAni->SetRect(m_renderRect);
 
-	m_colider->SetRect(GetRect());
-	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
+	SetAniDir();
+	SetCompRect();
+
 	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 	{
 		m_atkRangeCol->SetIsAlive(true);
@@ -399,6 +355,62 @@ void Monster::SetDataToType()
 		m_hpBar->SetHeight(10);
 		break;
 	}
+}
+
+void Monster::SetAniDir()
+{
+	if (m_type == MonsterType::Boss)
+	{
+		switch (m_dir)
+		{
+		case MonsterDir::Right:
+			// ¿À¸¥ÂÊ º½
+			m_idleAni->SetHorizontalReverse(true);
+			m_runAni->SetHorizontalReverse(true);
+			m_attackAni->SetHorizontalReverse(true);
+			m_deathAni->SetHorizontalReverse(true);
+			break;
+		case MonsterDir::Left:
+			// ¿ÞÂÊ º½
+			m_idleAni->SetHorizontalReverse(false);
+			m_runAni->SetHorizontalReverse(false);
+			m_attackAni->SetHorizontalReverse(false);
+			m_deathAni->SetHorizontalReverse(false);
+			break;
+		}
+	}
+	else
+	{
+		switch (m_dir)
+		{
+		case MonsterDir::Right:
+			// ¿À¸¥ÂÊ º½
+			m_idleAni->SetHorizontalReverse(false);
+			m_runAni->SetHorizontalReverse(false);
+			m_attackAni->SetHorizontalReverse(false);
+			m_deathAni->SetHorizontalReverse(false);
+			break;
+		case MonsterDir::Left:
+			// ¿ÞÂÊ º½
+			m_idleAni->SetHorizontalReverse(true);
+			m_runAni->SetHorizontalReverse(true);
+			m_attackAni->SetHorizontalReverse(true);
+			m_deathAni->SetHorizontalReverse(true);
+			break;
+		}
+	}
+}
+
+void Monster::SetCompRect()
+{
+	m_burrowImg->SetRect(m_renderRect);
+	m_idleAni->SetRect(m_renderRect);
+	m_runAni->SetRect(m_renderRect);
+	m_attackAni->SetRect(m_renderRect);
+	m_deathAni->SetRect(m_renderRect);
+
+	m_colider->SetRect(GetRect());
+	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
 }
 
 POINT Monster::GetTilePos()

@@ -113,7 +113,9 @@ void Character::Update()
 
 	mb_rangeInMon = false;
 	if (m_hp < 0)
+	{
 		m_hp = 0;
+	}
 	m_hpBar->SetNowHp(m_hp);
 	GameObject::Update();
 	SetDataToType();
@@ -122,6 +124,7 @@ void Character::Update()
 		m_state = CharacterState::Dead;
 	}
 	StateUpdate();
+
 	if (m_deathAni->GetEndAni() && m_state == CharacterState::Dead)
 	{
 		mb_isAlive = false;
@@ -137,45 +140,8 @@ void Character::Update()
 	{
 		m_state = CharacterState::Idle;
 	}
-
-	switch (m_dir)
-	{
-	case CharacterDir::Right:
-		// ¿À¸¥ÂÊ º½
-		m_flyAni->SetHorizontalReverse(false);
-		m_idleAni->SetHorizontalReverse(false);
-		m_runAni->SetHorizontalReverse(false);
-		m_attackAni->SetHorizontalReverse(false);
-		m_deathAni->SetHorizontalReverse(false);
-		break;
-	case CharacterDir::Left:
-		// ¿ÞÂÊ º½
-		m_flyAni->SetHorizontalReverse(true);
-		m_idleAni->SetHorizontalReverse(true);
-		m_runAni->SetHorizontalReverse(true);
-		m_attackAni->SetHorizontalReverse(true);
-		m_deathAni->SetHorizontalReverse(true);
-		break;
-	}
-
-	RECT selectRc = { m_renderPos.x - 17, m_renderPos.y, m_renderPos.x + 17, m_renderPos.y + 12 };
-	m_selectImg->SetRect(selectRc);
-
-	m_flyAni->SetRect(m_renderRect);
-	m_idleAni->SetRect(m_renderRect);
-	m_runAni->SetRect(m_renderRect);
-	if (m_type == CharacterType::GutSword)
-	{
-		m_attackAni->SetRect({ m_renderRect.left - 10, m_renderRect.top , m_renderRect.right + 20, m_renderRect.bottom +10 });
-	}
-	else
-	{
-		m_attackAni->SetRect(m_renderRect);
-	}
-	m_deathAni->SetRect(m_renderRect);
-
-	m_colider->SetRect(GetRect());
-	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
+	SetAniDir();
+	SetCompRect();
 	if (GameManager::GetInstance()->GetGameState() == GameState::Battle)
 	{
 		m_atkRangeCol->SetIsAlive(true);
@@ -390,7 +356,7 @@ void Character::SetDataToType()
 			m_runAni->SetFrame(12, 1);
 			m_attackAni->SetImage(L"Image/Character/Swordman/GutsSword_Attack.png");
 			m_attackAni->SetFrame(10, 1);
-			m_attackAni->SetMotionSpeed(0.06f);
+			m_attackAni->SetMotionSpeed(0.003f);
 			m_attackAni->SetScale(2.5f);
 
 			m_hp = GUTS_HP;
@@ -493,6 +459,50 @@ void Character::SetDataToType()
 		}
 		break;
 	}
+}
+
+void Character::SetAniDir()
+{
+	switch (m_dir)
+	{
+	case CharacterDir::Right:
+		// ¿À¸¥ÂÊ º½
+		m_flyAni->SetHorizontalReverse(false);
+		m_idleAni->SetHorizontalReverse(false);
+		m_runAni->SetHorizontalReverse(false);
+		m_attackAni->SetHorizontalReverse(false);
+		m_deathAni->SetHorizontalReverse(false);
+		break;
+	case CharacterDir::Left:
+		// ¿ÞÂÊ º½
+		m_flyAni->SetHorizontalReverse(true);
+		m_idleAni->SetHorizontalReverse(true);
+		m_runAni->SetHorizontalReverse(true);
+		m_attackAni->SetHorizontalReverse(true);
+		m_deathAni->SetHorizontalReverse(true);
+		break;
+	}
+}
+
+void Character::SetCompRect()
+{
+	RECT selectRc = { m_renderPos.x - 17, m_renderPos.y, m_renderPos.x + 17, m_renderPos.y + 12 };
+	m_selectImg->SetRect(selectRc);
+
+	m_flyAni->SetRect(m_renderRect);
+	m_idleAni->SetRect(m_renderRect);
+	m_runAni->SetRect(m_renderRect);
+	if (m_type == CharacterType::GutSword)
+	{
+		m_attackAni->SetRect({ m_renderRect.left - 10, m_renderRect.top , m_renderRect.right + 20, m_renderRect.bottom + 10 });
+	}
+	else
+	{
+		m_attackAni->SetRect(m_renderRect);
+	}
+	m_deathAni->SetRect(m_renderRect);
+	m_colider->SetRect(GetRect());
+	m_atkRangeCol->SetRect(GetRect(m_atkComp->GetAtkRange()));
 }
 
 

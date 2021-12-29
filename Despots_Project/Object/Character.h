@@ -15,8 +15,8 @@ enum class CharacterType { Normal, GutSword, Crossbow, Shield, Ring, None };
 
 #define GUTS_HP 200
 #define GUTS_ATK_RANGE 10
-#define GUTS_ATK_DMG 50
-#define GUTS_ATK_SPEED 2.0f
+#define GUTS_ATK_DMG 20
+#define GUTS_ATK_SPEED 0.05f
 
 #define SHIELD_HP 400
 #define SHIELD_ATK_RANGE 0
@@ -58,6 +58,10 @@ public:
 	void StateUpdate();
 
 	void SetDataToType();
+
+	void SetAniDir();
+
+	void SetCompRect();
 
 	// 상태세터만들기
 

@@ -53,6 +53,8 @@ public:
 
 	void SetDataToType();
 
+	void SetAniDir();
+	void SetCompRect();
 	// 상태세터만들기
 
 	POINT GetTilePos();
