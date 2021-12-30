@@ -93,10 +93,13 @@ deque<POINT> PathFinderManager::Astar(Pos start, Pos end)
     Pos curr = end;
     while (curr != start)
     {
-        m_mapGraph[curr.Y][curr.X] = 4;
+        if (curr.X >= 0 && curr.Y >= 0)
+        {
+            m_mapGraph[curr.Y][curr.X] = 4;
 
-        pathStack.push_back({curr.X, curr.Y});
-        curr = path[curr.Y][curr.X];
+            pathStack.push_back({ curr.X, curr.Y });
+            curr = path[curr.Y][curr.X];
+        }
     }
 
     return pathStack;
@@ -155,10 +158,10 @@ void PathFinderManager::SetInTileData(int x, int y, int value)
 {
 
     if (INTILE[y][x] != 5)     INTILE[y][x] = value;
-    if (INTILE[y - 1][x] != 5) INTILE[y - 1][x] = value;
-    if (INTILE[y + 1][x] != 5) INTILE[y + 1][x] = value;
-    if (INTILE[y][x - 1] != 5) INTILE[y][x - 1] = value;
-    if (INTILE[y][x + 1] != 5) INTILE[y][x + 1] = value;
+    if (INTILE[y - 1][x] != 5 && y > 0) INTILE[y - 1][x] = value;
+    if (INTILE[y + 1][x] != 5 && y < MAP_SIZE_Y) INTILE[y + 1][x] = value;
+    if (INTILE[y][x - 1] != 5 && x > 0) INTILE[y][x - 1] = value;
+    if (INTILE[y][x + 1] != 5 && x < MAP_SIZE_X) INTILE[y][x + 1] = value;
 
 }
 

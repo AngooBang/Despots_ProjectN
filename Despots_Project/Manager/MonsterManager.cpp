@@ -86,7 +86,12 @@ void MonsterManager::Update()
 			if (m_pfCount <= m_vecMon.size())
 			{
 				FindCharacterPath();
-			}
+			}/*
+			if (m_vecMonIter == m_vecMon.end())
+			{
+				m_vecMonIter = m_vecMon.begin();
+				m_pfCount = 0;
+			}*/
 		}
 		break;
 	}
@@ -147,7 +152,7 @@ void MonsterManager::FindCharacterPath()
 		(*m_vecMonIter)->SetPath(tempDeq);
 		(*m_vecMonIter)->SetState(MonsterState::Run);
 		++m_vecMonIter;
-		if (m_pfCount % 5 == 0) break;
+		//if (m_pfCount % 5 == 0) break;
 	}
 }
 
