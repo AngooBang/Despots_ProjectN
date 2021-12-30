@@ -82,6 +82,8 @@ void GameScene::Update()
 	if (Input::GetButtonDown('P'))
 		PathFinderManager::GetInstance()->PrintMap();
 
+
+
 	if (mb_gameStart == false)
 	{
 		CharacterManager::GetInstance()->AddDefaultChar();

@@ -68,12 +68,12 @@ void CharacterManager::Update()
 			if (m_pfCount <= m_vecChar.size())
 			{
 				FindMonsterPath();
-			}/*
+			}
 			if (m_vecCharIter == m_vecChar.end())
 			{
 				m_vecCharIter = m_vecChar.begin();
 				m_pfCount = 0;
-			}*/
+			}
 		}
 		break;
 	}
@@ -142,7 +142,7 @@ void CharacterManager::FindMonsterPath()
 		(*m_vecCharIter)->SetPath(tempDeq);
 		(*m_vecCharIter)->SetState(CharacterState::Run);
 		++m_vecCharIter;
-		//if (m_pfCount % 5 == 0) break;
+		if (m_pfCount % 5 == 0) break;
 	}
 }
 
